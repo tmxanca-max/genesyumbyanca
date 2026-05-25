@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ce tip de antreprenor ești? — Test de personalitate</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #6C5CE7;
+    --purple-light: #EDE9FF;
+    --purple-dark: #3D3499;
+    --amber: #F6A623;
+    --amber-light: #FEF3DC;
+    --text: #1A1523;
+    --text-muted: #6B6480;
+    --text-hint: #A89EC0;
+    --bg: #FAF9FC;
+    --surface: #FFFFFF;
+    --border: rgba(108,92,231,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .header-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    background: var(--purple-light);
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 6vw, 34px);
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--purple);
+  }
+
+  .header p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 2rem 1.75rem;
+    box-shadow: 0 4px 40px rgba(108,92,231,0.06);
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  /* PROGRESS */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.75rem;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: var(--purple-light);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--purple);
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .progress-label {
+    font-size: 12px;
+    color: var(--text-hint);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  /* QUESTION */
+  .q-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  /* OPTIONS */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .opt {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-align: left;
+    line-height: 1.45;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .opt:hover {
+    border-color: var(--purple);
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    transform: translateX(3px);
+  }
+
+  .opt.selected {
+    border-color: var(--purple);
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    font-weight: 500;
+  }
+
+  /* BUTTON */
+  .btn-next {
+    width: 100%;
+    padding: 14px;
+    background: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    opacity: 0.35;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+
+  .btn-next.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .btn-next.active:hover { transform: translateY(-1px); }
+  .btn-next.active:active { transform: translateY(0); }
+
+  /* RESULT */
+  .result { animation: fadeUp 0.5s ease both; }
+
+  .result-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .result-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    background: var(--purple-light);
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 0.75rem;
+  }
+
+  .result-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .result-tagline {
+    font-size: 14px;
+    color: var(--purple);
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+    font-style: italic;
+  }
+
+  .result-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.75;
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .pills-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    margin-bottom: 0.5rem;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+  }
+
+  .pill {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--purple-dark);
+    background: var(--purple-light);
+    padding: 5px 12px;
+    border-radius: 100px;
+  }
+
+  .warning-box {
+    border-left: 3px solid var(--amber);
+    background: var(--amber-light);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #7A4F00;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-ig {
+    width: 100%;
+    padding: 14px;
+    background: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+
+  .btn-ig:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-share {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-share:hover { border-color: var(--purple); color: var(--purple); }
+
+  .btn-retry {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-hint);
+    cursor: pointer;
+  }
+
+  .btn-retry:hover { color: var(--text-muted); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 12px;
+    color: var(--text-hint);
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .footer a {
+    color: var(--purple);
+    text-decoration: none;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide-out { animation: slideOut 0.25s ease forwards; }
+  .slide-in { animation: slideIn 0.3s ease both; }
+
+  @keyframes slideOut {
+    to { opacity: 0; transform: translateX(-12px); }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-tag">Test de personalitate</div>
+    <h1>Ce tip de <em>antreprenor</em> ești?</h1>
+    <p>9 întrebări. Rezultat instant. Află ce te definește cu adevărat în business — și ce te ține pe loc.</p>
+  </div>
+
+  <div class="card" id="card">
+
+    <div id="quiz-view">
+      <div class="progress-row">
+        <div class="progress-track">
+          <div class="progress-fill" id="progress" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="q-counter">1 / 9</div>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+      <button class="btn-next" id="btn-next">Continuă →</button>
+    </div>
+
+    <div id="result-view" style="display:none"></div>
+
+  </div>
+
+  <div class="footer">
+    Test creat de <a href="https://instagram.com/cara_anca" target="_blank">@cara_anca</a>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    text: "Când auzi că cineva câștigă bani online, primul tău gând este:",
+    opts: [
+      { text: "Cum a făcut-o? Vreau să înțeleg exact mecanismul.", val: "A" },
+      { text: "Oare e real? Probabil nu e atât de simplu pe cât pare.", val: "B" },
+      { text: "Și eu vreau asta. Cum pot începe cât mai repede?", val: "C" },
+      { text: "Interesant. Dar eu m-aș descurca oare?", val: "D" }
+    ]
+  },
+  {
+    text: "Dacă ai 1.000€ la dispoziție acum, ce faci cu ei?",
+    opts: [
+      { text: "Îi investesc în ceva ce ar putea crește — nu contează că risc.", val: "C" },
+      { text: "Îi pun deoparte. Mai bine sigur decât sorry.", val: "B" },
+      { text: "Cercetez bine înainte, apoi decid cu cap.", val: "A" },
+      { text: "Mă gândesc mult, dar până la urmă... îi las acolo.", val: "D" }
+    ]
+  },
+  {
+    text: "Când începi ceva nou și nu merge din prima, tu:",
+    opts: [
+      { text: "Analizez ce a mers prost și încerc altă variantă.", val: "A" },
+      { text: "Îmi spun că poate nu era pentru mine.", val: "B" },
+      { text: "Încerc din nou imediat. Eșecul face parte din joc.", val: "C" },
+      { text: "Mă descurajez, dar îmi revin după câteva zile.", val: "D" }
+    ]
+  },
+  {
+    text: "Cum îți place să înveți ceva nou?",
+    opts: [
+      { text: "Singur/ă, din surse de calitate — cărți, cursuri, podcasturi.", val: "A" },
+      { text: "Cineva să îmi explice pas cu pas, să am pe cine întreba.", val: "B" },
+      { text: "Aruncând capul și învățând din mers.", val: "C" },
+      { text: "Urmărind pe cineva care face asta de ani de zile și încă produce rezultate reale.", val: "D" }
+    ]
+  },
+  {
+    text: "Care propoziție te descrie cel mai bine în activitatea ta actuală?",
+    opts: [
+      { text: "Sunt organizat/ă, știu mereu ce am de făcut.", val: "A" },
+      { text: "Îmi fac treaba, dar nu mă simt împlinit/ă.", val: "B" },
+      { text: "Mă plictisesc repede dacă nu am provocări noi.", val: "C" },
+      { text: "Muncesc serios, dar îmi e greu să ies din zona de confort.", val: "D" }
+    ]
+  },
+  {
+    text: "Ce simți când cineva îți spune că un lucru e riscant?",
+    opts: [
+      { text: "Vreau mai multe informații ca să evaluez singur/ă.", val: "A" },
+      { text: "Renunț. Nu merit să pierd ceva ce am acum.", val: "B" },
+      { text: "Mă motivează. Riscul înseamnă că alții nu îndrăznesc.", val: "C" },
+      { text: "Înțeleg, dar tot am o îndoială în minte.", val: "D" }
+    ]
+  },
+  {
+    text: "Dacă ai un obiectiv important, cum acționezi de obicei?",
+    opts: [
+      { text: "Fac un plan detaliat și urmez pașii.", val: "A" },
+      { text: "Visez mult, dar rar ajung să implementez.", val: "B" },
+      { text: "Mă apuc imediat, planul vine pe drum.", val: "C" },
+      { text: "Aștept momentul potrivit — care uneori nu mai vine.", val: "D" }
+    ]
+  },
+  {
+    text: "Ce spune familia sau prietenii tăi despre ideea de a câștiga bani online?",
+    opts: [
+      { text: "Sunt curioși și mă susțin.", val: "A" },
+      { text: "Sunt sceptici și asta mă influențează.", val: "B" },
+      { text: "Nu le-am spus — fac ce cred eu că e bine.", val: "C" },
+      { text: "Mă descurajează și asta mă frânează.", val: "D" }
+    ]
+  },
+  {
+    text: "Ce te-ar face să îți dorești cu adevărat să începi un business online?",
+    opts: [
+      { text: "Să înțeleg exact cum funcționează și să am un plan clar.", val: "A" },
+      { text: "Să știu că nu risc să pierd tot dacă nu merge.", val: "B" },
+      { text: "Să pot începe repede, fără birocrație și fără să aștept.", val: "C" },
+      { text: "Să văd că cineva ca mine a reușit și că există un drum deja bătătorit.", val: "D" }
+    ]
+  }
+];
+
+const profiles = {
+  A: {
+    icon: "🧭",
+    name: "Strategul",
+    tagline: "Gândești înainte să acționezi — și asta e puterea ta.",
+    desc: "Ești genul de om care nu se aruncă orb în nimic. Vrei să înțelegi mecanismul, să ai un plan și să știi exact ce riști înainte să investești timp sau bani. Asta te face mai responsabil decât mulți — dar uneori te poate ține pe loc mai mult decât ar trebui. În business, mindsetul tău e un avantaj imens dacă înveți să acționezi și cu informații incomplete.",
+    strengths: ["Analiză", "Organizare", "Disciplină", "Evaluare risc"],
+    watch: "Atenție: analiza excesivă devine un alt tip de procrastinare. La un moment dat, trebuie să sari."
+  },
+  B: {
+    icon: "🌱",
+    name: "Prudentul",
+    tagline: "Ai nevoie de siguranță — și asta e complet normal.",
+    desc: "Ești precaut/ă și asta vine din experiențe sau din valori adânci: nu vrei să pierzi ce ai construit. Probabil ai văzut oameni care s-au ars și nu vrei să repeti greșelile lor. Vestea bună: business-ul online nu înseamnă să riști tot. Există modele clare, cu pași verificați, unde poți testa mic înainte să scalezi.",
+    strengths: ["Răbdare", "Grijă", "Loialitate", "Stabilitate"],
+    watch: "Atenție: prudența fără acțiune devine frică. Dacă tot aștepți momentul perfect, el nu vine niciodată."
+  },
+  C: {
+    icon: "🚀",
+    name: "Pionierul",
+    tagline: "Ești gata să sari. Ai nevoie de direcție clară.",
+    desc: "Ești motivat, impulsiv în cel mai bun sens și nu ți-e frică să încerci. Ai energie și curaj — calități rare. Problema ta nu e lipsa acțiunii, ci lipsa unui sistem. Te apuci repede, dar fără structură poți irosi timp și bani în direcții greșite. Dropshippingul funcționează perfect pentru tine — dar ai nevoie de un cadru clar care să-ți canalizeze energia.",
+    strengths: ["Curaj", "Energie", "Viteză", "Reziliență"],
+    watch: "Atenție: viteza fără strategie te poate duce în cercuri. Cel mai bun pas e rapid și bine direcționat."
+  },
+  D: {
+    icon: "💡",
+    name: "Visătorul cu Potențial",
+    tagline: "Vrei schimbarea. Îți mai lipsește un imbold real.",
+    desc: "Știi că vrei mai mult și simți că poți face mai mult — dar ceva te ține pe loc. Poate e frica, poate e lipsa unui model concret, poate e faptul că nu ai pe cineva care să creadă în tine și să te ghideze pas cu pas. Nu ești indecis — ești prudent fără să ai suficiente dovezi că merită. Odată ce ai direcția clară și un sistem dovedit, te transformi rapid.",
+    strengths: ["Empatie", "Dorință de schimbare", "Deschidere", "Perseverență"],
+    watch: "Atenție: așteptarea consumă timp la fel de mult ca acțiunea greșită. Primul pas mic e mai important decât planul perfect."
+  }
+};
+
+let current = 0, answers = [], selected = null;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('q-counter').textContent = `${current + 1} / ${questions.length}`;
+  document.getElementById('progress').style.width = `${(current / questions.length) * 100}%`;
+
+  const qEl = document.getElementById('q-text');
+  const oEl = document.getElementById('options');
+
+  qEl.classList.add('slide-out');
+  setTimeout(() => {
+    qEl.textContent = q.text;
+    qEl.classList.remove('slide-out');
+    qEl.classList.add('slide-in');
+    setTimeout(() => qEl.classList.remove('slide-in'), 300);
+
+    oEl.innerHTML = '';
+    selected = null;
+    document.getElementById('btn-next').classList.remove('active');
+
+    q.opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.textContent = opt.text;
+      btn.onclick = () => {
+        document.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selected = opt.val;
+        document.getElementById('btn-next').classList.add('active');
+      };
+      oEl.appendChild(btn);
+    });
+  }, 200);
+}
+
+function showResult() {
+  const counts = { A: 0, B: 0, C: 0, D: 0 };
+  answers.forEach(a => counts[a]++);
+  const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+  const p = profiles[top];
+
+  document.getElementById('quiz-view').style.display = 'none';
+  const rv = document.getElementById('result-view');
+  rv.style.display = 'block';
+
+  const shareText = `Sunt "${p.name}" — ${p.tagline}\n\nAflă și tu ce tip de antreprenor ești 👇`;
+
+  rv.innerHTML = `
+    <div class="result">
+      <div class="result-badge">Profilul tău</div>
+      <div class="result-icon">${p.icon}</div>
+      <div class="result-name">${p.name}</div>
+      <div class="result-tagline">${p.tagline}</div>
+      <div class="result-desc">${p.desc}</div>
+      <div class="pills-label">Punctele tale forte</div>
+      <div class="pills">${p.strengths.map(s => `<span class="pill">${s}</span>`).join('')}</div>
+      <div class="warning-box">${p.watch}</div>
+      <div class="divider"></div>
+      <div class="cta-label">Ți-a plăcut rezultatul?</div>
+      <div class="cta-buttons">
+        <a class="btn-ig" href="https://instagram.com/cara_anca" target="_blank">Scrie-mi pe Instagram →</a>
+        <button class="btn-share" onclick="shareResult('${p.name}', \`${shareText.replace(/`/g, "'")}\`)">Dă share la rezultat prietenilor</button>
+      </div>
+      <button class="btn-retry" onclick="restartQuiz()">Reia testul de la început</button>
+    </div>
+  `;
+}
+
+function shareResult(name, text) {
+  if (navigator.share) {
+    navigator.share({ title: `Sunt "${name}" — Test antreprenor`, text: text, url: window.location.href });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
+      alert('Textul a fost copiat! Îl poți lipi unde vrei.');
+    });
+  }
+}
+
+function restartQuiz() {
+  current = 0; answers = []; selected = null;
+  document.getElementById('result-view').style.display = 'none';
+  document.getElementById('quiz-view').style.display = 'block';
+  renderQ();
+}
+
+document.getElementById('btn-next').onclick = () => {
+  if (!selected) return;
+  answers.push(selected);
+  current++;
+  if (current >= questions.length) showResult();
+  else renderQ();
+};
+
+renderQ();
+</script>
+</body>
+</html>
