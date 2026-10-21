@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genesyum Ads Toolkit</title>
+<meta name="theme-color" content="#0A0A0A">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  color-scheme: dark;
+  --purple: #C9A24B; --purple-light: rgba(201,162,75,0.14); --purple-dark: #EBD596;
+  --amber: #EBD596; --amber-light: rgba(201,162,75,0.16);
+  --green: #7FD6A6; --green-light: rgba(90,200,140,0.15);
+  --red: #FF8080; --red-light: rgba(255,110,110,0.15);
+  --text: #F6F1E7; --text-muted: #BFB49C; --text-hint: #857C69;
+  --bg: #0A0A0A; --surface: #151412; --border: rgba(201,162,75,0.24);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 4rem; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+header { padding: 2rem 0 1rem; text-align: center; }
+.tag { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--purple); background: var(--purple-light); padding: 5px 14px; border-radius: 100px; margin-bottom: .8rem; }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 6vw, 38px); line-height: 1.15; font-weight: 400; }
+h1 em { color: var(--purple); }
+.sub { color: var(--text-muted); font-size: 15px; max-width: 520px; margin: .6rem auto 0; }
+nav { position: sticky; top: 0; z-index: 5; background: rgba(10,10,10,.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); margin-top: 1rem; }
+nav .wrap { display: flex; gap: 4px; overflow-x: auto; padding: 8px 16px; }
+nav button { flex: none; border: 0; background: transparent; font: inherit; font-size: 14px; font-weight: 500; color: var(--text-muted); padding: 9px 14px; border-radius: 10px; cursor: pointer; }
+nav button:hover { background: var(--purple-light); }
+nav button.on { background: var(--purple); color: #111; }
+nav button:disabled { opacity: .45; cursor: not-allowed; }
+nav button:disabled:hover { background: transparent; }
+section { display: none; padding-top: 1.5rem; }
+section.on { display: block; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 1.4rem; margin-bottom: 1rem; box-shadow: 0 4px 30px rgba(0,0,0,.45); }
+h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 24px; margin-bottom: .3rem; }
+h3 { font-size: 16px; margin-bottom: .2rem; }
+p.lead { color: var(--text-muted); font-size: 14px; margin-bottom: 1rem; }
+.muted { color: var(--text-muted); font-size: 13px; }
+
+/* progress */
+.hero { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.ring { --p: 0; width: 96px; height: 96px; border-radius: 50%; flex: none; display: grid; place-items: center;
+  background: conic-gradient(var(--purple) calc(var(--p) * 1%), var(--purple-light) 0); }
+.ring span { width: 74px; height: 74px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-weight: 700; font-size: 20px; }
+.hero-text { flex: 1; min-width: 200px; }
+.next { margin-top: .6rem; background: var(--amber-light); border-radius: 12px; padding: 10px 12px; font-size: 14px; }
+.stage-head { display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 10px; }
+.stage-head .num { width: 30px; height: 30px; border-radius: 50%; background: var(--purple-light); color: var(--purple-dark); font-weight: 700; display: grid; place-items: center; flex: none; font-size: 14px; }
+.stage.done .num { background: var(--green); color: #111; }
+.stage-head .t { flex: 1; }
+.stage-head .cnt { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+.stage-body { display: none; margin-top: .9rem; }
+.stage.open .stage-body { display: block; }
+.task { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: 1px solid var(--border); }
+.task input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--purple); flex: none; }
+.task label { flex: 1; font-size: 14px; cursor: pointer; }
+.task.done label { color: var(--text-hint); text-decoration: line-through; }
+.cmd { font-size: 12px; border: 1px dashed var(--purple); color: var(--purple-dark); background: var(--purple-light); border-radius: 8px; padding: 4px 9px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.cmd:hover { background: rgba(201,162,75,0.26); }
+
+/* forms */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.field input, .field select, textarea { width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); }
+.field input:focus, textarea:focus { outline: none; border-color: var(--purple); }
+.field small { color: var(--text-hint); font-size: 12px; }
+.btn { font: inherit; font-weight: 500; font-size: 14px; border: 0; background: var(--purple); color: #111; padding: 11px 18px; border-radius: 12px; cursor: pointer; }
+.btn:hover { background: var(--purple-dark); }
+.btn.ghost { background: var(--purple-light); color: var(--purple-dark); }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 1.2rem; }
+.stat { background: var(--bg); border-radius: 12px; padding: 12px; border: 1px solid var(--border); }
+.stat b { display: block; font-size: 22px; font-family: 'DM Serif Display', serif; font-weight: 400; }
+.stat span { font-size: 12px; color: var(--text-muted); }
+.stat.good b { color: var(--green); } .stat.bad b { color: var(--red); }
+.verdict { margin-top: 1rem; padding: 12px 14px; border-radius: 12px; font-size: 14px; }
+.verdict.good { background: var(--green-light); } .verdict.bad { background: var(--red-light); } .verdict.mid { background: var(--amber-light); }
+
+/* table */
+.tbl { overflow-x: auto; margin-top: 1rem; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td:first-child { white-space: normal; min-width: 160px; }
+th { color: var(--text-muted); font-weight: 500; font-size: 12px; }
+.drop { border: 2px dashed var(--border); border-radius: 14px; padding: 1.4rem; text-align: center; cursor: pointer; background: var(--bg); }
+.drop.hover { border-color: var(--purple); background: var(--purple-light); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .6rem; }
+.chip { background: var(--red-light); color: #FFB0B0; border-radius: 100px; padding: 3px 10px; font-size: 12px; }
+textarea { min-height: 120px; resize: vertical; font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+
+details { border-top: 1px solid var(--border); padding: 10px 0; }
+details summary { cursor: pointer; font-weight: 500; font-size: 14px; }
+details p { font-size: 14px; color: var(--text-muted); margin-top: 6px; }
+.pill { font-size: 11px; background: var(--amber-light); color: var(--amber); padding: 2px 8px; border-radius: 100px; margin-left: 6px; font-weight: 500; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #111; padding: 10px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: .25s; pointer-events: none; z-index: 20; max-width: 90vw; }
+.toast.show { opacity: 1; transform: translateX(-50%); }
+footer { text-align: center; color: var(--text-hint); font-size: 12px; margin-top: 2rem; }
+
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:100px}
+.badge.amber{background:var(--amber-light);color:var(--amber)}.badge.green{background:var(--green-light);color:var(--green)}
+.badge.purple{background:var(--purple-light);color:var(--purple-dark)}.badge.blue{background:rgba(120,170,255,.16);color:#B5D0FF}.badge.gray{background:rgba(246,241,231,.08);color:var(--text-muted)}
+.entry{border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--bg)}
+.entry-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.entry-top .x{margin-left:auto;border:0;background:transparent;color:var(--text-hint);font-size:20px;cursor:pointer;line-height:1}
+.entry-top .x:hover{color:var(--red)}
+.entry-el{font-weight:500;margin-top:6px}.entry-chg{font-size:14px;margin-top:2px}
+input[type=search]{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text)}
+input[type=search]:focus,input[type=date]:focus,input[type=text]:focus{outline:none;border-color:var(--purple)}
+.field input[type=date],.field input[type=text]{width:100%}
+table.pl td:nth-child(2){text-align:right}table.pl td:nth-child(3){text-align:right;width:70px}
+table.pl tr.b td{font-weight:700;border-top:2px solid var(--border)}
+#backup{margin-top:1.5rem}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <span class="tag">Genesyum</span>
+  <h1>Ads <em>Toolkit</em></h1>
+  <p class="sub">Pentru cei care au reclamele pornite: ții evidența modificărilor și a profitului, ca să nu strici ce funcționează.</p>
+</header>
+<nav><div class="wrap" id="tabs">
+  <button data-tab="jurnal" class="on">Jurnal modificări</button>
+  <button data-tab="evid">Evidență &amp; profit</button>
+  <button data-tab="calc">Calculator</button>
+  <button data-tab="terms">Search Terms</button>
+  <button data-tab="audit">Audit &amp; Scripturi</button>
+</div></nav>
+<main class="wrap">
+<!-- JURNAL -->
+<section id="jurnal" class="on">
+  <div class="card">
+    <h2>Înainte să modifici ceva</h2>
+    <p class="lead">Scrie ce vrei să schimbi (un produs, „preț", „buget", „imagine"). Îți arăt dacă ai mai umblat deja la asta.</p>
+    <div class="field"><input type="search" id="j_q" placeholder="ex: yoga mat, preț, buget, imagine..." autocomplete="off"></div>
+    <div id="j_check" style="margin-top:12px"></div>
+  </div>
+
+  <div class="card">
+    <h2>Notează o modificare</h2>
+    <p class="lead">Imediat după ce o faci, ca să nu o uiți. Perioada de „nu atinge" te protejează de modificări prea dese.</p>
+    <div class="grid">
+      <div class="field"><label>Data</label><input type="date" id="j_date"></div>
+      <div class="field"><label>Unde</label>
+        <select id="j_level"><option value="reclama">Reclamă (Google Ads)</option><option value="magazin">Magazin (Shopify)</option></select></div>
+      <div class="field"><label>Tip modificare</label><select id="j_type"></select></div>
+      <div class="field"><label>La ce anume</label><input type="text" id="j_elem" placeholder="campanie sau produs"></div>
+      <div class="field"><label>Din (înainte)</label><input type="text" id="j_from" placeholder="ex: 29,99"></div>
+      <div class="field"><label>În (după)</label><input type="text" id="j_to" placeholder="ex: 34,99"></div>
+      <div class="field"><label>Nu mai atinge (zile)</label><input type="number" id="j_lock" value="7" min="0" max="60"><small>7 zile e un bun început</small></div>
+    </div>
+    <div class="field" style="margin-top:12px"><label>De ce ai făcut-o</label><input type="text" id="j_why" placeholder="ex: marjă prea mică la prețul vechi"></div>
+    <div class="row"><button class="btn" id="j_add">Adaugă în jurnal</button></div>
+  </div>
+
+  <div class="card">
+    <h2>Istoric</h2>
+    <div class="grid" style="margin:.6rem 0">
+      <div class="field"><select id="j_flevel"><option value="">Toate</option><option value="reclama">Reclamă</option><option value="magazin">Magazin</option></select></div>
+      <div class="field"><input type="search" id="j_fq" placeholder="Caută în istoric"></div>
+    </div>
+    <div id="j_list"></div>
+  </div>
+
+  <div class="card">
+    <h2>Legătura cu Claude și pluginul</h2>
+    <p class="lead">Pluginul nu poate scrie singur aici. Dar poți să-i dai jurnalul, iar el să verifice înainte să-ți propună ceva, și să-ți dea linia de jurnal după fiecare modificare.</p>
+    <div class="row" style="margin-top:0">
+      <button class="btn ghost" id="j_copyForClaude">1. Copiază jurnalul pentru Claude</button>
+      <button class="btn ghost" id="j_copyRule">2. Copiază regula pentru Claude</button>
+    </div>
+    <p class="muted" style="margin-top:8px">Lipește-le în conversația cu pluginul. După fiecare modificare, Claude îți dă o linie. O lipești mai jos și se adaugă singură.</p>
+    <textarea id="j_import" style="margin-top:10px" placeholder="Lipește aici liniile de jurnal primite de la Claude, câte una pe rând:&#10;2026-10-21 | Magazin | Preț | Yoga mat | 29,99 → 34,99 | marjă prea mică | 7"></textarea>
+    <div class="row"><button class="btn" id="j_importBtn">Adaugă liniile în jurnal</button></div>
+  </div>
+</section>
+
+<!-- EVIDENTA -->
+<section id="evid">
+  <div class="card">
+    <h2>Evidență zilnică și profit</h2>
+    <p class="lead">Notezi cifrele zilei, iar aici vezi profitul real, ROAS-ul și ROAS-ul de breakeven. Fără conexiuni cu conturile, deci cifrele sunt exact cele pe care le pui tu.</p>
+    <details id="setBox">
+      <summary>Setările magazinului (completează-le prima dată)</summary>
+      <div class="grid" style="margin-top:12px">
+        <div class="field"><label>Monedă</label><input type="text" id="s_cur" maxlength="4"></div>
+        <div class="field"><label>COGS (% din vânzări)</label><input type="number" id="s_cogs" step="0.5"><small>cât costă produsul vândut</small></div>
+        <div class="field"><label>Comision plată %</label><input type="number" id="s_fee" step="0.1"></div>
+        <div class="field"><label>Taxă fixă / comandă</label><input type="number" id="s_fix" step="0.01"></div>
+        <div class="field"><label>Retururi estimate %</label><input type="number" id="s_ret" step="0.5"></div>
+        <div class="field"><label>Costuri fixe / lună</label><input type="number" id="s_mfix" step="1"><small>abonament Shopify, aplicații</small></div>
+      </div>
+      <div class="verdict mid" id="s_be" style="margin-top:12px"></div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>Zi nouă</h3>
+    <div class="grid" style="margin-top:10px">
+      <div class="field"><label>Data</label><input type="date" id="l_date"></div>
+      <div class="field"><label>Vânzări (valoare)</label><input type="number" id="l_rev" step="0.01"></div>
+      <div class="field"><label>Număr comenzi</label><input type="number" id="l_ord" step="1"></div>
+      <div class="field"><label>Cheltuit Google Ads</label><input type="number" id="l_gads" step="0.01"></div>
+      <div class="field"><label>Alte reclame</label><input type="number" id="l_oads" step="0.01"></div>
+      <div class="field"><label>COGS real (opțional)</label><input type="number" id="l_cogs" step="0.01"><small>gol = folosesc procentul din setări</small></div>
+      <div class="field"><label>Alte costuri</label><input type="number" id="l_oth" step="0.01"></div>
+    </div>
+    <div class="row"><button class="btn" id="l_save">Salvează ziua</button><button class="btn ghost" id="l_del">Șterge ziua</button></div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="margin-top:0;justify-content:space-between">
+      <h3>Situația lunii</h3>
+      <input type="month" id="m_sel" style="font:inherit;padding:8px 10px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg)">
+    </div>
+    <div id="m_pl"></div>
+    <div class="tbl" id="m_days"></div>
+    <div class="row"><button class="btn ghost" id="m_copy">Copiază pentru Google Sheets</button></div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section id="calc">
+  <div class="card">
+    <h2>Cât profit rămâne cu adevărat?</h2>
+    <p class="lead">Majoritatea începătorilor se uită doar la ROAS. Aici vezi ROAS-ul la care ieși pe zero, după toate costurile.</p>
+    <div class="grid">
+      <div class="field"><label>Preț de vânzare (cu TVA)</label><input type="number" id="c_price" value="49.99" step="0.01"></div>
+      <div class="field"><label>Cost produs</label><input type="number" id="c_cost" value="12" step="0.01"></div>
+      <div class="field"><label>Cost transport (plătit de tine)</label><input type="number" id="c_ship" value="3" step="0.01"></div>
+      <div class="field"><label>TVA %</label><input type="number" id="c_vat" value="0" step="0.1"><small>0 dacă prețul nu include TVA</small></div>
+      <div class="field"><label>Comision plată %</label><input type="number" id="c_fee" value="2.9" step="0.1"></div>
+      <div class="field"><label>Taxă fixă / comandă</label><input type="number" id="c_fix" value="0.30" step="0.01"></div>
+      <div class="field"><label>Retururi / chargeback %</label><input type="number" id="c_ret" value="5" step="0.5"><small>% din comenzi pierdute</small></div>
+      <div class="field"><label>Alte costuri / comandă</label><input type="number" id="c_oth" value="1" step="0.01"><small>aplicații, ambalaj etc.</small></div>
+      <div class="field"><label>ROAS-ul tău actual</label><input type="number" id="c_roas" value="3" step="0.1"></div>
+    </div>
+    <div class="stats" id="c_out"></div>
+    <div id="c_verdict"></div>
+    <div class="row"><button class="cmd" data-copy="/profit-real">Copiază: /profit-real</button><span class="muted">Pentru P&amp;L complet pe magazinul tău, rulează comanda în Claude.</span></div>
+  </div>
+</section>
+
+<!-- SEARCH TERMS -->
+<section id="terms">
+  <div class="card">
+    <h2>Analizor Search Terms</h2>
+    <p class="lead">Încarcă raportul „Search terms" descărcat din Google Ads (CSV). Găsești termenii care consumă bani fără vânzări. Fișierul rămâne în browserul tău, nu se trimite nicăieri.</p>
+    <div class="drop" id="drop">
+      <b>Trage aici fișierul CSV</b><br><span class="muted">sau apasă pentru a-l alege</span>
+      <input type="file" id="file" accept=".csv,.tsv,.txt" hidden>
+    </div>
+    <div class="grid" style="margin-top:12px">
+      <div class="field"><label>Cost minim pentru semnalare</label><input type="number" id="t_cost" value="5" step="0.5"><small>în moneda contului</small></div>
+      <div class="field"><label>Sau minim clickuri fără conversie</label><input type="number" id="t_clicks" value="10"></div>
+    </div>
+    <div id="t_out"></div>
+  </div>
+</section>
+
+<!-- AUDIT -->
+<section id="audit">
+  <div class="card">
+    <h2>Cele 10 probleme comune din Google Ads</h2>
+    <p class="lead">Dă click pe simptomul pe care îl ai. Pentru diagnostic real pe contul tău, folosește pluginul.</p>
+    <div id="auditList"></div>
+    <div class="row"><button class="cmd" data-copy="/audit-ads">Copiază: /audit-ads</button></div>
+  </div>
+  <div class="card">
+    <h2>Scripturi și tehnici avansate <span class="pill">Faza B+ · 20+ conversii</span></h2>
+    <p class="lead">Nu le folosi înainte să ai date. Iată ce există și când are sens.</p>
+    <div id="scriptList"></div>
+    <div class="row"><button class="cmd" data-copy="/optimizare-avansata">Copiază: /optimizare-avansata</button></div>
+  </div>
+</section>
+
+</main>
+
+<div class="wrap" id="backup">
+  <div class="card">
+    <h3>Salvare de siguranță</h3>
+    <p class="muted">Datele rămân doar în acest browser. Dacă schimbi dispozitivul sau ștergi datele browserului, le pierzi. Copiază codul din când în când și păstrează-l într-un loc sigur.</p>
+    <div class="row">
+      <button class="btn ghost" id="b_export">Copiază codul de siguranță</button>
+      <button class="btn ghost" id="b_import">Restaurează din cod</button>
+    </div>
+    <p class="muted" id="b_note" style="margin-top:8px"></p>
+    <textarea id="b_box" style="margin-top:10px;display:none" placeholder="Lipește aici codul, apoi apasă din nou Restaurează."></textarea>
+  </div>
+</div>
+<footer>Genesyum Ads Toolkit · datele tale rămân în acest browser</footer>
+<div class="toast" id="toast"></div>
+<script>
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2200); }
+function copy(text){
+  const ok=()=>toast('Copiat: '+text);
+  if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(ok,()=>fallback()); } else fallback();
+  function fallback(){ const a=document.createElement('textarea'); a.value=text; document.body.appendChild(a); a.select(); try{document.execCommand('copy');ok();}catch(e){toast('Copiază manual: '+text);} a.remove(); }
+}
+document.addEventListener('click', e=>{ const b=e.target.closest('[data-copy]'); if(b){ e.preventDefault(); e.stopPropagation(); copy(b.dataset.copy); } });
+const store = {
+  get(k, d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- Tabs ---------- */
+$$('#tabs button[data-tab]').forEach(b=>b.addEventListener('click',()=>{
+  $$('#tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  $$('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.tab));
+  window.scrollTo({top:0});
+}));
+
+
+/* ---------- Calculator ---------- */
+function num(id){ const v=parseFloat($(id).value); return isFinite(v)?v:0; }
+const money = n => (isFinite(n)?n:0).toLocaleString('ro-RO',{minimumFractionDigits:2,maximumFractionDigits:2});
+function calc(){
+  const price=num('#c_price'), cost=num('#c_cost'), ship=num('#c_ship'), vat=num('#c_vat'),
+        fee=num('#c_fee')/100, fix=num('#c_fix'), ret=num('#c_ret')/100, oth=num('#c_oth'), roas=num('#c_roas');
+  const net = price/(1+vat/100);
+  const fees = price*fee + fix;
+  const retLoss = ret*(net);
+  const margin = net - cost - ship - fees - retLoss - oth; // profit înainte de reclame
+  const be = margin>0 ? price/margin : Infinity;
+  const cpa = roas>0 ? price/roas : Infinity;
+  const profit = margin - cpa;
+  const poas = isFinite(cpa)&&cpa>0 ? margin/cpa : 0;
+  $('#c_out').innerHTML =
+    st('Profit înainte de reclame', money(margin), margin>0?'good':'bad')
+   +st('ROAS breakeven', isFinite(be)?be.toFixed(2):'—', '')
+   +st('CPA maxim (breakeven)', margin>0?money(margin):'—', '')
+   +st('Profit net / comandă la ROAS '+roas, isFinite(profit)?money(profit):'—', profit>0?'good':'bad')
+   +st('POAS la ROAS '+roas, poas.toFixed(2), poas>1?'good':'bad');
+  let v='';
+  if(margin<=0) v='<div class="verdict bad"><b>Produsul nu poate fi profitabil cu aceste costuri.</b> Chiar fără reclame pierzi bani pe fiecare comandă. Crește prețul sau scade costurile.</div>';
+  else if(roas<be) v='<div class="verdict bad"><b>Pierzi bani.</b> ROAS-ul tău ('+roas.toFixed(2)+') e sub breakeven ('+be.toFixed(2)+'). Pierzi aproximativ '+money(-profit)+' pe comandă.</div>';
+  else if(roas<be*1.3) v='<div class="verdict mid"><b>Ești aproape de zero.</b> Ai profit, dar mic. O mică scădere a ROAS-ului te duce pe minus.</div>';
+  else v='<div class="verdict good"><b>E profitabil.</b> Rămân aproximativ '+money(profit)+' pe comandă după reclame. POAS peste 1 înseamnă profit.</div>';
+  $('#c_verdict').innerHTML = v;
+  function st(l,v,c){ return '<div class="stat '+c+'"><b>'+v+'</b><span>'+l+'</span></div>'; }
+}
+$$('#calc input').forEach(i=>i.addEventListener('input',calc)); calc();
+
+/* ---------- Search terms ---------- */
+function splitLine(line, d){
+  const out=[]; let cur='', q=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(q){ if(c==='"'){ if(line[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; }
+    else if(c==='"') q=true;
+    else if(c===d){ out.push(cur); cur=''; }
+    else cur+=c;
+  }
+  out.push(cur); return out;
+}
+function parseNum(s){
+  s=String(s||'').replace(/[^\d.,\-]/g,'');
+  if(!s||s==='-'||s==='--') return 0;
+  const lc=s.lastIndexOf(','), ld=s.lastIndexOf('.');
+  if(lc>-1 && ld>-1) s = lc>ld ? s.replace(/\./g,'').replace(',','.') : s.replace(/,/g,'');
+  else if(lc>-1) s = /,\d{1,2}$/.test(s) ? s.replace(',','.') : s.replace(/,/g,'');
+  const n=parseFloat(s); return isFinite(n)?n:0;
+}
+function parseReport(text){
+  const lines=text.replace(/^﻿/,'').split(/\r?\n/).filter(l=>l.trim());
+  for(let li=0; li<Math.min(lines.length,15); li++){
+    for(const d of ['\t',';',',']){
+      const h=splitLine(lines[li],d).map(x=>x.trim().toLowerCase());
+      const ti=h.findIndex(x=>/search term|termen/.test(x));
+      if(ti<0) continue;
+      const ci=h.findIndex(x=>/^clicks?$|^clic/.test(x));
+      const co=h.findIndex(x=>x==='cost'||(/^cost|^cheltuieli/.test(x)&&!/[\/]|conv|per/.test(x)));
+      const cv=h.findIndex(x=>/^conversions?$|^conversii$/.test(x));
+      if(ci<0||co<0) continue;
+      const rows=[];
+      for(let r=li+1;r<lines.length;r++){
+        const c=splitLine(lines[r],d); const term=(c[ti]||'').trim();
+        if(!term||/^total/i.test(term)) continue;
+        rows.push({term, clicks:parseNum(c[ci]), cost:parseNum(c[co]), conv:cv>-1?parseNum(c[cv]):0, hasConv:cv>-1});
+      }
+      return {rows, hasConv:cv>-1};
+    }
+  }
+  return null;
+}
+let lastReport=null;
+function analyze(){
+  if(!lastReport) return;
+  const minCost=num('#t_cost'), minClicks=num('#t_clicks');
+  const rows=lastReport.rows;
+  const waste=rows.filter(r=>r.conv===0 && (r.cost>=minCost || r.clicks>=minClicks)).sort((a,b)=>b.cost-a.cost);
+  const wasted=waste.reduce((s,r)=>s+r.cost,0), total=rows.reduce((s,r)=>s+r.cost,0);
+  // cuvinte frecvente în termenii fără conversii
+  const freq={}; const stop=new Set(['the','a','an','for','of','and','to','in','on','with','de','la','cu','si','și','pentru','un','o']);
+  const toks=t=>new Set(t.toLowerCase().split(/[^a-z0-9ăâîșşțţ]+/i).filter(w=>w.length>2&&!stop.has(w)));
+  const good=new Set(); rows.filter(r=>r.conv>0).forEach(r=>toks(r.term).forEach(w=>good.add(w)));
+  waste.forEach(r=>{ toks(r.term).forEach(w=>{ if(!good.has(w)) freq[w]=(freq[w]||0)+1; }); });
+  const words=Object.entries(freq).filter(([,n])=>n>=2).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  let html='';
+  if(!lastReport.hasConv) html+='<div class="verdict mid">Nu am găsit coloana de conversii. Am semnalat doar după cost și clickuri, deci verifică înainte să excluzi.</div>';
+  html+='<div class="stats">'
+    +'<div class="stat"><b>'+rows.length+'</b><span>termeni în raport</span></div>'
+    +'<div class="stat bad"><b>'+waste.length+'</b><span>termeni fără vânzări semnalați</span></div>'
+    +'<div class="stat bad"><b>'+money(wasted)+'</b><span>cheltuiți pe ei'+(total?' ('+Math.round(wasted/total*100)+'% din total)':'')+'</span></div></div>';
+  if(!waste.length){ html+='<div class="verdict good" style="margin-top:12px">Nu am găsit termeni care să depășească pragurile alese.</div>'; $('#t_out').innerHTML=html; return; }
+  html+='<h3 style="margin-top:1.2rem">Cuvinte care revin în termenii fără vânzări</h3><p class="muted">Candidați pentru negative keywords. Am exclus cuvintele care apar și în termeni cu vânzări. Verifică fiecare înainte să îl excluzi.</p><div class="chips">'
+    +(words.length?words.map(([w,n])=>'<span class="chip">'+esc(w)+' ×'+n+'</span>').join(''):'<span class="muted">Niciun cuvânt nu apare de cel puțin 2 ori.</span>')+'</div>';
+  html+='<div class="tbl"><table><tr><th>Termen</th><th>Clickuri</th><th>Cost</th><th>Conv.</th></tr>'
+    +waste.slice(0,100).map(r=>'<tr><td>'+esc(r.term)+'</td><td>'+r.clicks+'</td><td>'+money(r.cost)+'</td><td>'+r.conv+'</td></tr>').join('')+'</table></div>'
+    +(waste.length>100?'<p class="muted">Se afișează primii 100 după cost.</p>':'');
+  html+='<div class="row"><button class="btn" id="copyTerms">Copiază lista de termeni</button><button class="cmd" data-copy="/ads-negatives">Copiază: /ads-negatives</button></div>'
+    +'<p class="muted" style="margin-top:8px">Lipește lista în Claude după comanda /ads-negatives, ca pluginul să decidă ce intră ca negative.</p>';
+  $('#t_out').innerHTML=html;
+  $('#copyTerms').onclick=()=>copy(waste.map(r=>r.term).join('\n'));
+}
+function loadFile(f){
+  if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    const p=parseReport(String(r.result));
+    if(!p||!p.rows.length){ $('#t_out').innerHTML='<div class="verdict bad" style="margin-top:12px">Nu am putut citi fișierul. Descarcă raportul „Search terms" din Google Ads ca CSV, cu coloanele Search term, Clicks și Cost.</div>'; lastReport=null; return; }
+    lastReport=p; analyze();
+  };
+  r.readAsText(f);
+}
+const drop=$('#drop'), fileIn=$('#file');
+drop.onclick=()=>fileIn.click();
+fileIn.onchange=()=>loadFile(fileIn.files[0]);
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('hover');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hover');}));
+drop.addEventListener('drop',e=>loadFile(e.dataTransfer.files[0]));
+$('#t_cost').addEventListener('input',analyze); $('#t_clicks').addEventListener('input',analyze);
+
+/* ---------- Audit ---------- */
+const AUDIT = [
+ ['Bugetul nu se consumă','Verifică dacă produsele sunt aprobate în Merchant Center, dacă ofertele sunt prea mici sau dacă ținta e prea îngustă.'],
+ ['Clickuri, dar zero adăugări în coș','Verifică pagina de produs, prețul față de concurență, viteza și potrivirea dintre reclamă și pagină.'],
+ ['Adaugă în coș, dar nu cumpără','Verifică costul transportului, pașii din checkout, metodele de plată și încrederea (politici, contact).'],
+ ['ROAS sub breakeven','Calculează întâi breakeven-ul real (tab-ul Calculator). Apoi decide: crești prețul, scazi costul sau oprești produsul.'],
+ ['CPC-uri mari','Verifică termenii de căutare, concurența pe produs și scorul de calitate al ofertei.'],
+ ['Trafic de tip Display în campania Shopping','Verifică setările de rețea ale campaniei și oprește plasările care nu sunt Shopping.'],
+ ['Produse care nu primesc afișări','Verifică statusul din Merchant Center, titlurile și structura grupurilor de produse.'],
+ ['CTR slab','Îmbunătățește titlul, imaginea principală și prețul. Verifică și dacă termenii sunt relevanți.'],
+ ['Scădere bruscă a performanței','Verifică modificări recente, produse respinse, buget, tracking și sezonalitate înainte să schimbi altceva.'],
+ ['PMax cheltuie pe Display','Verifică unde apar reclamele și ce tip de campanie rulează. Nu lansa PMax înainte de date suficiente.']
+];
+$('#auditList').innerHTML = AUDIT.map(a=>'<details><summary>'+esc(a[0])+'</summary><p>'+esc(a[1])+'</p></details>').join('');
+const SCRIPTS = [
+ ['Conversion with Cart Data (CwCD)','Trimite către Google datele coșului, ca ofertarea să țină cont de marjă și nu doar de venit.'],
+ ['POAS (Profit on Ad Spend)','Măsoară profitul raportat la cheltuiala cu reclamele. Poți folosi calculatorul din Hub ca punct de pornire.'],
+ ['Script de monitorizare a cheltuielii PMax','Urmărește unde se duc banii în campaniile Performance Max.'],
+ ['Script de plasări și analiză N-gram','Descoperă plasările slabe și cuvintele care consumă buget fără vânzări.'],
+ ['Query sculpting','Împarți căutările pe 3 campanii, după prioritate, ca să controlezi unde merg banii.'],
+ ['PMax Feed-Only','Rulezi Performance Max doar pe feed, fără canalele care nu te interesează.'],
+ ['Conversion Value Rules și bugete totale','Ajustezi valoarea conversiilor și bugetele pe perioade fixe.']
+];
+$('#scriptList').innerHTML = SCRIPTS.map(a=>'<details><summary>'+esc(a[0])+'</summary><p>'+esc(a[1])+'</p></details>').join('');
+
+
+/* ================= Genesyum Ads Toolkit: date, jurnal, evidență ================= */
+const KEY = 'gxa_v1';
+const DEFAULTS = { settings:{cur:'$', cogs:30, fee:2.9, fix:0.30, ret:3, mfix:0}, days:{}, journal:[], backupAt:null };
+let D = store.get(KEY, null) || JSON.parse(JSON.stringify(DEFAULTS));
+D.settings = Object.assign({}, DEFAULTS.settings, D.settings||{});
+D.days = D.days || {}; D.journal = Array.isArray(D.journal) ? D.journal : [];
+const persist = () => store.set(KEY, D);
+const pad = n => String(n).padStart(2,'0');
+const isoOf = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const todayISO = () => isoOf(new Date());
+const parseISO = s => new Date(s+'T00:00:00');
+const addDays = (s,n) => { const d=parseISO(s); d.setDate(d.getDate()+n); return isoOf(d); };
+const diffDays = (a,b) => Math.round((parseISO(a)-parseISO(b))/86400000); // a - b
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const fnum = v => { const n=parseFloat(String(v).replace(',','.')); return isFinite(n)?n:0; };
+const cur = () => D.settings.cur || '';
+const mny = n => { n=isFinite(n)?n:0; return (n<0?'−':'')+cur()+Math.abs(n).toLocaleString('ro-RO',{minimumFractionDigits:2,maximumFractionDigits:2}); };
+
+/* ---------- Jurnal ---------- */
+const TYPES = {
+  reclama:['Buget','Ofertă / ROAS țintă','Produse / feed','Negative keywords','Titluri / texte reclamă','Imagine reclamă','Structură campanie','Altceva'],
+  magazin:['Preț','Imagine produs','Titlu / descriere','Politici / pagini','Temă / design','Transport','Aplicații','Altceva']
+};
+const LEVEL_LABEL = {reclama:'Reclamă', magazin:'Magazin'};
+const clean = s => String(s||'').replace(/\s*\|\s*/g,' / ').replace(/[\r\n]+/g,' ').trim();
+const norm = s => String(s||'').toLowerCase().trim();
+
+function lockInfo(e){
+  const lock = +e.lock||0;
+  if(!lock) return {blocked:false, left:0, until:null};
+  const until = addDays(e.date, lock);
+  const left = diffDays(until, todayISO());
+  return {blocked:left>0, left, until};
+}
+function fmtLine(e){
+  return [e.date, LEVEL_LABEL[e.level]||e.level, clean(e.type), clean(e.elem), (clean(e.from)||'?')+' → '+(clean(e.to)||'?'), clean(e.why), (+e.lock||0)].join(' | ');
+}
+function entryHTML(e, withDel){
+  const li = lockInfo(e);
+  const badge = !(+e.lock) ? '' :
+    li.blocked ? '<span class="badge amber">Nu atinge încă '+li.left+(li.left===1?' zi':' zile')+'</span>'
+               : '<span class="badge green">Poți evalua rezultatul</span>';
+  return '<div class="entry"><div class="entry-top"><b>'+esc(e.date)+'</b>'
+    +'<span class="badge '+(e.level==='magazin'?'blue':'purple')+'">'+esc(LEVEL_LABEL[e.level]||e.level)+'</span>'
+    +'<span class="badge gray">'+esc(e.type||'')+'</span>'+badge
+    +(withDel?'<button class="x" data-del="'+esc(e.id)+'" title="Șterge">×</button>':'')+'</div>'
+    +(e.elem?'<div class="entry-el">'+esc(e.elem)+'</div>':'')
+    +'<div class="entry-chg">'+esc(e.from||'?')+' → <b>'+esc(e.to||'?')+'</b></div>'
+    +(e.why?'<div class="muted">'+esc(e.why)+'</div>':'')+'</div>';
+}
+const sortedJournal = () => D.journal.slice().sort((a,b)=> a.date===b.date ? (b.id>a.id?1:-1) : (a.date<b.date?1:-1));
+
+function fillTypes(){
+  const lvl=$('#j_level').value;
+  $('#j_type').innerHTML = TYPES[lvl].map(t=>'<option>'+esc(t)+'</option>').join('');
+}
+function renderCheck(){
+  const q=norm($('#j_q').value);
+  let items;
+  if(!q){
+    items = sortedJournal().filter(e=>lockInfo(e).blocked);
+    $('#j_check').innerHTML = items.length
+      ? '<p class="muted" style="margin-bottom:8px"><b>Acum nu atinge</b> (perioada de așteptare nu a trecut):</p>'+items.map(e=>entryHTML(e,false)).join('')
+      : '<div class="verdict good">Nimic blocat acum. Dacă vrei să schimbi ceva, notează-l după ce îl faci.</div>';
+    return;
+  }
+  items = sortedJournal().filter(e=>norm([e.type,e.elem,e.from,e.to,e.why,LEVEL_LABEL[e.level]].join(' ')).includes(q));
+  if(!items.length){ $('#j_check').innerHTML='<div class="verdict good">Nu ai nicio modificare notată pentru „'+esc($('#j_q').value)+'". Poți merge mai departe.</div>'; return; }
+  const blocked = items.filter(e=>lockInfo(e).blocked).length;
+  $('#j_check').innerHTML = '<div class="verdict '+(blocked?'bad':'mid')+'" style="margin-bottom:10px">'
+    +(blocked?'<b>Ai modificat deja asta și e încă în perioada de așteptare.</b> Mai bine așteaptă.':'<b>Ai mai modificat asta.</b> Uită-te mai jos ce ai făcut și când.')+'</div>'
+    +items.slice(0,8).map(e=>entryHTML(e,false)).join('');
+}
+function renderList(){
+  const lv=$('#j_flevel').value, q=norm($('#j_fq').value);
+  const items=sortedJournal().filter(e=>(!lv||e.level===lv) && (!q||norm([e.type,e.elem,e.from,e.to,e.why].join(' ')).includes(q)));
+  $('#j_list').innerHTML = items.length ? items.map(e=>entryHTML(e,true)).join('') : '<p class="muted">Nicio modificare încă.</p>';
+}
+function renderJournal(){ renderCheck(); renderList(); renderMonth(); }
+
+$('#j_level').addEventListener('change', fillTypes);
+$('#j_q').addEventListener('input', renderCheck);
+$('#j_flevel').addEventListener('change', renderList);
+$('#j_fq').addEventListener('input', renderList);
+$('#j_list').addEventListener('click', e=>{
+  const b=e.target.closest('[data-del]'); if(!b) return;
+  if(!confirm('Ștergi această intrare din jurnal?')) return;
+  D.journal = D.journal.filter(x=>x.id!==b.dataset.del); persist(); renderJournal();
+});
+$('#j_add').addEventListener('click', ()=>{
+  const e = {
+    id:uid(), date:$('#j_date').value||todayISO(), level:$('#j_level').value, type:$('#j_type').value,
+    elem:$('#j_elem').value.trim(), from:$('#j_from').value.trim(), to:$('#j_to').value.trim(),
+    why:$('#j_why').value.trim(), lock:Math.max(0,parseInt($('#j_lock').value,10)||0)
+  };
+  if(!e.elem && !e.from && !e.to){ toast('Completează măcar „La ce anume" sau „Din / În"'); return; }
+  const clash = D.journal.filter(x=>x.level===e.level && e.elem && norm(x.elem)===norm(e.elem) && lockInfo(x).blocked);
+  if(clash.length){
+    const c=clash[0], li=lockInfo(c);
+    if(!confirm('Ai modificat deja „'+c.elem+'" pe '+c.date+' ('+c.type+': '+(c.from||'?')+' → '+(c.to||'?')+'). Mai are '+li.left+' zile de așteptare.\n\nEști sigură că vrei să mai schimbi ceva acum?')) return;
+  }
+  D.journal.push(e); persist();
+  ['j_elem','j_from','j_to','j_why'].forEach(id=>$('#'+id).value='');
+  $('#j_date').value=todayISO();
+  renderJournal(); toast('Adăugat în jurnal');
+});
+
+$('#j_copyForClaude').addEventListener('click', ()=>{
+  const rows = sortedJournal().map(fmtLine);
+  if(!rows.length){ toast('Jurnalul e gol'); return; }
+  const txt = 'Acesta este jurnalul meu de modificări (format: data | unde | tip | element | din → în | motiv | zile de așteptare). Azi este '+todayISO()+'.\n'
+    +'Înainte să-mi propui o schimbare, verifică dacă am făcut-o deja sau dacă elementul e încă în perioada de așteptare, și spune-mi dacă da.\n\n'+rows.join('\n');
+  copy(txt);
+});
+$('#j_copyRule').addEventListener('click', ()=>{
+  copy('Ține evidența modificărilor mele. După fiecare modificare pe care o facem în Google Ads sau în Shopify, scrie-mi la final o linie de jurnal, exact în formatul:\n'
+   +'DATA(AAAA-LL-ZZ) | Reclamă sau Magazin | Tip | Element | Din → În | Motiv | zile de așteptare\n'
+   +'Exemplu: '+todayISO()+' | Magazin | Preț | Yoga mat | 29,99 → 34,99 | marjă prea mică | 7\n'
+   +'Înainte să propui o modificare, verifică dacă apare deja în jurnalul pe care ți l-am dat.');
+});
+function parseDate(s){
+  s=s.trim(); let m;
+  if((m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/))) return m[1]+'-'+pad(+m[2])+'-'+pad(+m[3]);
+  if((m=s.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})$/))) return m[3]+'-'+pad(+m[2])+'-'+pad(+m[1]);
+  return null;
+}
+$('#j_importBtn').addEventListener('click', ()=>{
+  const lines=$('#j_import').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const have=new Set(D.journal.map(fmtLine));
+  let ok=0, dup=0, bad=0;
+  lines.forEach(l=>{
+    const p=l.split('|').map(x=>x.trim());
+    const date=p.length>=5?parseDate(p[0]):null;
+    if(!date){ bad++; return; }
+    const level=/magazin|shop|store/i.test(p[1])?'magazin':'reclama';
+    const parts=p[4].split(/→|->/).map(x=>x.trim());
+    const from=parts.length>1?parts[0]:'', to=parts.length>1?parts.slice(1).join(' → '):parts[0];
+    const lock=p[6]!==undefined && /^\d+$/.test(p[6].trim()) ? +p[6] : 7;
+    const e={id:uid(), date, level, type:p[2], elem:p[3], from:from==='?'?'':from, to:to==='?'?'':to, why:p[5]||'', lock};
+    const line=fmtLine(e);
+    if(have.has(line)){ dup++; return; }
+    have.add(line); D.journal.push(e); ok++;
+  });
+  if(ok){ persist(); $('#j_import').value=''; renderJournal(); }
+  toast(ok+' adăugate'+(dup?', '+dup+' deja existau':'')+(bad?', '+bad+' nu s-au înțeles':''));
+});
+
+/* ---------- Evidență zilnică ---------- */
+const SET = [['s_cur','cur'],['s_cogs','cogs'],['s_fee','fee'],['s_fix','fix'],['s_ret','ret'],['s_mfix','mfix']];
+function loadSettings(){ SET.forEach(([id,k])=>{ $('#'+id).value = D.settings[k]; }); $('#setBox').open = !D.settingsSet; }
+function readSettings(){
+  SET.forEach(([id,k])=>{ D.settings[k] = k==='cur' ? $('#'+id).value : fnum($('#'+id).value); });
+  D.settingsSet = true; persist(); showBE(); renderMonth();
+}
+function showBE(){
+  const s=D.settings, cm = 1 - (s.cogs+s.fee+s.ret)/100;
+  $('#s_be').innerHTML = (D.settingsSet?'':'<b>Valorile de mai sus sunt doar exemple.</b> Completează-le cu cifrele tale, altfel profitul calculat nu e real.<br>')+(cm>0
+    ? 'ROAS breakeven estimat: <b>'+(1/cm).toFixed(2)+'</b> (înainte de costurile fixe). Sub această valoare pierzi bani pe fiecare vânzare.'
+    : '<b>Costurile din setări depășesc 100% din vânzări.</b> Verifică procentele.');
+}
+SET.forEach(([id])=>$('#'+id).addEventListener('input', readSettings));
+
+function dayCalc(date, d){
+  const s=D.settings, rev=+d.rev||0, ord=+d.ord||0, gads=+d.gads||0, oads=+d.oads||0, oth=+d.oth||0;
+  const cogs = (d.cogs===null||d.cogs===undefined||d.cogs==='') ? rev*s.cogs/100 : +d.cogs;
+  const fees = rev*s.fee/100 + ord*s.fix;
+  const rets = rev*s.ret/100;
+  const dt = parseISO(date), dim = new Date(dt.getFullYear(), dt.getMonth()+1, 0).getDate();
+  const fixed = (s.mfix||0)/dim;
+  const ads = gads+oads;
+  const margin = rev - cogs - fees - rets;            // înainte de reclame
+  const profit = margin - ads - oth - fixed;
+  return {rev, ord, gads, oads, oth, cogs, fees, rets, fixed, ads, margin, profit,
+    roas: gads>0 ? rev/gads : null, be: margin>0 ? rev/margin : null, poas: ads>0 ? margin/ads : null};
+}
+function loadDay(){
+  const d=D.days[$('#l_date').value]||{};
+  [['l_rev','rev'],['l_ord','ord'],['l_gads','gads'],['l_oads','oads'],['l_cogs','cogs'],['l_oth','oth']].forEach(([id,k])=>{
+    $('#'+id).value = (d[k]===undefined||d[k]===null) ? '' : d[k];
+  });
+}
+$('#l_date').addEventListener('change', loadDay);
+$('#l_save').addEventListener('click', ()=>{
+  const date=$('#l_date').value; if(!date){ toast('Alege data'); return; }
+  const v=id=>{ const x=$('#'+id).value; return x===''?'':fnum(x); };
+  D.days[date]={rev:v('l_rev')||0, ord:v('l_ord')||0, gads:v('l_gads')||0, oads:v('l_oads')||0, cogs:v('l_cogs'), oth:v('l_oth')||0};
+  persist(); $('#m_sel').value=date.slice(0,7); renderMonth(); toast('Ziua '+date+' a fost salvată');
+});
+$('#l_del').addEventListener('click', ()=>{
+  const date=$('#l_date').value;
+  if(D.days[date] && confirm('Ștergi datele din '+date+'?')){ delete D.days[date]; persist(); loadDay(); renderMonth(); }
+});
+function renderMonth(){
+  const ym=$('#m_sel').value || todayISO().slice(0,7);
+  const dates=Object.keys(D.days).filter(k=>k.startsWith(ym)).sort();
+  if(!dates.length){ $('#m_pl').innerHTML='<p class="muted" style="margin-top:10px">Nicio zi notată în '+esc(ym)+'.</p>'; $('#m_days').innerHTML=''; return; }
+  const T={rev:0,cogs:0,fees:0,rets:0,gads:0,oads:0,oth:0,fixed:0,margin:0,profit:0,ads:0};
+  const calc=dates.map(k=>{ const c=dayCalc(k,D.days[k]); Object.keys(T).forEach(f=>T[f]+=c[f]); return [k,c]; });
+  const roas=T.gads>0?T.rev/T.gads:null, be=T.margin>0?T.rev/T.margin:null, poas=T.ads>0?T.margin/T.ads:null;
+  const pct=x=>T.rev>0?(x/T.rev*100).toFixed(1)+'%':'';
+  const line=(l,v,cls)=>'<tr class="'+(cls||'')+'"><td>'+l+'</td><td>'+mny(v)+'</td><td class="muted">'+pct(v)+'</td></tr>';
+  $('#m_pl').innerHTML =
+    '<div class="stats">'
+    +'<div class="stat '+(T.profit>=0?'good':'bad')+'"><b>'+mny(T.profit)+'</b><span>profit net ('+dates.length+' zile)</span></div>'
+    +'<div class="stat"><b>'+(roas?roas.toFixed(2):'—')+'</b><span>ROAS Google</span></div>'
+    +'<div class="stat"><b>'+(be?be.toFixed(2):'—')+'</b><span>ROAS breakeven</span></div>'
+    +'<div class="stat '+(poas&&poas>1?'good':'bad')+'"><b>'+(poas?poas.toFixed(2):'—')+'</b><span>POAS</span></div></div>'
+    +(roas&&be?'<div class="verdict '+(roas>=be?'good':'bad')+'">'+(roas>=be?'ROAS-ul ('+roas.toFixed(2)+') e peste breakeven ('+be.toFixed(2)+').':'<b>ROAS-ul ('+roas.toFixed(2)+') e sub breakeven ('+be.toFixed(2)+').</b> Pierzi bani pe vânzările din reclame.')+'</div>':'')
+    +'<div class="tbl"><table class="pl">'
+    +line('Vânzări',T.rev,'b')+line('− Cost produse (COGS)',-T.cogs)+line('− Comisioane plată',-T.fees)+line('− Retururi estimate',-T.rets)
+    +line('= Marjă înainte de reclame',T.margin,'b')+line('− Google Ads',-T.gads)+line('− Alte reclame',-T.oads)+line('− Alte costuri',-T.oth)+line('− Costuri fixe (împărțite pe zile)',-T.fixed)
+    +line('= Profit net',T.profit,'b')+'</table></div>';
+  const jc={}; D.journal.forEach(e=>{ jc[e.date]=(jc[e.date]||0)+1; });
+  $('#m_days').innerHTML='<table><tr><th>Data</th><th>Vânzări</th><th>Google Ads</th><th>ROAS</th><th>Breakeven</th><th>Profit</th><th>Modificări</th></tr>'
+    +calc.slice().reverse().map(([k,c])=>'<tr><td>'+k+'</td><td>'+mny(c.rev)+'</td><td>'+mny(c.gads)+'</td><td>'+(c.roas?c.roas.toFixed(2):'—')+'</td><td>'+(c.be?c.be.toFixed(2):'—')+'</td>'
+      +'<td style="color:var(--'+(c.profit>=0?'green':'red')+')"><b>'+mny(c.profit)+'</b></td><td>'+(jc[k]?'✎ '+jc[k]:'')+'</td></tr>').join('')+'</table>'
+    +'<p class="muted" style="margin-top:8px">✎ înseamnă că ai notat modificări în ziua respectivă. Compară zilele de dinainte și de după.</p>';
+}
+$('#m_sel').addEventListener('change', renderMonth);
+$('#m_copy').addEventListener('click', ()=>{
+  const ym=$('#m_sel').value||todayISO().slice(0,7);
+  const dates=Object.keys(D.days).filter(k=>k.startsWith(ym)).sort();
+  if(!dates.length){ toast('Nicio zi de copiat'); return; }
+  const rows=[['Data','Vanzari','Comenzi','Google Ads','Alte reclame','COGS','Comisioane','Retururi','Alte costuri','Costuri fixe','Profit','ROAS','ROAS breakeven']];
+  dates.forEach(k=>{ const c=dayCalc(k,D.days[k]); rows.push([k,c.rev,c.ord,c.gads,c.oads,c.cogs.toFixed(2),c.fees.toFixed(2),c.rets.toFixed(2),c.oth,c.fixed.toFixed(2),c.profit.toFixed(2),c.roas?c.roas.toFixed(2):'',c.be?c.be.toFixed(2):'']); });
+  copy(rows.map(r=>r.join('\t')).join('\n'));
+});
+
+/* ---------- Backup ---------- */
+function backupNote(){
+  const n=Object.keys(D.days).length+D.journal.length;
+  $('#b_note').textContent = D.backupAt ? 'Ultimul cod copiat: '+D.backupAt+'.' : (n ? 'Nu ai copiat încă niciun cod de siguranță.' : '');
+}
+$('#b_export').addEventListener('click', ()=>{
+  D.backupAt=todayISO(); persist(); backupNote();
+  copy(btoa(unescape(encodeURIComponent(JSON.stringify(D)))));
+});
+$('#b_import').addEventListener('click', ()=>{
+  const box=$('#b_box');
+  if(box.style.display==='none'){ box.style.display='block'; box.focus(); return; }
+  try{
+    const v=JSON.parse(decodeURIComponent(escape(atob(box.value.trim()))));
+    if(!v||typeof v.days!=='object'||!Array.isArray(v.journal)) throw 0;
+    if(!confirm('Înlocuiești datele de pe acest dispozitiv cu cele din cod?')) return;
+    D=Object.assign(JSON.parse(JSON.stringify(DEFAULTS)),v); D.settings=Object.assign({},DEFAULTS.settings,v.settings||{});
+    persist(); box.value=''; box.style.display='none'; init(); toast('Date restaurate');
+  }catch(e){ toast('Cod invalid'); }
+});
+
+function init(){
+  $('#j_date').value=todayISO(); $('#l_date').value=todayISO(); $('#m_sel').value=todayISO().slice(0,7);
+  fillTypes(); loadSettings(); showBE(); loadDay(); renderJournal(); backupNote();
+}
+init();
+
+</script>
+</body>
+</html>
