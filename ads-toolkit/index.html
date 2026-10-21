@@ -4,16 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Genesyum Ads Toolkit</title>
+<meta name="theme-color" content="#0A0A0A">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --purple: #6C5CE7; --purple-light: #EDE9FF; --purple-dark: #3D3499;
-  --amber: #F6A623; --amber-light: #FEF3DC;
-  --green: #1E9E6A; --green-light: #E2F6EE;
-  --red: #D64545; --red-light: #FCE9E9;
-  --text: #1A1523; --text-muted: #6B6480; --text-hint: #A89EC0;
-  --bg: #FAF9FC; --surface: #FFFFFF; --border: rgba(108,92,231,0.14);
+  color-scheme: dark;
+  --purple: #C9A24B; --purple-light: rgba(201,162,75,0.14); --purple-dark: #EBD596;
+  --amber: #EBD596; --amber-light: rgba(201,162,75,0.16);
+  --green: #7FD6A6; --green-light: rgba(90,200,140,0.15);
+  --red: #FF8080; --red-light: rgba(255,110,110,0.15);
+  --text: #F6F1E7; --text-muted: #BFB49C; --text-hint: #857C69;
+  --bg: #0A0A0A; --surface: #151412; --border: rgba(201,162,75,0.24);
 }
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 4rem; }
@@ -23,16 +25,16 @@ header { padding: 2rem 0 1rem; text-align: center; }
 h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 6vw, 38px); line-height: 1.15; font-weight: 400; }
 h1 em { color: var(--purple); }
 .sub { color: var(--text-muted); font-size: 15px; max-width: 520px; margin: .6rem auto 0; }
-nav { position: sticky; top: 0; z-index: 5; background: rgba(250,249,252,.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); margin-top: 1rem; }
+nav { position: sticky; top: 0; z-index: 5; background: rgba(10,10,10,.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); margin-top: 1rem; }
 nav .wrap { display: flex; gap: 4px; overflow-x: auto; padding: 8px 16px; }
 nav button { flex: none; border: 0; background: transparent; font: inherit; font-size: 14px; font-weight: 500; color: var(--text-muted); padding: 9px 14px; border-radius: 10px; cursor: pointer; }
 nav button:hover { background: var(--purple-light); }
-nav button.on { background: var(--purple); color: #fff; }
+nav button.on { background: var(--purple); color: #111; }
 nav button:disabled { opacity: .45; cursor: not-allowed; }
 nav button:disabled:hover { background: transparent; }
 section { display: none; padding-top: 1.5rem; }
 section.on { display: block; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 1.4rem; margin-bottom: 1rem; box-shadow: 0 4px 30px rgba(108,92,231,.05); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 1.4rem; margin-bottom: 1rem; box-shadow: 0 4px 30px rgba(0,0,0,.45); }
 h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 24px; margin-bottom: .3rem; }
 h3 { font-size: 16px; margin-bottom: .2rem; }
 p.lead { color: var(--text-muted); font-size: 14px; margin-bottom: 1rem; }
@@ -47,7 +49,7 @@ p.lead { color: var(--text-muted); font-size: 14px; margin-bottom: 1rem; }
 .next { margin-top: .6rem; background: var(--amber-light); border-radius: 12px; padding: 10px 12px; font-size: 14px; }
 .stage-head { display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 10px; }
 .stage-head .num { width: 30px; height: 30px; border-radius: 50%; background: var(--purple-light); color: var(--purple-dark); font-weight: 700; display: grid; place-items: center; flex: none; font-size: 14px; }
-.stage.done .num { background: var(--green); color: #fff; }
+.stage.done .num { background: var(--green); color: #111; }
 .stage-head .t { flex: 1; }
 .stage-head .cnt { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
 .stage-body { display: none; margin-top: .9rem; }
@@ -57,7 +59,7 @@ p.lead { color: var(--text-muted); font-size: 14px; margin-bottom: 1rem; }
 .task label { flex: 1; font-size: 14px; cursor: pointer; }
 .task.done label { color: var(--text-hint); text-decoration: line-through; }
 .cmd { font-size: 12px; border: 1px dashed var(--purple); color: var(--purple-dark); background: var(--purple-light); border-radius: 8px; padding: 4px 9px; cursor: pointer; font-family: inherit; white-space: nowrap; }
-.cmd:hover { background: #dcd5ff; }
+.cmd:hover { background: rgba(201,162,75,0.26); }
 
 /* forms */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
@@ -65,7 +67,7 @@ p.lead { color: var(--text-muted); font-size: 14px; margin-bottom: 1rem; }
 .field input, .field select, textarea { width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); }
 .field input:focus, textarea:focus { outline: none; border-color: var(--purple); }
 .field small { color: var(--text-hint); font-size: 12px; }
-.btn { font: inherit; font-weight: 500; font-size: 14px; border: 0; background: var(--purple); color: #fff; padding: 11px 18px; border-radius: 12px; cursor: pointer; }
+.btn { font: inherit; font-weight: 500; font-size: 14px; border: 0; background: var(--purple); color: #111; padding: 11px 18px; border-radius: 12px; cursor: pointer; }
 .btn:hover { background: var(--purple-dark); }
 .btn.ghost { background: var(--purple-light); color: var(--purple-dark); }
 .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
@@ -86,20 +88,20 @@ th { color: var(--text-muted); font-weight: 500; font-size: 12px; }
 .drop { border: 2px dashed var(--border); border-radius: 14px; padding: 1.4rem; text-align: center; cursor: pointer; background: var(--bg); }
 .drop.hover { border-color: var(--purple); background: var(--purple-light); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .6rem; }
-.chip { background: var(--red-light); color: #8a2323; border-radius: 100px; padding: 3px 10px; font-size: 12px; }
+.chip { background: var(--red-light); color: #FFB0B0; border-radius: 100px; padding: 3px 10px; font-size: 12px; }
 textarea { min-height: 120px; resize: vertical; font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
 
 details { border-top: 1px solid var(--border); padding: 10px 0; }
 details summary { cursor: pointer; font-weight: 500; font-size: 14px; }
 details p { font-size: 14px; color: var(--text-muted); margin-top: 6px; }
-.pill { font-size: 11px; background: var(--amber-light); color: #8a5a00; padding: 2px 8px; border-radius: 100px; margin-left: 6px; font-weight: 500; }
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; padding: 10px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: .25s; pointer-events: none; z-index: 20; max-width: 90vw; }
+.pill { font-size: 11px; background: var(--amber-light); color: var(--amber); padding: 2px 8px; border-radius: 100px; margin-left: 6px; font-weight: 500; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #111; padding: 10px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: .25s; pointer-events: none; z-index: 20; max-width: 90vw; }
 .toast.show { opacity: 1; transform: translateX(-50%); }
 footer { text-align: center; color: var(--text-hint); font-size: 12px; margin-top: 2rem; }
 
 .badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:100px}
-.badge.amber{background:var(--amber-light);color:#8a5a00}.badge.green{background:var(--green-light);color:#126e48}
-.badge.purple{background:var(--purple-light);color:var(--purple-dark)}.badge.blue{background:#E3F0FF;color:#1c5aa6}.badge.gray{background:#EFEDF4;color:var(--text-muted)}
+.badge.amber{background:var(--amber-light);color:var(--amber)}.badge.green{background:var(--green-light);color:var(--green)}
+.badge.purple{background:var(--purple-light);color:var(--purple-dark)}.badge.blue{background:rgba(120,170,255,.16);color:#B5D0FF}.badge.gray{background:rgba(246,241,231,.08);color:var(--text-muted)}
 .entry{border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--bg)}
 .entry-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
 .entry-top .x{margin-left:auto;border:0;background:transparent;color:var(--text-hint);font-size:20px;cursor:pointer;line-height:1}
