@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A0A">
+<title>Genesyum Start Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  color-scheme: dark;
+  --purple: #C9A24B; --purple-light: rgba(201,162,75,0.14); --purple-dark: #EBD596;
+  --amber: #EBD596; --amber-light: rgba(201,162,75,0.16);
+  --green: #7FD6A6; --green-light: rgba(90,200,140,0.15);
+  --red: #FF8080; --red-light: rgba(255,110,110,0.15);
+  --text: #F6F1E7; --text-muted: #BFB49C; --text-hint: #857C69;
+  --bg: #0A0A0A; --surface: #151412; --border: rgba(201,162,75,0.24);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 4rem; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+header { padding: 2rem 0 1rem; text-align: center; }
+.tag { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--purple); background: var(--purple-light); padding: 5px 14px; border-radius: 100px; margin-bottom: .8rem; }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 6vw, 38px); line-height: 1.15; font-weight: 400; }
+h1 em { color: var(--purple); }
+.sub { color: var(--text-muted); font-size: 15px; max-width: 520px; margin: .6rem auto 0; }
+nav { position: sticky; top: 0; z-index: 5; background: rgba(10,10,10,.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); margin-top: 1rem; }
+nav .wrap { display: flex; gap: 4px; overflow-x: auto; padding: 8px 16px; }
+nav button { flex: none; border: 0; background: transparent; font: inherit; font-size: 14px; font-weight: 500; color: var(--text-muted); padding: 9px 14px; border-radius: 10px; cursor: pointer; }
+nav button:hover { background: var(--purple-light); }
+nav button.on { background: var(--purple); color: #111; }
+nav button:disabled { opacity: .45; cursor: not-allowed; }
+nav button:disabled:hover { background: transparent; }
+section { display: none; padding-top: 1.5rem; }
+section.on { display: block; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 1.4rem; margin-bottom: 1rem; box-shadow: 0 4px 30px rgba(0,0,0,.45); }
+h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 24px; margin-bottom: .3rem; }
+h3 { font-size: 16px; margin-bottom: .2rem; }
+p.lead { color: var(--text-muted); font-size: 14px; margin-bottom: 1rem; }
+.muted { color: var(--text-muted); font-size: 13px; }
+
+/* progress */
+.hero { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.ring { --p: 0; width: 96px; height: 96px; border-radius: 50%; flex: none; display: grid; place-items: center;
+  background: conic-gradient(var(--purple) calc(var(--p) * 1%), var(--purple-light) 0); }
+.ring span { width: 74px; height: 74px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-weight: 700; font-size: 20px; }
+.hero-text { flex: 1; min-width: 200px; }
+.next { margin-top: .6rem; background: var(--amber-light); border-radius: 12px; padding: 10px 12px; font-size: 14px; }
+.stage-head { display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 10px; }
+.stage-head .num { width: 30px; height: 30px; border-radius: 50%; background: var(--purple-light); color: var(--purple-dark); font-weight: 700; display: grid; place-items: center; flex: none; font-size: 14px; }
+.stage.done .num { background: var(--green); color: #111; }
+.stage-head .t { flex: 1; }
+.stage-head .cnt { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+.stage-body { display: none; margin-top: .9rem; }
+.stage.open .stage-body { display: block; }
+.task { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: 1px solid var(--border); }
+.task input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--purple); flex: none; }
+.task label { flex: 1; font-size: 14px; cursor: pointer; }
+.task.done label { color: var(--text-hint); text-decoration: line-through; }
+.cmd { font-size: 12px; border: 1px dashed var(--purple); color: var(--purple-dark); background: var(--purple-light); border-radius: 8px; padding: 4px 9px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.cmd:hover { background: rgba(201,162,75,0.26); }
+
+/* forms */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.field input, .field select, textarea { width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); }
+.field input:focus, textarea:focus { outline: none; border-color: var(--purple); }
+.field small { color: var(--text-hint); font-size: 12px; }
+.btn { font: inherit; font-weight: 500; font-size: 14px; border: 0; background: var(--purple); color: #111; padding: 11px 18px; border-radius: 12px; cursor: pointer; }
+.btn:hover { background: var(--purple-dark); }
+.btn.ghost { background: var(--purple-light); color: var(--purple-dark); }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 1.2rem; }
+.stat { background: var(--bg); border-radius: 12px; padding: 12px; border: 1px solid var(--border); }
+.stat b { display: block; font-size: 22px; font-family: 'DM Serif Display', serif; font-weight: 400; }
+.stat span { font-size: 12px; color: var(--text-muted); }
+.stat.good b { color: var(--green); } .stat.bad b { color: var(--red); }
+.verdict { margin-top: 1rem; padding: 12px 14px; border-radius: 12px; font-size: 14px; }
+.verdict.good { background: var(--green-light); } .verdict.bad { background: var(--red-light); } .verdict.mid { background: var(--amber-light); }
+
+/* table */
+.tbl { overflow-x: auto; margin-top: 1rem; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td:first-child { white-space: normal; min-width: 160px; }
+th { color: var(--text-muted); font-weight: 500; font-size: 12px; }
+.drop { border: 2px dashed var(--border); border-radius: 14px; padding: 1.4rem; text-align: center; cursor: pointer; background: var(--bg); }
+.drop.hover { border-color: var(--purple); background: var(--purple-light); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .6rem; }
+.chip { background: var(--red-light); color: #FFB0B0; border-radius: 100px; padding: 3px 10px; font-size: 12px; }
+textarea { min-height: 120px; resize: vertical; font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+
+details { border-top: 1px solid var(--border); padding: 10px 0; }
+details summary { cursor: pointer; font-weight: 500; font-size: 14px; }
+details p { font-size: 14px; color: var(--text-muted); margin-top: 6px; }
+.pill { font-size: 11px; background: var(--amber-light); color: var(--amber); padding: 2px 8px; border-radius: 100px; margin-left: 6px; font-weight: 500; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #111; padding: 10px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: .25s; pointer-events: none; z-index: 20; max-width: 90vw; }
+.toast.show { opacity: 1; transform: translateX(-50%); }
+footer { text-align: center; color: var(--text-hint); font-size: 12px; margin-top: 2rem; }
+
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:100px}
+.badge.amber{background:var(--amber-light);color:var(--amber)}.badge.green{background:var(--green-light);color:var(--green)}
+.badge.purple{background:var(--purple-light);color:var(--purple-dark)}.badge.blue{background:rgba(120,170,255,.16);color:#B5D0FF}.badge.gray{background:rgba(246,241,231,.08);color:var(--text-muted)}
+.entry{border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--bg)}
+.entry-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.entry-top .x{margin-left:auto;border:0;background:transparent;color:var(--text-hint);font-size:20px;cursor:pointer;line-height:1}
+.entry-top .x:hover{color:var(--red)}
+.entry-el{font-weight:500;margin-top:6px}.entry-chg{font-size:14px;margin-top:2px}
+input[type=search]{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text)}
+input[type=search]:focus,input[type=date]:focus,input[type=text]:focus{outline:none;border-color:var(--purple)}
+.field input[type=date],.field input[type=text]{width:100%}
+table.pl td:nth-child(2){text-align:right}table.pl td:nth-child(3){text-align:right;width:70px}
+table.pl tr.b td{font-weight:700;border-top:2px solid var(--border)}
+#backup{margin-top:1.5rem}
+ul.l{padding-left:18px;font-size:14px;color:var(--text-muted);margin:6px 0}ul.l li{margin:3px 0}
+.sub-h{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);margin-top:10px;font-weight:500}
+select.mini{font:inherit;font-size:13px;padding:5px 8px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)}
+pre.tp{white-space:pre-wrap;font:13px/1.55 'DM Sans',sans-serif;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;margin-top:8px;color:var(--text)}
+details p b{color:var(--text)}
+
+</style>
+</head>
+<body>
+<header class="wrap">
+  <span class="tag">Genesyum</span>
+  <h1>Start <em>Toolkit</em></h1>
+  <p class="sub">Pentru cei care nu au pornit încă reclamele: verifici dacă ești gata, filtrezi produsul și calculezi cât costă un test.</p>
+</header>
+<nav><div class="wrap" id="tabs">
+  <button data-tab="check" class="on">Gata de reclame?</button>
+  <button data-tab="val">Validator produs</button>
+  <button data-tab="bud">Buget de test</button>
+</div></nav>
+<main class="wrap">
+<section id="check" class="on">
+  <div class="card">
+    <div class="hero">
+      <div class="ring" id="ring"><span id="ringTxt">0%</span></div>
+      <div class="hero-text">
+        <h2 id="heroTitle">Ești gata de reclame?</h2>
+        <p class="muted" id="heroSub">Bifează ce ai făcut deja. Punctele cu „obligatoriu" blochează lansarea.</p>
+      </div>
+    </div>
+    <div id="verdict"></div>
+  </div>
+  <div id="groups"></div>
+  <div class="card">
+    <h3>Ai pornit deja reclamele?</h3>
+    <p class="muted">Treci la <a href="../ads-toolkit/" style="color:var(--purple-dark)">Genesyum Ads Toolkit</a>: jurnal de modificări, evidență de profit, cuvinte-cheie și calendar.</p>
+  </div>
+</section>
+
+<section id="val">
+  <div class="card">
+    <h2>Validator rapid de produs</h2>
+    <p class="lead">Un prim filtru înainte să pierzi timp sau bani. Pentru validarea completă a nișei, folosește comanda din plugin.</p>
+    <div class="grid">
+      <div class="field"><label>Preț de vânzare</label><input type="number" id="v_price" step="0.01" value="120"></div>
+      <div class="field"><label>Cost produs</label><input type="number" id="v_cost" step="0.01" value="45"></div>
+      <div class="field"><label>Cost transport (plătit de tine)</label><input type="number" id="v_ship" step="0.01" value="8"></div>
+      <div class="field"><label>Comision plată %</label><input type="number" id="v_fee" step="0.1" value="2.9"></div>
+      <div class="field"><label>Alte costuri / comandă</label><input type="number" id="v_oth" step="0.01" value="0"></div>
+      <div class="field"><label>Preț mediu la concurenți</label><input type="number" id="v_comp" step="0.01" placeholder="media primilor 5 din Google Shopping"></div>
+      <div class="field"><label>CPC estimat</label><input type="number" id="v_cpc" step="0.01" placeholder="din Keyword Planner"></div>
+    </div>
+    <p class="sub-h" style="margin-top:16px">Bifează ce se aplică</p>
+    <div id="v_checks"></div>
+    <div id="v_out"></div>
+    <div class="row"><button class="cmd" data-copy="/nisa-noua">Copiază: /nisa-noua</button><button class="cmd" data-copy="/profit-real">Copiază: /profit-real</button></div>
+  </div>
+</section>
+
+<section id="bud">
+  <div class="card">
+    <h2>Cât mă costă să testez?</h2>
+    <p class="lead">Calculezi bugetul de care ai nevoie ca să vezi dacă produsul vinde. Cifrele sunt estimări, deci le înlocuiești cu ale tale.</p>
+    <div class="grid">
+      <div class="field"><label>Preț de vânzare</label><input type="number" id="b_price" step="0.01" value="120"></div>
+      <div class="field"><label>Cost produs</label><input type="number" id="b_cost" step="0.01" value="45"></div>
+      <div class="field"><label>Cost transport</label><input type="number" id="b_ship" step="0.01" value="8"></div>
+      <div class="field"><label>Comision plată %</label><input type="number" id="b_fee" step="0.1" value="2.9"></div>
+      <div class="field"><label>CPC estimat</label><input type="number" id="b_cpc" step="0.01" value="0.5"></div>
+      <div class="field"><label>Conversie click → comandă %</label><input type="number" id="b_cvr" step="0.1" value="1"><small>estimare, nu garanție</small></div>
+      <div class="field"><label>Comenzi dorite în test</label><input type="number" id="b_ord" value="5" min="1"></div>
+      <div class="field"><label>Durata testului (zile)</label><input type="number" id="b_days" value="14" min="1"></div>
+      <div class="field"><label>Buget zilnic disponibil</label><input type="number" id="b_daily" step="1" value="50"><small>Faza A din metoda Genesyum: 50$ pe zi</small></div>
+    </div>
+    <div id="b_out"></div>
+    <div class="row"><button class="cmd" data-copy="/campanie-ads">Copiază: /campanie-ads</button></div>
+  </div>
+</section>
+
+</main>
+<footer>Genesyum Start Toolkit · datele tale rămân în acest browser</footer>
+<div class="toast" id="toast"></div>
+<script>
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2200); }
+function copy(text){
+  const ok=()=>toast('Copiat: '+text);
+  if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(ok,()=>fallback()); } else fallback();
+  function fallback(){ const a=document.createElement('textarea'); a.value=text; document.body.appendChild(a); a.select(); try{document.execCommand('copy');ok();}catch(e){toast('Copiază manual: '+text);} a.remove(); }
+}
+document.addEventListener('click', e=>{ const b=e.target.closest('[data-copy]'); if(b){ e.preventDefault(); e.stopPropagation(); copy(b.dataset.copy); } });
+const store = {
+  get(k, d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- Tabs ---------- */
+$$('#tabs button[data-tab]').forEach(b=>b.addEventListener('click',()=>{
+  $$('#tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  $$('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.tab));
+  window.scrollTo({top:0});
+}));
+
+
+
+
+/* ================= Genesyum Start Toolkit ================= */
+const KEY='gxs_v1';
+let S=store.get(KEY,null)||{done:{}, v:{}};
+S.done=S.done||{}; S.v=S.v||{};
+const persist=()=>store.set(KEY,S);
+const fnum=v=>{ const n=parseFloat(String(v).replace(',','.')); return isFinite(n)?n:0; };
+const mny=n=>(n<0?'−':'')+Math.abs(isFinite(n)?n:0).toLocaleString('ro-RO',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+/* ---------- Checklist ---------- */
+const GROUPS=[
+ {t:'Magazin și politici', items:[
+  {id:'legal', req:1, txt:'Paginile legale sunt publicate: termeni, confidențialitate, retur, livrare, contact', cmd:'/shopify-admin'},
+  {id:'policies', req:1, txt:'Livrarea și returul au termene reale, identice pe site și în Merchant Center', cmd:'/audit-gmc'},
+  {id:'contact', req:1, txt:'Datele de contact sunt reale și vizibile (email, informații despre firmă)', cmd:'/audit-gmc'},
+  {id:'prices', req:1, txt:'Prețurile sunt reale. Nu am prețuri barate copiate de la furnizor', cmd:''},
+  {id:'content', txt:'Titlurile, descrierile și pozele sunt ale mele, fără watermark de furnizor', cmd:'/produs-nou'},
+  {id:'claims', txt:'Fără promisiuni false: urgență inventată, „ultimele bucăți", rezultate garantate', cmd:''}]},
+ {t:'Merchant Center', items:[
+  {id:'gmc_conn', req:1, txt:'Contul Merchant Center e creat și legat de Google Ads', cmd:'/conecteaza-ads'},
+  {id:'gmc_ok', req:1, txt:'Magazinul e aprobat în Merchant Center, fără suspendări', cmd:'/audit-gmc'},
+  {id:'gmc_prod', txt:'Produsele sunt aprobate, nu respinse', cmd:'/audit-gmc'}]},
+ {t:'Tracking', items:[
+  {id:'simprosys', req:1, txt:'Feed-ul și tracking-ul de conversii sunt instalate (Simprosys)', cmd:'/tracking'},
+  {id:'purchase', req:1, txt:'Conversia Purchase din Google Ads e în starea „Recording"', cmd:'/verifica-tracking'},
+  {id:'enhanced', txt:'Enhanced Conversions sunt active', cmd:'/tracking'},
+  {id:'ga4', txt:'GA4 e legat și trimite date', cmd:'/tracking'},
+  {id:'testorder', txt:'Am verificat tracking-ul cu Tag Assistant sau cu o comandă de test', cmd:'/verifica-tracking'}]},
+ {t:'Cifre', items:[
+  {id:'be', req:1, txt:'Am calculat breakeven ROAS pe produsul meu', cmd:'/profit-real'},
+  {id:'cpc', txt:'Știu CPC-ul maxim pe care mi-l permit', cmd:'/campanie-ads'},
+  {id:'budget', req:1, txt:'Am stabilit un buget de test pe care mi-l permit să îl pierd', cmd:''}]},
+ {t:'Operare', items:[
+  {id:'supplier', txt:'Am comandat un eșantion de la furnizor și știu cât durează livrarea', cmd:''},
+  {id:'routine', txt:'Am definit rutina zilnică: comenzi, mesaje, verificări', cmd:'/gestiune'}]}
+];
+const ALL=GROUPS.flatMap(g=>g.items);
+function renderCheck(){
+  const done=ALL.filter(i=>S.done[i.id]).length, pct=Math.round(done/ALL.length*100);
+  $('#ring').style.setProperty('--p',pct); $('#ringTxt').textContent=pct+'%';
+  const miss=ALL.filter(i=>i.req && !S.done[i.id]);
+  let v;
+  if(!miss.length && pct===100) v='<div class="verdict good" style="margin-top:14px"><b>Ești gata.</b> Ai bifat tot. Poți lansa campania.</div>';
+  else if(!miss.length) v='<div class="verdict mid" style="margin-top:14px"><b>Ai toate punctele obligatorii.</b> Mai sunt '+(ALL.length-done)+' puncte recomandate. Le poți rezolva în paralel, dar nu le sări.</div>';
+  else v='<div class="verdict bad" style="margin-top:14px"><b>Nu porni reclamele încă.</b> Mai ai '+miss.length+' puncte obligatorii:</div>'
+    +'<ul class="l">'+miss.map(i=>'<li>'+esc(i.txt)+(i.cmd?' <button class="cmd" data-copy="'+i.cmd+'">'+i.cmd+'</button>':'')+'</li>').join('')+'</ul>';
+  $('#verdict').innerHTML=v;
+  $('#heroSub').textContent=done+' din '+ALL.length+' puncte bifate.';
+  $('#groups').innerHTML=GROUPS.map(g=>{
+    const d=g.items.filter(i=>S.done[i.id]).length;
+    return '<div class="card"><div class="stage-head" style="cursor:default"><h3 class="t">'+esc(g.t)+'</h3><span class="cnt">'+d+'/'+g.items.length+'</span></div>'
+      +g.items.map(i=>'<div class="task'+(S.done[i.id]?' done':'')+'"><input type="checkbox" id="c_'+i.id+'" data-id="'+i.id+'"'+(S.done[i.id]?' checked':'')+'><label for="c_'+i.id+'">'+esc(i.txt)+(i.req?' <span class="pill">obligatoriu</span>':'')+'</label>'+(i.cmd?'<button class="cmd" data-copy="'+i.cmd+'">'+i.cmd+'</button>':'')+'</div>').join('')+'</div>';
+  }).join('');
+}
+$('#groups').addEventListener('change',e=>{ const id=e.target.dataset.id; if(!id) return; S.done[id]=e.target.checked; persist(); renderCheck(); });
+
+/* ---------- Validator ---------- */
+const VCH=[
+ ['restricted','Categorie sensibilă pentru Google (medical, suplimente, mărci contrafăcute, arme, conținut pentru adulți)','hard'],
+ ['returns','Risc mare de retur (mărimi, produse fragile, electronice)','warn'],
+ ['slow','Livrare lungă, peste 20 de zile','warn'],
+ ['generic','Identic cu ce vinde oricine, fără nimic care să îl diferențieze','warn'],
+ ['sample','Am comandat și am văzut produsul real','good'],
+ ['own','Pot face poze și descrieri proprii, nu doar cele ale furnizorului','good']
+];
+$('#v_checks').innerHTML=VCH.map(c=>'<div class="task"><input type="checkbox" id="v_'+c[0]+'" data-vk="'+c[0]+'"><label for="v_'+c[0]+'">'+esc(c[1])+'</label></div>').join('');
+function vcalc(){
+  const g=id=>fnum($('#'+id).value), price=g('v_price'), cost=g('v_cost'), ship=g('v_ship'), fee=g('v_fee'), oth=g('v_oth'), comp=g('v_comp'), cpc=g('v_cpc');
+  const on=k=>$('#v_'+k).checked;
+  const margin=price-cost-ship-price*fee/100-oth;
+  const be=margin>0?price/margin:Infinity;
+  const maxCpc=margin>0?margin*0.015*0.5:0;
+  const hard=[], warn=[], good=[];
+  if(margin<=0) hard.push('Marja e zero sau negativă: pierzi bani pe fiecare comandă, chiar fără reclame.');
+  if(comp>0 && price>comp*1.25) hard.push('Prețul tău e cu peste 25% mai mare decât media concurenților.');
+  if(on('restricted')) hard.push('Categorie sensibilă: risc mare de respingere sau suspendare în Merchant Center.');
+  if(isFinite(be) && be>2.8) warn.push('ROAS-ul de breakeven ('+be.toFixed(2)+'x) e peste intervalul obișnuit de 2,0-2,8x. Greu de atins.');
+  if(cpc>0 && margin>0 && cpc>maxCpc) warn.push('CPC-ul estimat ('+mny(cpc)+') depășește CPC-ul maxim recomandat ('+mny(maxCpc)+').');
+  if(on('returns')) warn.push('Risc mare de retur: marja reală e mai mică decât cea calculată.');
+  if(on('slow')) warn.push('Livrarea lungă crește retururile și disputele.');
+  if(on('generic')) warn.push('Fără diferențiere, concurezi doar pe preț.');
+  if(!on('sample')) warn.push('Nu ai văzut produsul real. Comandă un eșantion.');
+  if(!on('own')) warn.push('Cu poze și texte ale furnizorului riști conținut duplicat și probleme în Merchant Center.');
+  if(isFinite(be)) good.push('Marjă înainte de reclame: '+mny(margin)+' pe comandă. ROAS breakeven: '+be.toFixed(2)+'x.');
+  if(margin>0) good.push('CPC maxim recomandat: '+mny(maxCpc)+' (marjă × 1,5% × 50%).');
+  const verdict=hard.length||warn.length>=4?'NO-GO':warn.length>=2?'PRUDENȚĂ':'GO';
+  const cls=verdict==='GO'?'good':verdict==='PRUDENȚĂ'?'mid':'bad';
+  $('#v_out').innerHTML='<div class="verdict '+cls+'" style="margin-top:14px;font-size:16px"><b>'+verdict+'</b>'
+    +(verdict==='GO'?' · Niciun semnal de alarmă serios.':verdict==='PRUDENȚĂ'?' · Poți merge mai departe, dar rezolvă întâi punctele de mai jos.':' · Nu pune bani în reclame pentru acest produs în forma actuală.')+'</div>'
+    +(hard.length?'<p class="sub-h">Motive de blocare</p>'+ul(hard):'')+(warn.length?'<p class="sub-h">De rezolvat sau de verificat</p>'+ul(warn):'')+(good.length?'<p class="sub-h">Cifre</p>'+ul(good):'')
+    +'<p class="muted" style="margin-top:8px">Un prim filtru, nu verdictul final. Pragurile vin din benchmark-urile generale ale metodei. Validarea completă o faci cu /nisa-noua.</p>';
+}
+function ul(a){ return '<ul class="l">'+a.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'; }
+$$('#val input').forEach(i=>i.addEventListener('input',vcalc)); $$('#val input[type=checkbox]').forEach(i=>i.addEventListener('change',vcalc));
+
+/* ---------- Buget de test ---------- */
+function bcalc(){
+  const g=id=>fnum($('#'+id).value), price=g('b_price'), cost=g('b_cost'), ship=g('b_ship'), fee=g('b_fee'), cpc=g('b_cpc'), cvr=g('b_cvr')/100, ord=Math.max(1,g('b_ord')), days=Math.max(1,g('b_days')), daily=g('b_daily');
+  const margin=price-cost-ship-price*fee/100;
+  if(!(cvr>0)||!(cpc>0)){ $('#b_out').innerHTML='<div class="verdict mid" style="margin-top:14px">Completează CPC-ul și rata de conversie.</div>'; return; }
+  const clicks=ord/cvr, budget=clicks*cpc, perDay=budget/days, cpa=cpc/cvr, profit=margin-cpa;
+  const be=margin>0?price/margin:Infinity;
+  let h='<div class="stats">'
+   +'<div class="stat"><b>'+mny(margin)+'</b><span>marjă înainte de reclame</span></div>'
+   +'<div class="stat"><b>'+Math.ceil(clicks).toLocaleString('ro-RO')+'</b><span>clickuri pentru '+ord+' comenzi</span></div>'
+   +'<div class="stat"><b>'+mny(budget)+'</b><span>buget total de test</span></div>'
+   +'<div class="stat"><b>'+mny(perDay)+'</b><span>pe zi, în '+days+' zile</span></div>'
+   +'<div class="stat '+(profit>=0?'good':'bad')+'"><b>'+mny(cpa)+'</b><span>cost pe comandă (CPA)</span></div>'
+   +'<div class="stat"><b>'+(isFinite(be)?be.toFixed(2)+'x':'—')+'</b><span>ROAS breakeven</span></div></div>';
+  if(margin<=0) h+='<div class="verdict bad">Marja e negativă. Testul nu are sens înainte să îți corectezi prețul sau costurile.</div>';
+  else if(profit<0) h+='<div class="verdict bad"><b>La aceste cifre pierzi '+mny(-profit)+' pe fiecare comandă.</b> CPA-ul ('+mny(cpa)+') e mai mare decât marja ('+mny(margin)+'). Ai nevoie de CPC mai mic, conversie mai bună sau marjă mai mare.</div>';
+  else h+='<div class="verdict good">La aceste cifre rămân '+mny(profit)+' pe comandă după reclame. Sunt estimări: testul real îți arată conversia adevărată.</div>';
+  if(daily>0){
+    h+= daily>=perDay
+      ? '<div class="verdict mid" style="margin-top:8px">Bugetul tău zilnic ('+mny(daily)+') acoperă testul de '+days+' zile. Ai nevoie de ~'+mny(perDay)+' pe zi.</div>'
+      : '<div class="verdict mid" style="margin-top:8px">Pentru '+ord+' comenzi în '+days+' zile ai nevoie de ~'+mny(perDay)+' pe zi, iar tu ai '+mny(daily)+'. Mărești durata la ~'+Math.ceil(budget/daily)+' zile sau scazi numărul de comenzi urmărite.</div>';
+  }
+  h+='<p class="muted" style="margin-top:8px">Dacă nu vine nicio comandă, pierzi tot bugetul de test ('+mny(budget)+'). Pune în joc doar cât îți permiți să pierzi.</p>';
+  $('#b_out').innerHTML=h;
+}
+$$('#bud input').forEach(i=>i.addEventListener('input',bcalc));
+
+renderCheck(); vcalc(); bcalc();
+
+</script>
+</body>
+</html>
