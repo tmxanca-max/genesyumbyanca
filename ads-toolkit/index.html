@@ -130,8 +130,10 @@ details p b{color:var(--text)}
 <nav><div class="wrap" id="tabs">
   <button data-tab="jurnal" class="on">Jurnal modificări</button>
   <button data-tab="evid">Evidență &amp; profit</button>
+  <button data-tab="plan">Plan 90 zile</button>
   <button data-tab="kw">Cuvinte-cheie</button>
   <button data-tab="cal">Calendar conținut</button>
+  <button data-tab="sup">Furnizori</button>
   <button data-tab="calc">Calculator</button>
   <button data-tab="terms">Search Terms</button>
   <button data-tab="audit">Audit &amp; Scripturi</button>
@@ -377,6 +379,53 @@ details p b{color:var(--text)}
     <div class="verdict mid" style="margin-bottom:10px">Fără urgență falsă, fără „ultimele bucăți" dacă nu e adevărat, fără promisiuni de rezultate. Persuasiunea vine din claritate și din fapte.</div>
     <div id="tpl"></div>
   </div>
+</section>
+
+<!-- FURNIZORI -->
+<section id="sup">
+  <div class="card">
+    <h2>Mesaje pentru furnizori</h2>
+    <p class="lead">Șabloane în engleză, gata de trimis. Completezi câmpurile o dată, iar textul se actualizează singur. Ce rămâne în [paranteze] completezi tu înainte de trimitere.</p>
+    <div class="grid">
+      <div class="field"><label>Numele tău</label><input type="text" id="s_you" placeholder="ex: Maria"></div>
+      <div class="field"><label>Numele magazinului</label><input type="text" id="s_brand" placeholder="ex: YogaCo"></div>
+      <div class="field"><label>Furnizorul</label><input type="text" id="s_sup" placeholder="ex: Eprolo / numele lor"></div>
+      <div class="field"><label>Produsul</label><input type="text" id="s_prod" placeholder="ex: Yoga mat 6mm"></div>
+      <div class="field"><label>Număr comandă</label><input type="text" id="s_ord" placeholder="ex: #1042"></div>
+      <div class="field"><label>Număr de tracking</label><input type="text" id="s_trk" placeholder="dacă există"></div>
+    </div>
+    <div class="verdict mid" style="margin-top:14px">
+      <b>Trei reguli:</b> scrie tot în scris, pe platformă, ca să ai dovezi pentru dispute. Dacă trackingul e invalid, contactezi furnizorul în maxim 72 de ore. Clientul primește răspuns primul, iar problema cu furnizorul o rezolvi în paralel.
+    </div>
+  </div>
+  <div class="card">
+    <div id="supList"></div>
+  </div>
+</section>
+
+<!-- PLAN 90 ZILE -->
+<section id="plan">
+  <div class="card">
+    <h2>Planul următoarelor 90 de zile</h2>
+    <p class="lead">Alegi situația ta reală, iar Toolkit-ul îți dă un plan pe săptămâni, cu decizia de la finalul fiecărei luni. Planul urmează regulile metodei Genesyum.</p>
+    <div class="row" style="margin-top:0"><button class="btn ghost" id="pl_fill">Completează din Evidența mea</button><span class="muted" id="pl_fillNote"></span></div>
+    <div class="grid" style="margin-top:12px">
+      <div class="field"><label>Câte comenzi ai avut în total?</label>
+        <select id="pl_orders"><option value="0">Nicio comandă</option><option value="1-14">1-14 comenzi</option><option value="15-49">15-49 de comenzi</option><option value="50+">50 sau mai multe</option></select></div>
+      <div class="field"><label>Profitul net real</label>
+        <select id="pl_profit"><option value="unknown">Nu știu încă</option><option value="pos">Pozitiv</option><option value="zero">Aproape de zero</option><option value="neg">Negativ</option></select></div>
+      <div class="field"><label>Ai un produs câștigător?</label>
+        <select id="pl_winner"><option value="no">Nu</option><option value="yes">Da: ROAS 2x+, stabil 14+ zile</option></select></div>
+      <div class="field"><label>Tracking-ul e verificat?</label>
+        <select id="pl_track"><option value="no">Nu sau nu știu</option><option value="yes">Da: Purchase în „Recording"</option></select></div>
+      <div class="field"><label>Ai bani de rezervă pentru scalare?</label>
+        <select id="pl_cash"><option value="no">Nu</option><option value="yes">Da</option></select></div>
+    </div>
+    <p class="sub-h" style="margin-top:14px">Ce te blochează acum (bifează ce se aplică)</p>
+    <div id="pl_probs"></div>
+    <div class="row"><button class="btn" id="pl_go">Generează planul</button></div>
+  </div>
+  <div id="pl_out"></div>
 </section>
 
 </main>
@@ -1118,6 +1167,233 @@ $('#tpl').innerHTML=TPL.map(t=>'<details><summary>'+esc(t[0])+'</summary><pre cl
 $('#tpl').addEventListener('click',e=>{ const b=e.target.closest('[data-tpl]'); if(!b) return; const t=TPL.find(x=>x[0]===b.dataset.tpl); if(t) copy(t[1]); });
 $('#p_date').value=todayISO(); $('#g_start').value=todayISO(); $('#c_sel').value=todayISO().slice(0,7);
 renderCal();
+
+/* ================= Furnizori: șabloane de mesaje ================= */
+D.sup = Object.assign({you:'', brand:'', sup:'', prod:'', ord:'', trk:''}, D.sup||{});
+const SUP_IDS=[['s_you','you'],['s_brand','brand'],['s_sup','sup'],['s_prod','prod'],['s_ord','ord'],['s_trk','trk']];
+SUP_IDS.forEach(([id,k])=>{ $('#'+id).value=D.sup[k]; $('#'+id).addEventListener('input',()=>{ D.sup[k]=$('#'+id).value; persist(); renderSup(); }); });
+const SUP_TPL=[
+ ['Cerere de eșantion','Subject: Sample request – {prod}\n\nHi {sup},\n\nI\'m {you} from {brand}. I\'m interested in selling {prod} and would like to order one sample before I start.\n\nCould you please confirm:\n1. Processing time before shipping\n2. Estimated delivery time to [country]\n3. That the shipment includes a valid tracking number\n4. That the package can be sent without supplier branding, invoices or leaflets\n\nCould you also send real photos or a short video of the actual product?\n\nThank you,\n{you}'],
+ ['Cerere de poze și video reale','Subject: Real photos and video – {prod}\n\nHi {sup},\n\nThis is {you} from {brand}. Before I list {prod}, could you please send:\n- Photos of the actual product from several angles, on a clean background\n- A short video showing the product in use\n- Exact dimensions and materials\n\nPlease send files without watermarks or logos if possible.\n\nThank you,\n{you}'],
+ ['Negociere de preț','Subject: Pricing for {prod}\n\nHi {sup},\n\nI\'m {you} from {brand}. {prod} is selling and I\'m planning to order around [realistic monthly quantity] units per month.\n\nCould you offer a better unit price or lower shipping cost at this volume? If you have price tiers, please send them.\n\nI\'d like to build a long-term working relationship.\n\nThank you,\n{you}'],
+ ['Produs defect sau diferit de descriere','Subject: Order {ord} – item not as described\n\nHi {sup},\n\nI\'m {you} from {brand}. For order {ord} ({prod}), the customer received an item that [is damaged / does not match the listing: describe the problem].\n\nI\'ve attached photos as proof. Could you please arrange a replacement or a refund?\n\nPlease let me know within 48 hours how you would like to proceed.\n\nThank you,\n{you}'],
+ ['Întârziere sau tracking lipsă','Subject: Order {ord} – tracking update needed\n\nHi {sup},\n\nI\'m {you} from {brand}. Order {ord} ({prod}) was placed on [date] and I still have [no tracking number / no tracking updates since date]. Tracking number, if available: {trk}\n\nCould you please send a valid tracking number or a status update within 72 hours? If the order can\'t be shipped, I\'ll need to request a refund so I can resolve this with my customer.\n\nThank you,\n{you}'],
+ ['Stoc epuizat și restock','Subject: Stock availability – {prod}\n\nHi {sup},\n\nI\'m {you} from {brand}. I saw that {prod} is [out of stock / low on stock].\n\nCould you please tell me:\n1. When it will be back in stock\n2. Whether a similar variant is available\n3. Whether any open orders are affected\n\nThank you,\n{you}'],
+ ['Retur și refund','Subject: Order {ord} – return / refund request\n\nHi {sup},\n\nI\'m {you} from {brand}. The customer of order {ord} ({prod}) has requested a [return / refund] because [reason].\n\nCould you please confirm:\n1. Your return process and the return address\n2. Whether you cover the return shipping\n3. How long the refund will take once the item is received\n\nThank you,\n{you}'],
+ ['Ambalaj neutru, fără branding','Subject: Neutral packaging – {prod}\n\nHi {sup},\n\nI\'m {you} from {brand}. For all my orders of {prod}, please ship in neutral packaging, without supplier logos, invoices, price tags or promotional leaflets.\n\nCould you confirm that this is possible and whether there is any extra cost?\n\nThank you,\n{you}']
+];
+function supFill(t){
+  const v=D.sup, rep={you:v.you||'[your name]', brand:v.brand||'[store name]', sup:v.sup||'[supplier]', prod:v.prod||'[product]', ord:v.ord||'[order number]', trk:v.trk||'[tracking number]'};
+  return t.replace(/\{(you|brand|sup|prod|ord|trk)\}/g,(m,k)=>rep[k]);
+}
+function renderSup(){
+  $('#supList').innerHTML=SUP_TPL.map((t,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(t[0])+'</summary><pre class="tp">'+esc(supFill(t[1]))+'</pre><div class="row" style="margin-top:6px"><button class="btn ghost" data-sup="'+i+'">Copiază mesajul</button></div></details>').join('');
+}
+$('#supList').addEventListener('click',e=>{ const b=e.target.closest('[data-sup]'); if(b) copy(supFill(SUP_TPL[+b.dataset.sup][1])); });
+renderSup();
+
+/* ================= Plan 90 de zile ================= */
+D.plan = Object.assign({inp:{orders:'0', profit:'unknown', winner:'no', track:'no', cash:'no', probs:[]}, done:{}}, D.plan||{});
+D.plan.inp.probs = Array.isArray(D.plan.inp.probs)?D.plan.inp.probs:[];
+const PROBS=[['irel','Termeni de căutare irelevanți'],['noatc','Clickuri, dar nimeni nu adaugă în coș'],['nobuy','Adaugă în coș, dar nu cumpără'],['cpc','CPC prea mare'],['ret','Retururi sau dispute'],['sup','Probleme cu furnizorul sau livrarea'],['few','Prea puține produse în test']];
+const PROB_TASKS={
+ irel:'Termeni irelevanți: Search Terms și N-gram săptămânal, 5-10 negative keywords pe zi (tab-ul Search Terms).',
+ noatc:'Clickuri fără coș: verifici prețul față de Google Shopping, imaginea principală, pagina de produs pe telefon, PageSpeed și Clarity.',
+ nobuy:'Coș fără comandă: costuri surpriză la livrare, metode de plată, checkout testat pe telefon.',
+ cpc:'CPC mare: Auction Insights, limită de CPC (70% din media) și titlurile din feed.',
+ ret:'Retururi și dispute: [[/disputa]], termene de livrare reale și evaluarea furnizorului.',
+ sup:'Furnizor și livrare: mesajele din tab-ul Furnizori; trackingul invalid se rezolvă în maxim 72 de ore.',
+ few:'Puține produse: maxim 2 produse noi pe săptămână [[/produs-nou]], cu CPC conservator.'
+};
+const SEG={
+ s0:{n:'Fără vânzări încă', why:'Nicio comandă înseamnă, de regulă, o problemă de site, tracking sau produs, nu de campanie. Dacă ai cheltuit peste 1.000$ fără nicio conversie, oprești reclamele înainte să mai pui bani.',
+  pri:['Verifici tracking-ul: fără el nu știi dacă vânzările se văd. [[/verifica-tracking]]','Repari site-ul înainte să mai cheltuiești: preț, imagini, pagina de produs pe telefon, checkout.','Rulezi diagnosticul celor 10 probleme. [[/audit-ads]]'],
+  b:[{t:'Zilele 1-30: diagnostic și reparații', goal:'Găsești cauza, nu repari la întâmplare.', w:[
+    ['Dacă ai cheltuit peste 1.000$ fără conversii, oprești reclamele.','Tracking: Enhanced Conversions active și Purchase în „Recording". [[/verifica-tracking]]','Merchant Center: produse respinse? [[/audit-gmc]]'],
+    ['Compari prețul cu primii 5 din Google Shopping. Peste 25% mai scump înseamnă NO-GO pentru produs.','Imaginea principală pe fundal alb, produs clar. Recenzii reale și politica de retur vizibile.','PageSpeed pe mobil: sub 3 secunde.'],
+    ['Testezi checkout-ul pe iPhone, cu o comandă de test: PayPal, costuri surpriză.','Rulezi diagnosticul complet. [[/audit-ads]]','Notezi fiecare reparație în Jurnal, cu data.'],
+    ['Relansezi cu CPC redus cu 40-50% și buget mic.','În prima săptămână după relansare nu schimbi nimic.']],
+   gate:'Ziua 30: ai găsit și reparat cauza? Da → mergi în luna 2. Nu ai identificat nicio cauză → revalidezi nișa. [[/nisa-noua]]'},
+  {t:'Zilele 31-60: refaci datele (Faza A)', goal:'Cumperi date, nu profit. ROAS-ul țintă e 1,0-1,2x.', w:[
+    ['Zilnic: cele 5 întrebări din tab-ul Audit. Maxim 5-10 negative keywords pe zi.','Nu schimbi CPC în primele 7 zile de date.'],
+    ['Prima vânzare apare, de regulă, între zilele 5 și 14. Dacă nu a apărut după 14 zile, e urgent: [[/audit-ads]]','Termenii cu conversii îi protejezi cu Exact Match.'],
+    ['Zombie: 30+ clickuri și 0 adăugări în coș, 7+ zile → scazi CPC cu 50% sau oprești. Nu oprești nimic sub 14 zile de date.','Muți bugetul pe produsele cu semnal.'],
+    ['Calculezi profitul real. [[/profit-real]]','Îl compari cu cifrele din tab-ul Evidență.']],
+   gate:'Ziua 60: peste 5 conversii în ultimele 30 de zile? Da → luna 3. Nu → STOP. ROAS sub 0,7x pe 28+ zile sau sub 5 conversii în 30 de zile înseamnă pivot de nișă sau schimbare radicală de produs și site.'},
+  {t:'Zilele 61-90: decizia', goal:'Decizi cu date, nu cu emoții.', w:[
+    ['Evaluezi ROAS, CPC, rata de adăugare în coș și trendul față de luna 1.'],
+    ['Dacă ai semnal: maxim 2 produse noi pe săptămână. [[/produs-nou]]','Dacă nu ai: revalidezi nișa. [[/nisa-noua]]'],
+    ['Dacă ai primele vânzări constante, treci pe planul „Faza A: primele vânzări" (regenerezi planul cu situația nouă).'],
+    ['Decizia finală: continui, optimizezi sau o iei de la zero. [[/reset]]']],
+   gate:'Ziua 90: ai vânzări constante? Da → regenerezi planul. Nu → reset de nișă sau de produs.'}]},
+ s1:{n:'Faza A: primele vânzări', why:'Ai început să vinzi. În Faza A cumperi date, nu profit. Break-even sau ușor minus e normal, iar cele mai mari greșeli sunt modificările prea dese.',
+  pri:['Nu schimbi nimic în primele 7 zile de date.','Zilnic: negative keywords (maxim 5-10) și detectarea Zombie-urilor.','Aduni conversii: 15+ pentru decizia de la ziua 30.'],
+  b:[{t:'Zilele 1-30: colectezi date', goal:'Înveți CPC-ul, conversia și rata de adăugare în coș reale.', w:[
+    ['Rutina zilnică: cele 5 întrebări din tab-ul Audit, 15 minute.','Nu schimbi CPC în primele 7 zile.'],
+    ['Termenii cu conversii → Exact Match.','Zombie (30+ clickuri, 0 adăugări în coș, 7+ zile) → scazi CPC cu 50% sau oprești. Oprești doar după 14 zile de date.'],
+    ['Câștigători (ROAS peste 1,0 și 2+ vânzări) → CPC +20-30%.','Liminali (1-2 vânzări, trend neclar) → HOLD încă 7 zile.'],
+    ['Calculezi profitul real. [[/profit-real]]','Pregătești decizia de la ziua 30.']],
+   gate:'Ziua 30: ROAS peste 1,0x constant, 15+ conversii și trend ascendent → Faza B (buget +20-50$/zi). ROAS 0,8-1,0x și 8-14 conversii → HOLD și optimizezi site-ul. ROAS sub 0,7x pe 28+ zile sau sub 5 conversii → STOP și diagnostic. [[/audit-ads]]'},
+  {t:'Zilele 31-60: optimizări de site', goal:'Crești conversia, nu bugetul. O singură schimbare odată, cu data notată în Jurnal.', w:[
+    ['Emailuri automate: checkout abandonat primul (după 1 oră și după 24 de ore), fără reducere în primul email.'],
+    ['Recenzii reale: cerere automată din aplicația de recenzii. Nu imporți recenzii de la furnizor.'],
+    ['Pagina de produs pe telefon: poză, preț și buton fără scroll, bife de încredere adevărate, timp real de livrare.'],
+    ['Checkout: costul livrării vizibil din pagina de produs. Comandă de test pe telefon.']],
+   gate:'Ziua 60: rata de adăugare în coș (țintă ~2% din clickuri) și vânzările, față de luna 1.'},
+  {t:'Zilele 61-90: pregătire pentru Faza B', goal:'Treci în Faza B doar dacă îndeplinești condițiile.', w:[
+    ['Condiții de intrare: 20+ conversii, 30+ zile de date, Enhanced Conversions verificat, Purchase în „Recording".'],
+    ['Calculezi Target ROAS = breakeven × 1,3 (tab-ul Calculator).'],
+    ['Dacă ai un produs cu ROAS 2x+ stabil 14+ zile → scalare verticală. [[/scaling]]','Dacă nu → încă 30 de zile de date.'],
+    ['Recapitulezi din Jurnal: ce a funcționat, ce ai oprit.']],
+   gate:'Ziua 90: condițiile Fazei B îndeplinite? Da → regenerezi planul cu situația nouă. Nu → încă 30 de zile de date.'}]},
+ s2:{n:'Ai vânzări, dar niciun câștigător clar', why:'Ai suficiente date ca să decizi, dar niciun produs nu trece clar de breakeven. Nu crești bugetul acum: pui ordine în cifre și crești conversia.',
+  pri:['Calculezi breakeven-ul pe fiecare produs, nu doar ROAS-ul mediu.','Oprești produsele sub breakeven după 30+ clickuri.','Optimizezi pagina și checkout-ul înainte să crești bugetul.'],
+  b:[{t:'Zilele 1-30: ordine în cifre', goal:'Știi exact ce produs câștigă și ce produs pierde.', w:[
+    ['Completezi Evidența zilnică și vezi profitul real. [[/profit-real]]','Sortezi produsele după ROAS și le compari cu breakeven-ul.'],
+    ['Kill: ROAS sub breakeven după 30+ clickuri și 14+ zile, sau POAS sub 0,5.','Muți bugetul pe produsele peste breakeven.'],
+    ['N-gram săptămânal pe Search Terms. Adaugi negativele validate, nu 50+ odată.'],
+    ['Verifici tracking-ul. [[/verifica-tracking]]']],
+   gate:'Ziua 30: ai cel puțin un produs peste breakeven × 1,2 și 2+ vânzări?'},
+  {t:'Zilele 31-60: crești conversia', goal:'Mai multe comenzi din aceleași clickuri.', w:[
+    ['Emailuri automate: checkout abandonat, apoi după cumpărare.'],
+    ['Recenzii reale și stelele în Google Shopping.'],
+    ['Pagina de produs pe telefon, cu ghid de alegere pentru variante.'],
+    ['Valoarea comenzii: o singură aplicație nouă odată (ofertă pe cantitate), urmărită 7 zile.']],
+   gate:'Ziua 60: rata de adăugare în coș, valoarea medie a comenzii și ROAS, față de luna 1.'},
+  {t:'Zilele 61-90: cauți câștigătorul', goal:'Găsești produsul care duce magazinul.', w:[
+    ['Maxim 2 produse noi pe săptămână, CPC conservator, 20-30$/zi, 7-14 zile. [[/produs-nou]]'],
+    ['Verdict: câștigător = ROAS 2,0x+ și 3+ conversii. Zombie = hold 7 zile și optimizare. Kill = ROAS sub 1,5x după 14 zile.'],
+    ['Dacă ai câștigător: pregătești scalarea. [[/scaling]]'],
+    ['Dacă nu ai: revalidezi nișa sau direcția produselor. [[/nisa-noua]]']],
+   gate:'Ziua 90: câștigător stabil (ROAS 2x+, 14+ zile)? Da → regenerezi planul. Nu → revalidezi nișa.'}]},
+ s3:{n:'Ai un câștigător: scalezi cu disciplină', why:'Ai un produs care merge. Acum contează sistemul: creșteri mici, matematică și cashflow. Scalarea fără disciplină pierde bani.',
+  pri:['Regula 20%: nu crești bugetul cu mai mult de 20% odată.','Verifici profitul net complet la fiecare pas.','Ai nevoie de rezervă de bani înainte să scalezi.'],
+  b:[{t:'Zilele 1-30: scalare verticală', goal:'Crești bugetul pe câștigător, în pași de 20%.', w:[
+    ['Condiții: ROAS 2,0x+ stabil 14+ zile, 15+ conversii, profit net pozitiv, Enhanced Conversions, tracking testat.','Capital minim = buget zilnic × 14 + COGS mediu × comenzi/zi × 7 + 10% rezervă.'],
+    ['Prima creștere: +20% (de exemplu 50 → 60$/zi), 7 zile, fără alte schimbări. Notezi în Jurnal.'],
+    ['ROAS peste 2,0x stabil → a doua creștere +20%. ROAS 1,5-2,0x → pauză 7 zile. ROAS sub 1,5x → revii imediat la bugetul anterior.'],
+    ['Checkpoint: profit net complet. [[/profit-real]]']],
+   gate:'Ziua 30: profit net pozitiv și ROAS peste 2,0x → continui. Altfel stabilizezi 2 săptămâni.'},
+  {t:'Zilele 31-60: produse și valoarea comenzii', goal:'Mai mult profit din același trafic.', w:[
+    ['Maxim 2 produse noi pe săptămână, finanțate din profitul câștigătorului. [[/produs-nou]]'],
+    ['Valoarea comenzii: ofertă pe cantitate pe pagina de produs, apoi coș cu oferte. O singură aplicație odată.'],
+    ['Emailuri automate și recenzii reale, dacă nu sunt deja.'],
+    ['Continui +20% pe săptămână cât timp ROAS ≥ 2,0x și CPC nu crește cu peste 30% 2-3 zile la rând.']],
+   gate:'Ziua 60: câte conversii ai în cont? Te apropii de 50+ pentru Faza C?'},
+  {t:'Zilele 61-90: Faza B și piață nouă', goal:'Treci la ofertare pe ROAS și testezi o piață nouă.', w:[
+    ['CwCD și Value Rules, doar dacă Enhanced Conversions e verificat (potrivire peste 70%).'],
+    ['Piață nouă, una singură: campanie separată, buget separat de 50$/zi, 14 zile, breakeven recalculat pe piață. [[/scaling]]'],
+    ['Target ROAS = breakeven × 1,3, dacă ai 20+ conversii.'],
+    ['Raport săptămânal de scalare. Decizi: PMax (50+ conversii) sau rămâi pe Standard Shopping.']],
+   gate:'Ziua 90: 50+ conversii, ROAS 2,0x+ stabil 30+ zile, tracking fără probleme → Faza C. Altfel mai rămâi 1-2 luni pe Standard Shopping.'}]},
+ s4:{n:'Scalare avansată (Faza C)', why:'Ai peste 50 de comenzi și un câștigător. Urmează tranziția treptată la PMax Feed-Only și extinderea pe piețe noi, cu plasă de siguranță.',
+  pri:['Tranziția la PMax se face treptat, cu Standard Shopping Heroes ca plasă de siguranță.','O singură piață nouă odată.','70% din profit în reclame, 30% rezervă.'],
+  b:[{t:'Zilele 1-30: pregătești PMax Feed-Only', goal:'Intri în PMax cu toate condițiile îndeplinite.', w:[
+    ['Condiții: 50+ conversii, Standard Shopping ROAS 2,0x+ stabil 30+ zile, Enhanced Conversions în Recording, zero probleme de tracking.'],
+    ['CwCD și Value Rules pe etichete de marjă (opțional, dar recomandat).'],
+    ['Creezi PMax Feed-Only: feed din Merchant Center, zero asset-uri, buget 70% din Standard Shopping, Maximize conversion value. Îl lași pe PAUSED.'],
+    ['Lansezi la ~30% din buget. Rulezi scriptul Mike Rhodes: Display sub 10%.']],
+   gate:'Ziua 30: ROAS PMax ≥ ROAS Standard Shopping? Da → migrezi. Nu → hold la 40/60 și investighezi.'},
+  {t:'Zilele 31-60: migrezi bugetul', goal:'Mutarea treptată, cu plasă de siguranță.', w:[
+    ['50% PMax / 50% Standard, dacă PMax ≥ Standard.'],
+    ['65% PMax / 35% Standard.'],
+    ['Stare finală: PMax 70-80%, Standard Shopping Heroes 20-30% (top 3-5 produse, ROAS 3x+).'],
+    ['Dacă PMax are ROAS sub 1,5x după 2 săptămâni: îl pui pe pauză și revii 100% pe Standard. Diagnostic: CwCD, semnale, feed.']],
+   gate:'Ziua 60: ROAS total minim 2,0x (țintă 2,3x+).'},
+  {t:'Zilele 61-90: extindere', goal:'Crești fără să pierzi controlul.', w:[
+    ['Piață nouă, una odată: campanie și buget separate, 14 zile. Ordinea: UK ↔ US, apoi Canada, apoi AU/NZ. [[/scaling]]'],
+    ['Query Sculpting cu 3 campanii, doar cu 60+ zile de date și conversii suficiente pe produs.'],
+    ['Sub-nișă: bundle sau accesorii din aceeași micro-nișă, validate înainte. [[/nisa-noua]]'],
+    ['Cashflow: formula de capital minim. Retururile peste 15% din venituri înseamnă urgență.']],
+   gate:'Ziua 90: profit complet pe fiecare piață. [[/profit-real]] Decizi unde scalezi.'}]},
+ s5:{n:'Vânzări fără profit', why:'Vinzi, dar profitul net e negativ. Nu scalezi. Mai întâi afli unde se pierd banii: marjă, costuri, retururi sau reclame.',
+  pri:['Nu crești bugetul. Întâi afli unde pierzi.','Recalculezi breakeven-ul cu toate costurile: produs, transport, comisioane, aplicații, retururi.','Oprești produsele cu POAS sub 0,5.'],
+  b:[{t:'Zilele 1-30: unde pleacă banii', goal:'Profit net clar, pe produs.', w:[
+    ['P&L real pe ultimele 30 de zile în tab-ul Evidență. COGS real față de cel estimat. [[/profit-real]]'],
+    ['Breakeven ROAS pe produs: AOV ÷ (AOV − COGS − transport). Marchezi produsele sub breakeven.'],
+    ['Kill: ROAS sub breakeven, 30+ clickuri, 14+ zile. POAS sub 0,5 → oprești.'],
+    ['Verifici retururile și disputele (peste 15% din venituri e urgent). [[/disputa]] Evaluezi furnizorul.']],
+   gate:'Ziua 30: profit net pe produs. Ai produse cu marjă suficientă?'},
+  {t:'Zilele 31-60: marjă mai bună', goal:'Mai mult profit din aceeași vânzare.', w:[
+    ['Prețuri: corectezi doar produsele cu marjă prea mică, comparând cu Google Shopping.'],
+    ['Valoarea comenzii: ofertă pe cantitate, o singură aplicație odată.'],
+    ['Costuri: renegociezi cu furnizorul sau cauți alternativă. Folosește tab-ul Furnizori.'],
+    ['Scazi CPC acolo unde CPC-ul real depășește CPC-ul maxim recalculat.']],
+   gate:'Ziua 60: marja înainte de reclame a crescut? ROAS-ul față de breakeven e mai bun?'},
+  {t:'Zilele 61-90: retest', goal:'Un test curat, pe ce a rămas.', w:[
+    ['Test de 14 zile, doar pe produsele rămase, cu schimbările notate în Jurnal.'],
+    ['N-gram și negative keywords, ca să nu cheltuiești pe termeni toxici.'],
+    ['Dacă profitul net e pozitiv 14+ zile: reiei scalarea. [[/scaling]]'],
+    ['Dacă nu: revalidezi produsul sau nișa. [[/nisa-noua]]']],
+   gate:'Ziua 90: profit net pozitiv și stabil? Da → scalezi. Nu → schimbi produsul sau nișa.'}]}
+};
+function planSeg(i){
+  if(i.orders==='0') return 's0';
+  if(i.orders==='1-14') return 's1';
+  if(i.profit==='neg') return 's5';
+  if(i.winner==='yes') return i.orders==='50+' ? 's4' : 's3';
+  return 's2';
+}
+const taskHTML = t => esc(t).replace(/\[\[([^\]]+)\]\]/g,(m,c)=>'<button class="cmd" data-copy="'+c+'">'+c+'</button>');
+const taskPlain = t => t.replace(/\[\[([^\]]+)\]\]/g,'($1)');
+function planInputs(){
+  return {orders:$('#pl_orders').value, profit:$('#pl_profit').value, winner:$('#pl_winner').value, track:$('#pl_track').value, cash:$('#pl_cash').value,
+    probs:$$('#pl_probs input:checked').map(x=>x.dataset.p)};
+}
+function loadPlanInputs(){
+  const i=D.plan.inp; $('#pl_orders').value=i.orders; $('#pl_profit').value=i.profit; $('#pl_winner').value=i.winner; $('#pl_track').value=i.track; $('#pl_cash').value=i.cash;
+  $('#pl_probs').innerHTML=PROBS.map(p=>'<div class="task"><input type="checkbox" id="pp_'+p[0]+'" data-p="'+p[0]+'"'+(i.probs.includes(p[0])?' checked':'')+'><label for="pp_'+p[0]+'">'+esc(p[1])+'</label></div>').join('');
+}
+let planTotal=0;
+function renderPlan(){
+  if(!D.plan.gen){ $('#pl_out').innerHTML=''; return; }
+  const i=D.plan.inp, k=planSeg(i), s=SEG[k];
+  const before=[];
+  if(i.track==='no') before.push('Verifici tracking-ul înainte de orice altceva: fără el cifrele nu sunt de încredere. [[/verifica-tracking]]');
+  if(i.profit==='unknown') before.push('Calculezi profitul real al magazinului (tab-ul Evidență). Nu poți decide nimic fără el. [[/profit-real]]');
+  if(i.cash==='no' && (k==='s3'||k==='s4')) before.push('Înainte să scalezi, strângi capitalul minim: buget zilnic × 14 + COGS mediu × comenzi/zi × 7 + 10% rezervă.');
+  i.probs.forEach(p=>{ if(PROB_TASKS[p]) before.push(PROB_TASKS[p]); });
+  let total=0, done=0;
+  let h='<div class="card"><span class="badge amber">Situația ta</span><h2 style="margin-top:8px">'+esc(s.n)+'</h2><p class="lead">'+esc(s.why)+'</p>'
+    +'<p class="sub-h">Cele 3 priorități</p><ul class="l">'+s.pri.map(t=>'<li>'+taskHTML(t)+'</li>').join('')+'</ul>';
+  if(before.length) h+='<p class="sub-h">Înainte de toate</p><ul class="l">'+before.map(t=>'<li>'+taskHTML(t)+'</li>').join('')+'</ul>';
+  h+='<div class="verdict mid" style="margin-top:12px"><b>Reguli care nu se negociază:</b> maxim 1-2 schimbări pe zi, notate în Jurnal. Nu schimbi CPC-ul sub 7 zile de date. Nu crești bugetul cu mai mult de 20% odată. O piață nouă odată.</div></div>';
+  s.b.forEach((b,bi)=>{
+    h+='<div class="card"><h2>'+esc(b.t)+'</h2><p class="lead">'+esc(b.goal)+'</p>';
+    b.w.forEach((wk,wi)=>{
+      h+='<p class="sub-h" style="margin-top:12px">Săptămâna '+(bi*4+wi+1)+'</p>';
+      wk.forEach((t,ti)=>{
+        const key=k+'-'+bi+'-'+wi+'-'+ti, on=!!D.plan.done[key]; total++; if(on) done++;
+        h+='<div class="task'+(on?' done':'')+'"><input type="checkbox" id="pk_'+key+'" data-pk="'+key+'"'+(on?' checked':'')+'><label for="pk_'+key+'">'+taskHTML(t)+'</label></div>';
+      });
+    });
+    h+='<div class="verdict good" style="margin-top:14px"><b>Decizie.</b> '+taskHTML(b.gate)+'</div></div>';
+  });
+  h+='<div class="card"><div class="row" style="margin-top:0"><button class="btn ghost" id="pl_copy">Copiază planul</button><button class="btn ghost" id="pl_claude">Copiază pentru Claude</button><button class="btn ghost" id="pl_reset">Șterge bifele</button></div>'
+    +'<p class="muted" style="margin-top:8px">Progres: '+done+' din '+total+' pași. Planul este un ghid. Deciziile finale le iei tu, pe baza cifrelor tale.</p></div>';
+  $('#pl_out').innerHTML=h; planTotal=total;
+}
+function planText(){
+  const i=D.plan.inp, s=SEG[planSeg(i)]; let t='PLAN 90 DE ZILE: '+s.n+'\n'+s.why+'\n\nPrioritati:\n'+s.pri.map(x=>'- '+taskPlain(x)).join('\n')+'\n';
+  s.b.forEach((b,bi)=>{ t+='\n'+b.t.toUpperCase()+'\n'+b.goal+'\n'; b.w.forEach((wk,wi)=>{ t+='Saptamana '+(bi*4+wi+1)+':\n'+wk.map(x=>'- '+taskPlain(x)).join('\n')+'\n'; }); t+='DECIZIE: '+taskPlain(b.gate)+'\n'; });
+  return t;
+}
+$('#pl_go').onclick=()=>{ D.plan.gen=true; D.plan.inp=planInputs(); persist(); renderPlan(); $('#pl_out').scrollIntoView({behavior:'smooth'}); };
+$('#pl_out').addEventListener('change',e=>{ const k=e.target.dataset.pk; if(k===undefined) return; D.plan.done[k]=e.target.checked; persist(); renderPlan(); });
+$('#pl_out').addEventListener('click',e=>{
+  if(e.target.id==='pl_copy') copy(planText());
+  if(e.target.id==='pl_claude') copy('Acesta este planul meu de 90 de zile. Ajută-mă să îl aplic pas cu pas, în ordine, respectând regulile metodei Genesyum (maxim 1-2 schimbări pe zi, regula 20%, o piață odată). Începe cu săptămâna 1 și spune-mi ce verifici întâi.\n\n'+planText());
+  if(e.target.id==='pl_reset' && confirm('Ștergi toate bifele din plan?')){ D.plan.done={}; persist(); renderPlan(); }
+});
+$('#pl_fill').onclick=()=>{
+  const ds=Object.entries(D.days); if(!ds.length){ $('#pl_fillNote').textContent='Nu ai încă zile în Evidență.'; return; }
+  let ord=0, rev=0, profit=0;
+  ds.forEach(([k,d])=>{ const c=dayCalc(k,d); ord+=c.ord; rev+=c.rev; profit+=c.profit; });
+  $('#pl_orders').value = ord===0?'0':ord<15?'1-14':ord<50?'15-49':'50+';
+  $('#pl_profit').value = rev>0 && Math.abs(profit)<0.02*rev ? 'zero' : profit>0 ? 'pos' : 'neg';
+  $('#pl_fillNote').textContent='Am preluat '+ord+' comenzi și profit '+mny(profit)+' din '+ds.length+' zile notate. Verifică și ajustează.';
+};
+loadPlanInputs(); renderPlan();
 </script>
 </body>
 </html>
