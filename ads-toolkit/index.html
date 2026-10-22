@@ -206,6 +206,31 @@ details p b{color:var(--text)}
     </details>
   </div>
 
+  <div class="card" id="impCard">
+    <h2>Import rapid</h2>
+    <p class="lead">Nu mai scrii cifrele de mână. Alegi una din cele trei variante, vezi o previzualizare și abia apoi se salvează în Evidență.</p>
+    <details open>
+      <summary>1. Fișier de la Shopify sau de la Google Ads (CSV)</summary>
+      <ul class="l">
+        <li><b>Shopify:</b> Orders → Export → toate comenzile, format CSV. Aici se adună comenzile și vânzările pe zile.</li>
+        <li><b>Google Ads:</b> raport cu coloanele Day (sau Date) și Cost, descărcat ca CSV. Se completează cheltuiala pe zile. Datele de tip 05/06/2026 se citesc ca lună/zi/an, iar cele cu puncte (05.06.2026) ca zi.lună.an.</li>
+      </ul>
+      <div class="drop" id="i_drop"><b>Trage aici fișierul</b><br><span class="muted">sau apasă pentru a-l alege. Tipul se recunoaște singur.</span>
+        <input type="file" id="i_file" accept=".csv,.tsv,.txt" hidden></div>
+      <div class="grid" style="margin-top:12px">
+        <div class="field"><label>Vânzările din Shopify</label><select id="i_mode"><option value="total">Totalul comenzii</option><option value="subtotal">Subtotal (fără livrare și taxe)</option></select></div>
+        <div class="field"><label>Rambursări</label><select id="i_ref"><option value="sub">Le scad din vânzări</option><option value="no">Nu le scad</option></select></div>
+      </div>
+    </details>
+    <details>
+      <summary>2. Linii primite de la Claude</summary>
+      <p>Cere-i lui Claude (sau pluginului) să-ți dea câte o linie pe zi, în formatul de mai jos, apoi o lipești aici.</p>
+      <div class="row" style="margin-top:6px"><button class="btn ghost" id="i_rule">Copiază regula pentru Claude</button></div>
+      <textarea id="i_lines" style="margin-top:10px" placeholder="2026-10-21 | 1250 | 14 | 310 | 40 | | 12&#10;(data | vânzări | comenzi | Google Ads | alte reclame | COGS real, gol dacă nu știi | alte costuri)"></textarea>
+      <div class="row"><button class="btn" id="i_linesBtn">Previzualizează liniile</button></div>
+    </details>
+    <div id="i_prev"></div>
+  </div>
   <div class="card">
     <h3>Zi nouă</h3>
     <div class="grid" style="margin-top:10px">
@@ -1394,6 +1419,109 @@ $('#pl_fill').onclick=()=>{
   $('#pl_fillNote').textContent='Am preluat '+ord+' comenzi și profit '+mny(profit)+' din '+ds.length+' zile notate. Verifică și ajustează.';
 };
 loadPlanInputs(); renderPlan();
+
+/* ================= Import rapid în Evidență ================= */
+const fmtN=(n,f)=>f==='ord'?String(Math.round(n)):n.toLocaleString('ro-RO',{minimumFractionDigits:2,maximumFractionDigits:2});
+let IM=null; // {src, days:{date:{...fields}}}
+function normDate(s){
+  s=String(s||'').trim().replace(/^"|"$/g,''); if(!s) return null; let m;
+  if((m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))) return m[1]+'-'+pad(+m[2])+'-'+pad(+m[3]);
+  if((m=s.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})/))){
+    const a=+m[1], b=+m[2];
+    if(s.indexOf('/')>-1 && b<=31 && a<=12 && !(a>12)) return m[3]+'-'+pad(a)+'-'+pad(b);   // MM/DD/YYYY
+    return m[3]+'-'+pad(b)+'-'+pad(a);                                                         // DD.MM.YYYY
+  }
+  const t=Date.parse(s+' 12:00'); if(!isNaN(t)) return isoOf(new Date(t));
+  const t2=Date.parse(s); return isNaN(t2)?null:isoOf(new Date(t2));
+}
+function sniffDelim(line){ let best='\t',n=-1; ['\t',';',','].forEach(d=>{ const c=splitLine(line,d).length; if(c>n){ n=c; best=d; } }); return best; }
+function importShopify(lines, d, h){
+  const col=re=>h.findIndex(x=>re.test(x));
+  const iName=col(/^name$/), iDate=col(/^created at$/), iTot=col(/^total$/), iSub=col(/^subtotal$/), iRef=col(/^refunded amount$/), iCan=col(/^cancelled at$/), iFin=col(/^financial status$/);
+  const useSub=$('#i_mode').value==='subtotal', subRef=$('#i_ref').value==='sub';
+  const days={}; let orders=0, skipped=0;
+  for(let r=1;r<lines.length;r++){
+    const c=splitLine(lines[r],d); const tot=(c[iTot]||'').trim(); if(!tot) continue;           // rândurile cu produse suplimentare nu au total
+    if(iCan>-1 && (c[iCan]||'').trim()){ skipped++; continue; }
+    if(iFin>-1 && /voided/i.test(c[iFin]||'')){ skipped++; continue; }
+    const date=normDate(c[iDate]); if(!date) continue;
+    let v=parseNum(useSub && iSub>-1 ? c[iSub] : tot);
+    if(subRef && iRef>-1) v-=parseNum(c[iRef]);
+    const day=days[date]||(days[date]={rev:0,ord:0}); day.rev+=v; day.ord+=1; orders++;
+  }
+  return {src:'Shopify (comenzi)', days, note:orders+' comenzi'+(skipped?', '+skipped+' anulate sau invalidate ignorate':'')};
+}
+function importAds(lines, d, h){
+  const iDay=h.findIndex(x=>/^(day|date|ziua|data)$/.test(x)), iCost=h.findIndex(x=>x==='cost'||(/^(cost|cheltuieli)/.test(x)&&!/[\/]|conv|per/.test(x)));
+  const days={}; let n=0;
+  for(let r=1;r<lines.length;r++){
+    const c=splitLine(lines[r],d); const date=normDate(c[iDay]); if(!date) continue;   // sare peste rândul „Total"
+    days[date]={gads:(days[date]?days[date].gads:0)+parseNum(c[iCost])}; n++;
+  }
+  return {src:'Google Ads (cheltuială pe zile)', days, note:n+' zile'};
+}
+function importCsv(text){
+  const lines=text.replace(/^﻿/,'').split(/\r?\n/).filter(l=>l.trim());
+  for(let li=0; li<Math.min(lines.length,10); li++){
+    const d=sniffDelim(lines[li]); const h=splitLine(lines[li],d).map(x=>x.trim().toLowerCase());
+    const body=lines.slice(li);
+    if(h.includes('name') && h.includes('created at') && h.includes('total')) return importShopify(body,d,h);
+    if(h.some(x=>/^(day|date|ziua|data)$/.test(x)) && h.some(x=>x==='cost'||/^cheltuieli/.test(x))) return importAds(body,d,h);
+  }
+  return null;
+}
+function importLines(text){
+  const days={}; let bad=0;
+  text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).forEach(l=>{
+    const p=l.split('|').map(x=>x.trim()); const date=p.length>=4?normDate(p[0]):null;
+    if(!date){ bad++; return; }
+    const f=i=>p[i]!==undefined&&p[i]!==''?parseNum(p[i]):null;
+    const o={rev:f(1), ord:f(2), gads:f(3), oads:f(4), cogs:f(5), oth:f(6)};
+    Object.keys(o).forEach(k=>{ if(o[k]===null) delete o[k]; });
+    days[date]=o;
+  });
+  return {src:'Linii de la Claude', days, note:Object.keys(days).length+' zile'+(bad?', '+bad+' linii neînțelese ignorate':'')};
+}
+function showPreview(res){
+  IM=res; const dates=Object.keys(res.days).sort();
+  if(!dates.length){ $('#i_prev').innerHTML='<div class="verdict bad" style="margin-top:12px">Nu am găsit date de importat. Verifică formatul fișierului sau al liniilor.</div>'; IM=null; return; }
+  let nw=0, up=0; dates.forEach(k=>{ if(D.days[k]) up++; else nw++; });
+  const fields=[['rev','Vânzări'],['ord','Comenzi'],['gads','Google Ads'],['oads','Alte reclame'],['cogs','COGS'],['oth','Alte costuri']].filter(([k])=>dates.some(d=>res.days[d][k]!==undefined));
+  const shown=dates.slice(-31);
+  $('#i_prev').innerHTML='<div class="verdict mid" style="margin-top:14px"><b>'+esc(res.src)+':</b> '+esc(res.note)+'. '+dates.length+' zile ('+nw+' noi, '+up+' existente care se actualizează: se schimbă doar câmpurile din import).</div>'
+    +'<div class="tbl"><table><tr><th>Data</th>'+fields.map(f=>'<th>'+f[1]+'</th>').join('')+'</tr>'
+    +shown.map(k=>'<tr><td>'+k+'</td>'+fields.map(([f])=>'<td>'+(res.days[k][f]===undefined?'—':fmtN(res.days[k][f],f))+'</td>').join('')+'</tr>').join('')+'</table></div>'
+    +(dates.length>31?'<p class="muted">Se afișează ultimele 31 de zile.</p>':'')
+    +'<div class="row"><button class="btn" id="i_apply">Aplică în Evidență</button><button class="btn ghost" id="i_cancel">Anulează</button></div>';
+}
+function applyImport(){
+  if(!IM) return; let n=0;
+  Object.entries(IM.days).forEach(([date,vals])=>{
+    const cur=D.days[date]||{rev:0,ord:0,gads:0,oads:0,cogs:'',oth:0};
+    Object.entries(vals).forEach(([k,v])=>{ cur[k]=v; });
+    D.days[date]=cur; n++;
+  });
+  persist(); const last=Object.keys(IM.days).sort().pop(); IM=null; $('#i_prev').innerHTML='';
+  $('#m_sel').value=last.slice(0,7); renderMonth(); loadDay(); toast(n+' zile salvate în Evidență');
+  $('#m_pl').scrollIntoView({behavior:'smooth'});
+}
+$('#i_prev').addEventListener('click',e=>{ if(e.target.id==='i_apply') applyImport(); if(e.target.id==='i_cancel'){ IM=null; $('#i_prev').innerHTML=''; } });
+function handleImportFile(f){
+  readFileText(f, txt=>{
+    const res=importCsv(txt);
+    if(!res){ $('#i_prev').innerHTML='<div class="verdict bad" style="margin-top:12px">Nu recunosc fișierul. Pentru Shopify am nevoie de exportul de comenzi (coloanele Name, Created at, Total). Pentru Google Ads, de un raport cu coloanele Day și Cost.</div>'; IM=null; return; }
+    showPreview(res);
+  });
+}
+const iDrop=$('#i_drop'), iFile=$('#i_file');
+iDrop.onclick=()=>iFile.click();
+iFile.onchange=()=>{ if(iFile.files[0]) handleImportFile(iFile.files[0]); iFile.value=''; };
+['dragenter','dragover'].forEach(ev=>iDrop.addEventListener(ev,e=>{e.preventDefault();iDrop.classList.add('hover');}));
+['dragleave','drop'].forEach(ev=>iDrop.addEventListener(ev,e=>{e.preventDefault();iDrop.classList.remove('hover');}));
+iDrop.addEventListener('drop',e=>{ const f=e.dataTransfer.files[0]; if(f) handleImportFile(f); });
+$('#i_linesBtn').onclick=()=>{ const t=$('#i_lines').value; if(!t.trim()){ toast('Lipește întâi liniile'); return; } showPreview(importLines(t)); };
+$('#i_rule').onclick=()=>copy('Dă-mi cifrele zilelor pe care le-ai citit din Shopify și Google Ads, câte o linie pe zi, exact în formatul:\nAAAA-LL-ZZ | vânzări | comenzi | cheltuit Google Ads | alte reclame | COGS real (gol dacă nu știi) | alte costuri\nExemplu: '+todayISO()+' | 1250 | 14 | 310 | 40 | | 12\nFolosește doar cifre pe care le-ai citit efectiv din conturi. Dacă nu ai o cifră, lasă câmpul gol, nu o estima.');
+$('#i_mode').addEventListener('change',()=>{});
 </script>
 </body>
 </html>
