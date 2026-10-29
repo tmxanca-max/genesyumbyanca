@@ -1,0 +1,24 @@
+{
+  "google_ads": {
+    "developer_token": "DEV_TOKEN",
+    "client_id": "OAUTH_CLIENT_ID",
+    "client_secret": "OAUTH_CLIENT_SECRET",
+    "refresh_token": "OAUTH_REFRESH_TOKEN",
+    "mcc_id": "123-456-7890"
+  },
+  "students": [
+    {
+      "name": "Ana",
+      "shopify_domain": "ana-store.myshopify.com",
+      "shopify_token": "shpat_xxx",
+      "google_ads_customer_id": "111-222-3333",
+      "breakeven_roas": 2.0,
+      "kill_spend": 50
+    },
+    {
+      "name": "Ioana (fără ads încă)",
+      "shopify_domain": "ioana-store.myshopify.com",
+      "shopify_token": "shpat_yyy"
+    }
+  ]
+}
