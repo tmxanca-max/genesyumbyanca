@@ -239,8 +239,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--demo", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--test-telegram", action="store_true", help="trimite doar un mesaj de test")
     ap.add_argument("--config", default=os.path.join(os.path.dirname(__file__), "students.json"))
     args = ap.parse_args()
+
+    if args.test_telegram:
+        telegram_send("✅ Botul Centralizator funcționează.")
+        return
 
     results = []
     if args.demo:
