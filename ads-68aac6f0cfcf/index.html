@@ -136,6 +136,7 @@ details p b{color:var(--text)}
   <button data-tab="kw">Cuvinte-cheie</button>
   <button data-tab="cal">Calendar conținut</button>
   <button data-tab="sup">Furnizori</button>
+  <button data-tab="ai">Canale AI</button>
   <button data-tab="calc">Calculator</button>
   <button data-tab="terms">Search Terms</button>
   <button data-tab="audit">Audit &amp; Scripturi</button>
@@ -416,6 +417,73 @@ details p b{color:var(--text)}
     <p class="lead">Structuri gata de completat. Completezi parantezele cu situația ta reală.</p>
     <div class="verdict mid" style="margin-bottom:10px">Fără urgență falsă, fără „ultimele bucăți" dacă nu e adevărat, fără promisiuni de rezultate. Persuasiunea vine din claritate și din fapte.</div>
     <div id="tpl"></div>
+  </div>
+</section>
+
+<!-- CANALE AI -->
+<section id="ai">
+  <div class="card">
+    <h2>Agentic Storefronts</h2>
+    <p class="lead">Shopify își poate arăta produsele în ChatGPT, Microsoft Copilot și Google Gemini / AI Mode. Clientul cumpără, de obicei, prin checkout-ul magazinului tău. Comenzile rămân în Shopify.</p>
+    <ul class="l">
+      <li><b>Nu îl pornești tu.</b> Pentru magazinele eligibile, Shopify îl activează automat. Poți doar să vezi starea și să gestionezi canalele.</li>
+      <li><b>Unde vezi starea:</b> în Shopify Admin, caută „Agentic" (Sales channels). La „Sources → Shopify Catalog" apare numărul de produse incluse sau avertismentul <b>Ineligible</b>, pe care dai click ca să vezi motivul.</li>
+      <li><b>Nu e garantat.</b> Disponibilitatea diferă după canal, țară și magazin. Din acest motiv, la unii studenți merge și la alții nu.</li>
+      <li><b>Nu înlocuiește reclamele.</b> Nu știm câte vânzări aduce. Îl tratezi ca pe un canal în plus, gratuit, nu ca pe o soluție.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Verifică dacă ești eligibil</h2>
+    <p class="lead">Bifează ce ai verificat. Dacă ceva nu e îndeplinit, acela e motivul pentru care nu apare.</p>
+    <div id="aiList"></div>
+    <div class="verdict mid" style="margin-top:12px"><b>Ghidurile se contrazic în câteva puncte</b> (țări, plan, GTIN). Ce e mai jos vine din pagina oficială Shopify, unde am putut verifica. Ce n-am putut verifica e marcat „de verificat în admin". Condițiile se schimbă, deci contează ce vezi în contul tău.</div>
+  </div>
+
+  <div class="card">
+    <h2>Dacă apare „Ineligible"</h2>
+    <ol class="l" style="list-style:decimal">
+      <li>În Admin, la „Agentic", dai click pe avertismentul <b>Ineligible</b> și citești motivul scris acolo.</li>
+      <li>Rezolvi motivul din lista de mai sus (politici, parolă, categorie, imagini).</li>
+      <li>Aștepți să se actualizeze starea, apoi verifici din nou. Nu schimbi altceva în același timp.</li>
+      <li>Notezi în Jurnal ce ai schimbat și când.</li>
+    </ol>
+    <p class="muted">Un produs poate fi exclus și individual (de exemplu fără imagine, cu preț 0 sau fără categorie), chiar dacă magazinul e eligibil.</p>
+  </div>
+
+  <div class="card">
+    <h2>Cum îți îmbunătățești șansele</h2>
+    <p class="lead">Shopify recomandă să începi cu descrieri complete și corecte, prețuri și disponibilitate. Aceleași reguli ți-ar folosi și în Merchant Center.</p>
+    <ul class="l">
+      <li><b>Titluri clare:</b> ce e produsul, materialul, mărimea, pentru ce se folosește. Cum caută oamenii, nu cum scrie furnizorul.</li>
+      <li><b>Descrieri reale:</b> doar fapte pe care le poți dovedi. Fără promisiuni, fără urgență falsă.</li>
+      <li><b>Categorie setată corect</b> la fiecare produs. „Uncategorized" îl poate exclude.</li>
+      <li><b>Imagini clare,</b> prima pe fundal alb, produsul vizibil.</li>
+      <li><b>Preț și disponibilitate corecte,</b> identice cu cele de pe pagina de produs.</li>
+      <li><b>Knowledge base:</b> în setările canalului poți adăuga informații despre magazin (termene de livrare, cum se face un retur, valorile brandului), ca AI-ul să răspundă clienților. Scrii <b>exact ce scrie în politicile magazinului</b>. Orice schimbare de livrare sau retur se face în aceeași zi și pe site, și în Knowledge base, și în Merchant Center.</li>
+      <li><b>Recenzii doar de la clienți reali.</b></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Dacă ai probleme cu Google Ads</h2>
+    <div class="verdict good" style="margin-bottom:10px"><b>Veste bună, de verificat în admin:</b> ChatGPT și Copilot citesc produsele prin Shopify Catalog, deci nu depind de Merchant Center. Gemini și Google AI Mode depind: cer cont Merchant Center valid și produse sincronizate prin canalul Google &amp; YouTube.</div>
+    <p class="lead">Alternative de reclame cât timp Merchant Center e blocat. Nu sunt acoperite de pluginurile Genesyum și n-am găsit politici oficiale 2026 despre dropshipping pentru niciuna, deci verifică regulile fiecărei platforme înainte să muți bani.</p>
+    <details><summary>Microsoft Advertising (Bing Shopping)</summary><p>Reclame de produse pe Bing, cu alt cont de comerciant. Un studiu de caz din comunitatea Shopify menționează trecerea la el după o suspendare Google. Ofertele de credit gratuit nu sunt confirmate. Verifică termenii actuali.</p></details>
+    <details><summary>Meta: Facebook și Instagram (reclame cu catalog)</summary><p>Se leagă de magazin prin canalul „Facebook &amp; Instagram" din Shopify. Merg pe alt tip de cerere: oamenii nu caută produsul, îl descoperă în feed. Sunt raportate suspendări de conturi la nerespectarea regulilor.</p></details>
+    <details><summary>TikTok</summary><p>Reclame pe TikTok. Regulile pentru vânzători din TikTok Shop sunt mai stricte decât cele pentru reclame. Citește politica înainte.</p></details>
+    <details><summary>Pinterest</summary><p>Catalog de produse și reclame pe Pinterest. Public care caută inspirație, util pentru nișe vizuale.</p></details>
+    <div class="verdict mid" style="margin-top:12px"><b>Înainte să muți bugetul:</b> verifică tracking-ul pe noul canal și rezolvă motivul suspendării din Merchant Center (<button class="cmd" data-copy="/scan-gmc">/scan-gmc</button>), pentru că Gemini și AI Mode tot de acolo depind.</div>
+  </div>
+
+  <div class="card">
+    <h3>Surse</h3>
+    <p class="muted">Verificat din ghidurile Shopify la 30 octombrie 2026. Condițiile se pot schimba.</p>
+    <ul class="l">
+      <li><a href="https://help.shopify.com/en/manual/online-sales-channels/agentic-storefronts/requirements" target="_blank" rel="noopener" style="color:var(--purple-dark)">Shopify: cerințe Agentic Storefronts</a></li>
+      <li><a href="https://help.shopify.com/en/manual/online-sales-channels/agentic-storefronts/products" target="_blank" rel="noopener" style="color:var(--purple-dark)">Shopify: produse în canalele AI</a></li>
+      <li><a href="https://help.shopify.com/en/manual/shopify-catalog/requirements" target="_blank" rel="noopener" style="color:var(--purple-dark)">Shopify: cerințe Shopify Catalog</a></li>
+    </ul>
   </div>
 </section>
 
@@ -1566,6 +1634,38 @@ $('#i_rule').onclick=()=>copy('Dă-mi cifrele zilelor pe care le-ai citit din Sh
 $('#i_mode').addEventListener('change',()=>{});
 
 $('#copyBaseList').onclick=()=>copy(BASE_NEG.join('\n'));
+
+/* ================= Canale AI: Agentic Storefronts ================= */
+D.ai = Object.assign({done:{}}, D.ai||{}); D.ai.done = D.ai.done||{};
+const AI_ITEMS=[
+ {g:'Magazinul', items:[
+  ['plan','Ai un plan Shopify plătit, nu perioadă de probă sau plan închis','cerință raportată de ghiduri, de verificat'],
+  ['pass','Magazinul nu e protejat cu parolă și nu e în modul de dezvoltare, privat sau doar B2B','Online Store → Preferences'],
+  ['pol','Ai completate Termenii, Politica de confidențialitate și Politica de retur și rambursare','Settings → Policies'],
+  ['terms','Ai acceptat termenii suplimentari Agentic Storefronts','Admin → Agentic'],
+  ['optout','Nu ai exclus magazinul din partajarea cu canalele AI','Admin → Agentic'],
+  ['us','Vinzi clienților din SUA (ChatGPT, Copilot și Google cer asta). Dacă vinzi doar în alte țări, canalele pot să nu fie disponibile','de verificat în admin']]},
+ {g:'Doar pentru Gemini și Google AI Mode', items:[
+  ['gmc','Ai un cont Merchant Center valid, fără suspendare','Merchant Center'],
+  ['gyt','Produsele sunt sincronizate prin canalul Google & YouTube','Sales channels → Google & YouTube'],
+  ['usbased','Magazinul e înregistrat în SUA (cerință raportată de Shopify, în acces timpuriu)','de verificat în admin']]},
+ {g:'Produsele', items:[
+  ['tit','Fiecare produs are titlu și cel puțin o imagine','Products'],
+  ['price','Prețul e mai mare decât 0','Products'],
+  ['pub','Produsele sunt publicate pe Online Store','Products → Sales channels'],
+  ['cat','Fiecare produs are o categorie setată (nu „Uncategorized")','Products → Category'],
+  ['excl','Produsul nu e în categorii excluse: alcool, tutun, vaping, CBD, produse medicale, arme, produse pentru adulți, servicii, bilete, animale vii','listă din ghiduri terțe, de verificat'],
+  ['bund','Produsul nu e pachet, produs personalizabil sau abonament (nesuportate)','din ghiduri terțe, de verificat']]}
+];
+function renderAI(){
+  let total=0, done=0;
+  $('#aiList').innerHTML=AI_ITEMS.map(g=>'<p class="sub-h" style="margin-top:14px">'+esc(g.g)+'</p>'+g.items.map(it=>{
+    total++; const on=!!D.ai.done[it[0]]; if(on) done++;
+    return '<div class="task'+(on?' done':'')+'"><input type="checkbox" id="ai_'+it[0]+'" data-ai="'+it[0]+'"'+(on?' checked':'')+'><label for="ai_'+it[0]+'">'+esc(it[1])+' <span class="muted">('+esc(it[2])+')</span></label></div>';
+  }).join('')).join('')+'<p class="muted" style="margin-top:10px">'+done+' din '+total+' bifate.</p>';
+}
+$('#aiList').addEventListener('change',e=>{ const k=e.target.dataset.ai; if(k===undefined) return; D.ai.done[k]=e.target.checked; persist(); renderAI(); });
+renderAI();
 </script>
 </body>
 </html>
