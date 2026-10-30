@@ -1,0 +1,16 @@
+name: Raport săptămânal cursanți
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # luni 06:00 UTC = 08:00 ora României iarna (09:00 vara)
+  workflow_dispatch: {}
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 monitor/weekly_report.py
+        env:
+          STUDENTS_JSON: ${{ secrets.STUDENTS_JSON }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
