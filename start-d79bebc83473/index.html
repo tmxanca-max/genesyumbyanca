@@ -252,7 +252,7 @@ const GROUPS=[
   {id:'cpc', txt:'Am CPC-ul de start din Keyword Planner (capătul de jos, rotunjit în sus)', cmd:'/genesyum-campanie-auto:campanie-auto'},
   {id:'budget', req:1, txt:'Am ales bugetul zilnic pe baza calculului din tab-ul Buget zilnic', cmd:''}]},
  {t:'Operare', items:[
-  {id:'supplier', txt:'Am comandat un eșantion de la furnizor și știu cât durează livrarea', cmd:''},
+  {id:'supplier', txt:'Am verificat furnizorul pe date (recenzii, rating, număr de comenzi) și știu timpul real de livrare', cmd:''},
   {id:'routine', txt:'Am definit rutina zilnică: comenzi, mesaje, verificări', cmd:'/genesyum-gestiune-magazin:gestiune'}]}
 ];
 const ALL=GROUPS.flatMap(g=>g.items);
@@ -281,7 +281,7 @@ const VCH=[
  ['returns','Risc mare de retur (mărimi, produse fragile, electronice)','warn'],
  ['slow','Livrare lungă, peste 20 de zile','warn'],
  ['generic','Identic cu ce vinde oricine, fără nimic care să îl diferențieze','warn'],
- ['sample','Am comandat și am văzut produsul real','good'],
+ ['supdata','Furnizorul are recenzii bune, rating ridicat și multe comenzi (date reale)','good'],
  ['own','Pot face poze și descrieri proprii, nu doar cele ale furnizorului','good']
 ];
 $('#v_checks').innerHTML=VCH.map(c=>'<div class="task"><input type="checkbox" id="v_'+c[0]+'" data-vk="'+c[0]+'"><label for="v_'+c[0]+'">'+esc(c[1])+'</label></div>').join('');
@@ -300,7 +300,7 @@ function vcalc(){
   if(on('returns')) warn.push('Risc mare de retur: marja reală e mai mică decât cea calculată.');
   if(on('slow')) warn.push('Livrarea lungă crește retururile și disputele.');
   if(on('generic')) warn.push('Fără diferențiere, concurezi doar pe preț.');
-  if(!on('sample')) warn.push('Nu ai văzut produsul real. Comandă un eșantion.');
+  if(!on('supdata')) warn.push('Furnizorul nu e verificat pe date. Uită-te la recenzii, rating și numărul de comenzi.');
   if(!on('own')) warn.push('Cu poze și texte ale furnizorului riști conținut duplicat și probleme în Merchant Center.');
   if(isFinite(be)) good.push('Marjă brută (preț − cost − transport): '+mny(gross)+'. ROAS de break-even: '+rr(be,2)+'x. După comisioane și alte costuri rămân '+mny(margin)+' pe comandă.');
   if(gross>0) good.push('CPC suportabil: '+mny(s15)+' (marjă × 1,5%, reper) până la '+mny(s30)+' (marjă × 3%, optimist).'+(cpc>0?' CPC-ul tău: '+mny(cpc)+'.':''));
