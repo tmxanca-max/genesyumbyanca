@@ -28,8 +28,12 @@ def http_json(url, data=None, headers=None, method=None):
     req = urllib.request.Request(url, data=body, headers=headers or {}, method=method)
     if body is not None:
         req.add_header("Content-Type", "application/json")
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return json.loads(r.read().decode())
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read().decode())
+    except urllib.error.HTTPError as e:
+        # arată motivul din răspuns (nu URL-ul, care poate conține un token)
+        raise RuntimeError(f"HTTP {e.code}: {e.read().decode()[:300]}") from None
 
 
 # ---------- Shopify ----------
