@@ -34,9 +34,30 @@ def http_json(url, data=None, headers=None, method=None):
 
 # ---------- Shopify ----------
 
+_TOKENS = {}
+
+
+def shopify_token(student):
+    """Token fix per magazin, sau (recomandat) client credentials de la aplicația
+    din Dev Dashboard, care merge pe magazinele din aceeași organizație."""
+    if student.get("shopify_token"):
+        return student["shopify_token"]
+    shop = student["shopify_domain"]
+    if shop not in _TOKENS:
+        app = student["_shopify_app"]
+        data = urllib.parse.urlencode({
+            "grant_type": "client_credentials",
+            "client_id": app["client_id"], "client_secret": app["client_secret"],
+        }).encode()
+        req = urllib.request.Request(f"https://{shop}/admin/oauth/access_token", data=data)
+        with urllib.request.urlopen(req, timeout=60) as r:
+            _TOKENS[shop] = json.loads(r.read().decode())["access_token"]
+    return _TOKENS[shop]
+
+
 def shopify_gql(student, query, variables=None):
     shop = student["shopify_domain"]
-    token = student["shopify_token"]
+    token = shopify_token(student)
     out = http_json(
         f"https://{shop}/admin/api/{SHOPIFY_API_VERSION}/graphql.json",
         {"query": query, "variables": variables or {}},
@@ -259,9 +280,10 @@ def main():
         since = datetime.now(timezone.utc) - timedelta(days=7)
         for st in cfg["students"]:
             r = {"name": st["name"]}
+            st["_shopify_app"] = cfg.get("shopify_app")
             try:
                 shop = fetch_shopify(st, since)
-                ads = fetch_gads(st, cfg["google_ads"]) if st.get("google_ads_customer_id") else None
+                ads = fetch_gads(st, cfg["google_ads"]) if st.get("google_ads_customer_id") and cfg.get("google_ads") else None
                 r["stage"], r["flags"] = assess(st, shop, ads)
                 r["shop"], r["ads"] = shop, ads
             except Exception as e:  # un cursant căzut nu oprește raportul
