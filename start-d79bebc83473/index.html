@@ -130,7 +130,7 @@ details p b{color:var(--text)}
 </header>
 <nav><div class="wrap" id="tabs">
   <button data-tab="check" class="on">Gata de reclame?</button>
-  <button data-tab="val">Validator produs</button>
+  <button data-tab="val">Filtru produs</button>
   <button data-tab="bud">Buget zilnic</button>
 </div></nav>
 <main class="wrap">
@@ -154,8 +154,8 @@ details p b{color:var(--text)}
 
 <section id="val">
   <div class="card">
-    <h2>Validator rapid de produs</h2>
-    <p class="lead">Un prim filtru înainte să pierzi timp sau bani. Pentru validarea completă a nișei, folosește comanda din plugin.</p>
+    <h2>Filtru rapid înainte de validare</h2>
+    <p class="lead">Pașii sunt doi: întâi analiza, apoi reclama. Dacă primești GO aici, validezi prin reclamă (campanie-auto), iar reclama decide mai departe. Pentru analiza completă a nișei, folosește comanda din plugin.</p>
     <div class="grid">
       <div class="field"><label>Preț de vânzare</label><input type="number" id="v_price" step="0.01" value="120"></div>
       <div class="field"><label>Cost produs la furnizor</label><input type="number" id="v_cost" step="0.01" value="45"></div>
@@ -307,9 +307,9 @@ function vcalc(){
   const verdict=hard.length||warn.length>=4?'NO-GO':warn.length>=2?'PRUDENȚĂ':'GO';
   const cls=verdict==='GO'?'good':verdict==='PRUDENȚĂ'?'mid':'bad';
   $('#v_out').innerHTML='<div class="verdict '+cls+'" style="margin-top:14px;font-size:16px"><b>'+verdict+'</b>'
-    +(verdict==='GO'?' · Niciun semnal de alarmă serios.':verdict==='PRUDENȚĂ'?' · Poți merge mai departe, dar rezolvă întâi punctele de mai jos.':' · Nu pune bani în reclame pentru acest produs în forma actuală.')+'</div>'
+    +(verdict==='GO'?' · Niciun semnal de alarmă serios. Poți trece la validarea prin reclamă.':verdict==='PRUDENȚĂ'?' · Poți merge mai departe, dar rezolvă întâi punctele de mai jos.':' · Nu pune bani în reclame pentru acest produs în forma actuală.')+'</div>'
     +(hard.length?'<p class="sub-h">Motive de blocare</p>'+ul(hard):'')+(warn.length?'<p class="sub-h">De rezolvat sau de verificat</p>'+ul(warn):'')+(good.length?'<p class="sub-h">Cifre</p>'+ul(good):'')
-    +'<p class="muted" style="margin-top:8px">Un prim filtru, nu verdictul final. CPC-ul suportabil e doar o verificare, nu CPC-ul de start. Validarea completă o faci cu /validare-produs.</p>';
+    +'<p class="muted" style="margin-top:8px">Un prim filtru, nu verdictul final. CPC-ul suportabil e doar o verificare, nu CPC-ul de start. Analiza spune dacă merită să încerci, iar reclama validează. Nu cauți produsul perfect dinainte: vindeți o nișă cu mai multe produse. Analiza completă o faci cu /validare-produs.</p>';
 }
 function ul(a){ return '<ul class="l">'+a.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'; }
 $$('#val input').forEach(i=>i.addEventListener('input',vcalc)); $$('#val input[type=checkbox]').forEach(i=>i.addEventListener('change',vcalc));

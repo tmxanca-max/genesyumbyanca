@@ -521,8 +521,8 @@ details p b{color:var(--text)}
         <select id="pl_orders"><option value="0">Nicio comandă</option><option value="1-14">1-14 comenzi</option><option value="15-49">15-49 de comenzi</option><option value="50+">50 sau mai multe</option></select></div>
       <div class="field"><label>Profitul net real</label>
         <select id="pl_profit"><option value="unknown">Nu știu încă</option><option value="pos">Pozitiv</option><option value="zero">Aproape de zero</option><option value="neg">Negativ</option></select></div>
-      <div class="field"><label>Ai un produs câștigător?</label>
-        <select id="pl_winner"><option value="no">Nu</option><option value="yes">Da: ROAS 2x+, stabil 14+ zile</option></select></div>
+      <div class="field"><label>Ai produse care merg?</label>
+        <select id="pl_works"><option value="no">Nu</option><option value="yes">Da: ROAS 2x+, stabil 14+ zile, pe cel puțin un produs</option></select></div>
       <div class="field"><label>Tracking-ul e verificat?</label>
         <select id="pl_track"><option value="no">Nu sau nu știu</option><option value="yes">Da: Purchase în „Recording”</option></select></div>
       <div class="field"><label>Ai bani de rezervă pentru scalare?</label>
@@ -769,7 +769,7 @@ const SCRIPTS = [
  {t:'POAS (Profit on Ad Spend)', p:['POAS = (Venit − COGS variabil) ÷ Cheltuiala pe reclame. ROAS-ul îți ascunde marjele diferite dintre produse.','Peste 2,0 → scalezi agresiv. Între 1,5 și 2,0 → menții și optimizezi. Între 1,0 și 1,5 → zonă de breakeven. Sub 1,0 → oprești.','Nu scalezi niciodată pe un POAS sub 1,0.']},
  {t:'CwCD (Conversion with Cart Data)', p:['Google vede costul real pe produs și optimizează pe profit brut, nu pe venit.','Nu îl activezi dacă Enhanced Conversions nu e verificat (potrivire peste 70%).','În Google Ads: Goals → Conversions → Purchase → Cart data. Vrei peste 80% „Cart data received”.']},
  {t:'PMax Feed-Only', p:['Se ia în calcul de la 10-15 conversii, doar dacă toate condițiile din tabelul de mai sus sunt îndeplinite.','Alegi feed-ul din Merchant Center, fără asset-uri: zero imagini, zero titluri, zero video. Ofertare: Maximize conversion value. Buget de start: 70% din cel de la Standard Shopping, lansat la ~30%.','Rulezi scriptul Mike Rhodes pentru breakdown-ul bugetului. Praguri sănătoase: Shopping 60-85%, Search 10-25%, Display sub 10% (ideal sub 5%), Video sub 5%.','Migrezi treptat (50/50, apoi 65/35). Standard Shopping Heroes (top 3-5 produse) rămâne ca plasă de siguranță.','Dacă PMax are ROAS sub 1,5x după 2 săptămâni, îl pui pe pauză și revii pe Standard Shopping.']},
- {t:'Nu face niciodată', p:['CwCD fără Enhanced Conversions verificat.','Scalare pe un POAS sub 1,0.','Asset-uri încărcate într-un PMax pe care îl vrei Feed-Only.','Schimbarea strategiei de ofertare în primele 7 zile ale unui test.']}
+ {t:'Nu face niciodată', p:['CwCD fără Enhanced Conversions verificat.','Scalare pe un POAS sub 1,0.','Asset-uri încărcate într-un PMax pe care îl vrei Feed-Only.','Schimbarea strategiei de ofertare în primele 7 zile ale unei campanii noi.']}
 ];
 $('#ksh').innerHTML = KSH.map(k=>'<details><summary>'+esc(k[0])+'</summary>'+ul(k[1])+'</details>').join('');
 $('#auditList').innerHTML = AUDIT.map(a=>'<details><summary>'+esc(a.t)+'</summary><p><b>Simptom:</b> '+esc(a.s)+'</p><p class="sub-h">Verifici</p>'+ul(a.v)+'<p class="sub-h">Acțiune</p>'+ul(a.a)+'</details>').join('');
@@ -1327,9 +1327,10 @@ $('#supList').addEventListener('click',e=>{ const b=e.target.closest('[data-sup]
 renderSup();
 
 /* ================= Plan 90 de zile ================= */
-D.plan = Object.assign({inp:{orders:'0', profit:'unknown', winner:'no', track:'no', cash:'no', probs:[]}, done:{}}, D.plan||{});
+D.plan = Object.assign({inp:{orders:'0', profit:'unknown', works:'no', track:'no', cash:'no', probs:[]}, done:{}}, D.plan||{});
 D.plan.inp.probs = Array.isArray(D.plan.inp.probs)?D.plan.inp.probs:[];
-const PROBS=[['irel','Termeni de căutare irelevanți'],['noatc','Clickuri, dar nimeni nu adaugă în coș'],['nobuy','Adaugă în coș, dar nu cumpără'],['cpc','CPC prea mare'],['ret','Retururi sau dispute'],['sup','Probleme cu furnizorul sau livrarea'],['few','Prea puține produse în test']];
+if(D.plan.inp.works===undefined) D.plan.inp.works = 'no';
+const PROBS=[['irel','Termeni de căutare irelevanți'],['noatc','Clickuri, dar nimeni nu adaugă în coș'],['nobuy','Adaugă în coș, dar nu cumpără'],['cpc','CPC prea mare'],['ret','Retururi sau dispute'],['sup','Probleme cu furnizorul sau livrarea'],['few','Prea puține produse în nișă']];
 const GESTIUNE='[[/gestiune|/genesyum-gestiune-magazin:gestiune]]';
 const PROB_TASKS={
  irel:'Termeni irelevanți: Search Terms și N-gram săptămânal, 3-5 negative keywords pe zi (tab-ul Search Terms).',
@@ -1366,7 +1367,7 @@ const SEG={
   b:[{t:'Zilele 1-30: colectezi date', goal:'Înveți CPC-ul, conversia și rata de adăugare în coș reale.', w:[
     ['Zilnic: citești contul (cheltuială, clickuri, comenzi) și treci prin Search Terms pentru 3-5 negative keywords.','Nu schimbi CPC în primele 7 zile.'],
     ['Termenii cu conversii îi notezi ca idei pentru titlurile din feed (se schimbă în Simprosys).','Zombie (30+ clickuri, 0 adăugări în coș, 7+ zile) → scazi CPC cu 50% sau oprești. Oprești doar după 14 zile de date.'],
-    ['Câștigători (ROAS peste 1,0 și 2+ vânzări) → CPC +20-30%.','Liminali (1-2 vânzări, trend neclar) → HOLD încă 7 zile.'],
+    ['Produsele care merg (ROAS peste 1,0 și 2+ vânzări) → CPC +20-30%.','Liminali (1-2 vânzări, trend neclar) → HOLD încă 7 zile.'],
     ['Calculezi profitul real în tab-ul Evidență.','Pregătești decizia de la ziua 30.']],
    gate:'Ziua 30: ROAS peste 1,0x constant, 15+ conversii și trend ascendent → mergi în luna 3 a planului. ROAS 0,8-1,0x și 8-14 conversii → HOLD și optimizezi site-ul. ROAS sub 0,7x pe 28+ zile sau sub 5 conversii → STOP și parcurgi cele 10 probleme din Audit.'},
   {t:'Zilele 31-60: optimizări de site', goal:'Crești conversia, nu bugetul. O singură schimbare odată, cu data notată în Jurnal.', w:[
@@ -1378,12 +1379,12 @@ const SEG={
   {t:'Zilele 61-90: pregătire pentru pasul următor', goal:'Mergi mai departe doar dacă îndeplinești condițiile.', w:[
     ['Condiții: 10-15 conversii (în funcție de clickuri, afișări și faza de optimizare a magazinului), Enhanced Conversions verificat, Purchase în „Recording”.'],
     ['Calculezi POAS pe produs și îl compari cu ROAS-ul (tab-ul Calculator).'],
-    ['Dacă ai un produs cu ROAS 2x+ stabil 14+ zile → scalare verticală, cu regula 20% (planul „câștigător de scalat”).','Dacă nu → încă 30 de zile de date.'],
+    ['Dacă ai un produs cu ROAS 2x+ stabil 14+ zile → scalare verticală, cu regula 20% (planul „Ai produse care merg”).','Dacă nu → încă 30 de zile de date.'],
     ['Recapitulezi din Jurnal: ce a funcționat, ce ai oprit.']],
    gate:'Ziua 90: condițiile îndeplinite? Da → regenerezi planul cu situația nouă. Nu → încă 30 de zile de date.'}]},
- s2:{n:'Ai vânzări, dar niciun câștigător clar', why:'Ai suficiente date ca să decizi, dar niciun produs nu trece clar de breakeven. Nu crești bugetul acum: pui ordine în cifre și crești conversia.',
+ s2:{n:'Ai vânzări, dar niciun produs nu trece clar de breakeven', why:'Ai suficiente date ca să decizi, dar niciun produs nu trece clar de breakeven. Nu crești bugetul acum: pui ordine în cifre și crești conversia.',
   pri:['Calculezi breakeven-ul pe fiecare produs, nu doar ROAS-ul mediu.','Oprești produsele sub breakeven după 30+ clickuri.','Optimizezi pagina și checkout-ul înainte să crești bugetul.'],
-  b:[{t:'Zilele 1-30: ordine în cifre', goal:'Știi exact ce produs câștigă și ce produs pierde.', w:[
+  b:[{t:'Zilele 1-30: ordine în cifre', goal:'Știi exact ce produse aduc profit și care pierd.', w:[
     ['Completezi Evidența zilnică și vezi profitul real.','Sortezi produsele după ROAS și le compari cu breakeven-ul.'],
     ['Kill: ROAS sub breakeven după 30+ clickuri și 14+ zile, sau POAS sub 0,5.','Muți bugetul pe produsele peste breakeven.'],
     ['N-gram săptămânal pe Search Terms. Adaugi negativele validate, 3-5 pe zi.'],
@@ -1395,22 +1396,22 @@ const SEG={
     ['Pagina de produs pe telefon, cu ghid de alegere pentru variante.'],
     ['Valoarea comenzii: o singură aplicație nouă odată (ofertă pe cantitate), urmărită 7 zile.']],
    gate:'Ziua 60: rata de adăugare în coș, valoarea medie a comenzii și ROAS, față de luna 1.'},
-  {t:'Zilele 61-90: cauți câștigătorul', goal:'Găsești produsul care duce magazinul.', w:[
-    ['Maxim 2 produse noi pe săptămână, CPC conservator, 7-14 zile. [[/import-produse]]'],
-    ['Verdict: câștigător = ROAS 2,0x+ și 3+ conversii. Zombie = hold 7 zile și optimizare. Kill = ROAS sub 1,5x după 14 zile.'],
-    ['Dacă ai câștigător: pregătești scalarea (planul „câștigător de scalat”).'],
+  {t:'Zilele 61-90: extinzi nișa', goal:'Vezi ce produse noi merg alături de cele existente.', w:[
+    ['Maxim 2 produse noi pe săptămână, validate prin reclamă cu CPC conservator, 7-14 zile. [[/import-produse]]'],
+    ['Verdict: produs care merge = ROAS 2,0x+ și 3+ conversii. Zombie = hold 7 zile și optimizare. Kill = ROAS sub 1,5x după 14 zile.'],
+    ['Dacă ai produse care merg: pregătești scalarea (planul „Ai produse care merg”).'],
     ['Dacă nu ai: revalidezi nișa sau direcția produselor. [[/validare-produs]]']],
-   gate:'Ziua 90: câștigător stabil (ROAS 2x+, 14+ zile)? Da → regenerezi planul. Nu → revalidezi nișa.'}]},
- s3:{n:'Ai un câștigător: scalezi cu disciplină', why:'Ai un produs care merge. Acum contează sistemul: creșteri mici, matematică și cashflow. Scalarea fără disciplină pierde bani.',
+   gate:'Ziua 90: ai produse cu ROAS 2x+ stabil 14+ zile? Da → regenerezi planul. Nu → revalidezi nișa.'}]},
+ s3:{n:'Ai produse care merg: scalezi cu disciplină', why:'Ai produse care merg. Acum contează sistemul: creșteri mici, matematică și cashflow. Scalarea fără disciplină pierde bani.',
   pri:['Regula 20%: nu crești bugetul cu mai mult de 20% odată.','Verifici profitul net complet la fiecare pas.','Ai nevoie de rezervă de bani înainte să scalezi.'],
-  b:[{t:'Zilele 1-30: scalare verticală', goal:'Crești bugetul pe câștigător, în pași de 20%.', w:[
+  b:[{t:'Zilele 1-30: scalare verticală', goal:'Crești bugetul pe produsele care merg, în pași de 20%.', w:[
     ['Condiții: ROAS 2,0x+ stabil 14+ zile, 15+ conversii, profit net pozitiv, Enhanced Conversions, tracking testat.','Capital minim = buget zilnic × 14 + COGS mediu × comenzi/zi × 7 + 10% rezervă.'],
     ['Prima creștere: +20% (de exemplu 50 → 60 pe zi), 7 zile, fără alte schimbări. Notezi în Jurnal.'],
     ['ROAS peste 2,0x stabil → a doua creștere +20%. ROAS 1,5-2,0x → pauză 7 zile. ROAS sub 1,5x → revii imediat la bugetul anterior.'],
     ['Checkpoint: profit net complet, în tab-ul Evidență.']],
    gate:'Ziua 30: profit net pozitiv și ROAS peste 2,0x → continui. Altfel stabilizezi 2 săptămâni.'},
   {t:'Zilele 31-60: produse și valoarea comenzii', goal:'Mai mult profit din același trafic.', w:[
-    ['Maxim 2 produse noi pe săptămână, finanțate din profitul câștigătorului. [[/import-produse]]'],
+    ['Maxim 2 produse noi pe săptămână, finanțate din profitul produselor care merg. [[/import-produse]]'],
     ['Valoarea comenzii: ofertă pe cantitate pe pagina de produs, apoi coș cu oferte. O singură aplicație odată.'],
     ['Emailuri automate și recenzii reale, dacă nu sunt deja.'],
     ['Continui +20% pe săptămână cât timp ROAS ≥ 2,0x și CPC nu crește cu peste 30% 2-3 zile la rând.']],
@@ -1421,7 +1422,7 @@ const SEG={
     ['PMax se ia în calcul de la 10-15 conversii, în funcție de clickuri, afișări și faza de optimizare a magazinului. Verifici condițiile din tab-ul Audit.'],
     ['Raport săptămânal: buget, ROAS, POAS, profit net, produse noi.']],
    gate:'Ziua 90: condițiile pentru PMax îndeplinite și tracking fără probleme → planul „Scalare avansată”. Altfel mai rămâi 1-2 luni pe Standard Shopping.'}]},
- s4:{n:'Scalare avansată: PMax Feed-Only', why:'Ai peste 50 de comenzi și un câștigător. Urmează tranziția treptată la PMax Feed-Only, cu plasă de siguranță, și optimizarea pe profit.',
+ s4:{n:'Scalare avansată: PMax Feed-Only', why:'Ai peste 50 de comenzi și produse care merg. Urmează tranziția treptată la PMax Feed-Only, cu plasă de siguranță, și optimizarea pe profit.',
   pri:['Tranziția la PMax se face treptat, cu Standard Shopping Heroes ca plasă de siguranță.','Optimizezi pe profit: POAS și CwCD.','70% din profit în reclame, 30% rezervă.'],
   b:[{t:'Zilele 1-30: pregătești PMax Feed-Only', goal:'Intri în PMax cu toate condițiile îndeplinite.', w:[
     ['Condiții: 10-15 conversii (în funcție de clickuri, afișări și faza de optimizare a magazinului), Standard Shopping peste breakeven constant, Enhanced Conversions în Recording, zero probleme de tracking.'],
@@ -1455,10 +1456,10 @@ const SEG={
     ['Costuri: renegociezi cu furnizorul sau cauți alternativă. Folosește tab-ul Furnizori.'],
     ['Verifici CPC-ul din grupul de produse față de CPC-ul suportabil recalculat.']],
    gate:'Ziua 60: marja înainte de reclame a crescut? ROAS-ul față de breakeven e mai bun?'},
-  {t:'Zilele 61-90: retest', goal:'Un test curat, pe ce a rămas.', w:[
-    ['Test de 14 zile, doar pe produsele rămase, cu schimbările notate în Jurnal.'],
+  {t:'Zilele 61-90: reluare cu date curate', goal:'O perioadă curată, pe ce a rămas.', w:[
+    ['Perioadă de 14 zile, doar pe produsele rămase, cu schimbările notate în Jurnal.'],
     ['N-gram și negative keywords, ca să nu cheltuiești pe termeni toxici.'],
-    ['Dacă profitul net e pozitiv 14+ zile: reiei scalarea (planul „câștigător de scalat”).'],
+    ['Dacă profitul net e pozitiv 14+ zile: reiei scalarea (planul „Ai produse care merg”).'],
     ['Dacă nu: revalidezi produsul sau nișa. [[/validare-produs]]']],
    gate:'Ziua 90: profit net pozitiv și stabil? Da → scalezi. Nu → schimbi produsul sau nișa.'}]}
 };
@@ -1466,18 +1467,18 @@ function planSeg(i){
   if(i.orders==='0') return 's0';
   if(i.orders==='1-14') return 's1';
   if(i.profit==='neg') return 's5';
-  if(i.winner==='yes') return i.orders==='50+' ? 's4' : 's3';
+  if(i.works==='yes') return i.orders==='50+' ? 's4' : 's3';
   return 's2';
 }
 const CMD_RE=/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
 const taskHTML = t => esc(t).replace(CMD_RE,(m,l,c)=>'<button class="cmd" data-copy="'+(c||l)+'">'+l+'</button>');
 const taskPlain = t => t.replace(CMD_RE,(m,l)=>'('+l+')');
 function planInputs(){
-  return {orders:$('#pl_orders').value, profit:$('#pl_profit').value, winner:$('#pl_winner').value, track:$('#pl_track').value, cash:$('#pl_cash').value,
+  return {orders:$('#pl_orders').value, profit:$('#pl_profit').value, works:$('#pl_works').value, track:$('#pl_track').value, cash:$('#pl_cash').value,
     probs:$$('#pl_probs input:checked').map(x=>x.dataset.p)};
 }
 function loadPlanInputs(){
-  const i=D.plan.inp; $('#pl_orders').value=i.orders; $('#pl_profit').value=i.profit; $('#pl_winner').value=i.winner; $('#pl_track').value=i.track; $('#pl_cash').value=i.cash;
+  const i=D.plan.inp; $('#pl_orders').value=i.orders; $('#pl_profit').value=i.profit; $('#pl_works').value=i.works; $('#pl_track').value=i.track; $('#pl_cash').value=i.cash;
   $('#pl_probs').innerHTML=PROBS.map(p=>'<div class="task"><input type="checkbox" id="pp_'+p[0]+'" data-p="'+p[0]+'"'+(i.probs.includes(p[0])?' checked':'')+'><label for="pp_'+p[0]+'">'+esc(p[1])+'</label></div>').join('');
 }
 let planTotal=0;
