@@ -140,7 +140,7 @@ details p b{color:var(--text)}
       <div class="ring" id="ring"><span id="ringTxt">0%</span></div>
       <div class="hero-text">
         <h2 id="heroTitle">Ești gata de reclame?</h2>
-        <p class="muted" id="heroSub">Bifează ce ai făcut deja. Punctele cu „obligatoriu" blochează lansarea.</p>
+        <p class="muted" id="heroSub">Bifează ce ai făcut deja. Punctele cu „obligatoriu” blochează lansarea.</p>
       </div>
     </div>
     <div id="verdict"></div>
@@ -205,6 +205,7 @@ const store = {
   get(k, d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
+const rr=(n,d=2)=>Number(n).toFixed(d).replace('.',',');
 const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ---------- Tabs ---------- */
@@ -235,21 +236,21 @@ const GROUPS=[
   {id:'prices', req:1, txt:'Prețurile sunt reale. Nu am prețuri barate copiate de la furnizor', cmd:''},
   {id:'content', txt:'Titlurile, descrierile și pozele sunt ale mele, fără watermark de furnizor', cmd:'/creare-magazin'},
   {id:'checkout', req:1, txt:'Am făcut o comandă de test pe checkout (Bogus Gateway): plata, confirmarea și emailurile merg', cmd:'/scan-gmc'},
-  {id:'claims', txt:'Fără promisiuni false: urgență inventată, „ultimele bucăți", rezultate garantate', cmd:''}]},
+  {id:'claims', txt:'Fără promisiuni false: urgență inventată, „ultimele bucăți”, rezultate garantate', cmd:''}]},
  {t:'Merchant Center', items:[
   {id:'gmc_conn', req:1, txt:'Contul Merchant Center e creat și legat de Google Ads', cmd:'/verifica-tracking'},
   {id:'gmc_ok', req:1, txt:'Magazinul e aprobat în Merchant Center, fără suspendări', cmd:'/scan-gmc'},
   {id:'gmc_prod', txt:'Produsele sunt aprobate, nu respinse', cmd:'/scan-gmc'}]},
  {t:'Tracking', items:[
   {id:'simprosys', req:1, txt:'Feed-ul și tracking-ul de conversii sunt instalate (Simprosys)', cmd:'/verifica-tracking'},
-  {id:'purchase', req:1, txt:'Conversia Purchase din Google Ads e în starea „Recording"', cmd:'/verifica-tracking'},
+  {id:'purchase', req:1, txt:'Conversia Purchase din Google Ads e în starea „Recording”', cmd:'/verifica-tracking'},
   {id:'enhanced', txt:'Enhanced Conversions sunt active', cmd:'/verifica-tracking'},
   {id:'ga4', txt:'GA4 e legat și trimite date', cmd:'/verifica-tracking'},
   {id:'testorder', txt:'Am verificat tracking-ul cu Tag Assistant sau cu o comandă de test', cmd:'/verifica-tracking'}]},
  {t:'Cifre', items:[
   {id:'be', req:1, txt:'Am calculat breakeven ROAS pe produsul meu (tab-ul Buget zilnic)', cmd:''},
-  {id:'cpc', txt:'Am CPC-ul de start din Keyword Planner și știu bugetul zilnic recomandat', cmd:'/genesyum-campanie-auto:campanie-auto'},
-  {id:'budget', req:1, txt:'Am stabilit un buget de test pe care mi-l permit să îl pierd', cmd:''}]},
+  {id:'cpc', txt:'Am CPC-ul de start din Keyword Planner (capătul de jos, rotunjit în sus)', cmd:'/genesyum-campanie-auto:campanie-auto'},
+  {id:'budget', req:1, txt:'Am ales bugetul zilnic pe baza calculului din tab-ul Buget zilnic', cmd:''}]},
  {t:'Operare', items:[
   {id:'supplier', txt:'Am comandat un eșantion de la furnizor și știu cât durează livrarea', cmd:''},
   {id:'routine', txt:'Am definit rutina zilnică: comenzi, mesaje, verificări', cmd:'/genesyum-gestiune-magazin:gestiune'}]}
@@ -301,7 +302,7 @@ function vcalc(){
   if(on('generic')) warn.push('Fără diferențiere, concurezi doar pe preț.');
   if(!on('sample')) warn.push('Nu ai văzut produsul real. Comandă un eșantion.');
   if(!on('own')) warn.push('Cu poze și texte ale furnizorului riști conținut duplicat și probleme în Merchant Center.');
-  if(isFinite(be)) good.push('Marjă brută (preț − cost − transport): '+mny(gross)+'. ROAS de break-even: '+be.toFixed(2)+'x. După comisioane și alte costuri rămân '+mny(margin)+' pe comandă.');
+  if(isFinite(be)) good.push('Marjă brută (preț − cost − transport): '+mny(gross)+'. ROAS de break-even: '+rr(be,2)+'x. După comisioane și alte costuri rămân '+mny(margin)+' pe comandă.');
   if(gross>0) good.push('CPC suportabil: '+mny(s15)+' (marjă × 1,5%, reper) până la '+mny(s30)+' (marjă × 3%, optimist).'+(cpc>0?' CPC-ul tău: '+mny(cpc)+'.':''));
   const verdict=hard.length||warn.length>=4?'NO-GO':warn.length>=2?'PRUDENȚĂ':'GO';
   const cls=verdict==='GO'?'good':verdict==='PRUDENȚĂ'?'mid':'bad';
@@ -324,13 +325,13 @@ function bcalc(){
   const daysEval=evalPoint/budget, clicksDay=budget/cpc, days30=30*nprod/clicksDay;
   let h='<div class="stats">'
    +'<div class="stat"><b>'+mny(margin)+'</b><span>marjă brută (preț − cost cu transport)</span></div>'
-   +'<div class="stat"><b>'+be.toFixed(2)+'x</b><span>ROAS de break-even (preț ÷ marjă)</span></div>'
+   +'<div class="stat"><b>'+rr(be,2)+'x</b><span>ROAS de break-even (preț ÷ marjă)</span></div>'
    +'<div class="stat"><b>'+mny(s15)+' – '+mny(s30)+'</b><span>CPC suportabil (marjă × 1,5% – 3%)</span></div>'
    +'<div class="stat"><b>'+mny(evalPoint)+'</b><span>punct de evaluare (6 × marjă)</span></div>'
    +'<div class="stat good"><b>'+mny(rec)+'</b><span>buget zilnic recomandat (punct ÷ 14)</span></div>'
    +'<div class="stat"><b>'+Math.round(daysEval)+'</b><span>zile până la punctul de evaluare, la '+mny(budget)+' pe zi</span></div></div>';
   h+='<ul class="l" style="margin-top:10px"><li>Socoteala: marjă '+mny(margin)+' → punct de evaluare 6 × '+mny(margin)+' = '+mny(evalPoint)+' → buget zilnic '+mny(evalPoint)+' ÷ 14 = '+mny(rec)+' (rotunjit în jos).</li>'
-    +'<li>Clickuri pe zi: ≈ '+clicksDay.toFixed(1)+' ('+mny(budget)+' ÷ CPC '+mny(cpc)+'). Zile până la 30 de clickuri pe produs: ≈ '+Math.ceil(days30)+'. Asta spune doar când vor exista date pe fiecare produs, nu e un motiv să scoți produse.</li></ul>';
+    +'<li>Clickuri pe zi: ≈ '+rr(clicksDay,1)+' ('+mny(budget)+' ÷ CPC '+mny(cpc)+'). Zile până la 30 de clickuri pe produs: ≈ '+Math.ceil(days30)+'. Asta spune doar când vor exista date pe fiecare produs, nu e un motiv să scoți produse.</li></ul>';
   if(chosen>0 && daysEval<14) h+='<div class="verdict mid">Bugetul ales ajunge la punctul de evaluare în '+Math.round(daysEval)+' zile, sub minimul de 14. Recomandarea e '+mny(rec)+' pe zi.</div>';
   else if(chosen>0) h+='<div class="verdict good">Bugetul ales ('+mny(chosen)+') ajunge la punctul de evaluare în '+Math.round(daysEval)+' zile, peste minimul de 14. E în regulă. Notezi că l-ai ales tu.</div>';
   if(cpc>s30) h+='<div class="verdict bad" style="margin-top:8px"><b>Risc mare.</b> CPC-ul pieței ('+mny(cpc)+') e peste marja × 3% ('+mny(s30)+'). Produsul are nevoie de o conversie foarte bună ca să iasă pe plus. Rămâne în campanie: marcajul e doar o informație.</div>';

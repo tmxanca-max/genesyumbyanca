@@ -147,14 +147,14 @@ details p b{color:var(--text)}
   <div class="card" id="j_win"></div>
   <div class="card">
     <h2>Înainte să modifici ceva</h2>
-    <p class="lead">Scrie ce vrei să schimbi (un produs, „preț", „buget", „imagine"). Îți arăt dacă ai mai umblat deja la asta.</p>
+    <p class="lead">Scrie ce vrei să schimbi (un produs, „preț”, „buget”, „imagine”). Îți arăt dacă ai mai umblat deja la asta.</p>
     <div class="field"><input type="search" id="j_q" placeholder="ex: yoga mat, preț, buget, imagine..." autocomplete="off"></div>
     <div id="j_check" style="margin-top:12px"></div>
   </div>
 
   <div class="card">
     <h2>Notează o modificare</h2>
-    <p class="lead">Imediat după ce o faci, ca să nu o uiți. Perioada de „nu atinge" te protejează de modificări prea dese.</p>
+    <p class="lead">Imediat după ce o faci, ca să nu o uiți. Perioada de „nu atinge” te protejează de modificări prea dese.</p>
     <div class="grid">
       <div class="field"><label>Data</label><input type="date" id="j_date"></div>
       <div class="field"><label>Unde</label>
@@ -279,6 +279,7 @@ details p b{color:var(--text)}
     </div>
     <div class="stats" id="c_out"></div>
     <div id="c_verdict"></div>
+    <p class="muted" style="margin-top:10px"><b>Două feluri de „breakeven”.</b> Aici ROAS-ul de breakeven include comisioanele, retururile și alte costuri, deci iese mai mare. În Start Toolkit și în <b>campanie-auto</b>, ROAS-ul de break-even = preț ÷ marja brută (preț − cost − transport), deci iese mai mic. Folosești varianta din campanie-auto când calculezi CPC-ul și bugetul, iar pe cea de aici când vrei profitul real.</p>
     <p class="muted" style="margin-top:10px">Pentru profitul real al magazinului pe zile și pe lună, folosește tab-ul <a href="#" data-goto="evid" style="color:var(--purple-dark)">Evidență &amp; profit</a>.</p>
   </div>
 </section>
@@ -287,7 +288,7 @@ details p b{color:var(--text)}
 <section id="terms">
   <div class="card">
     <h2>Analizor Search Terms</h2>
-    <p class="lead">Încarcă raportul „Search terms" descărcat din Google Ads (CSV). Găsești termenii care consumă bani fără vânzări. Fișierul rămâne în browserul tău, nu se trimite nicăieri.</p>
+    <p class="lead">Încarcă raportul „Search terms” descărcat din Google Ads (CSV). Găsești termenii care consumă bani fără vânzări. Fișierul rămâne în browserul tău, nu se trimite nicăieri.</p>
     <details>
       <summary>Lista de bază de negative keywords</summary>
       <p><b>De bază:</b> free, diy, tutorial, how to, guide, jobs, wiki, course, pdf, download, used, second hand, rental, refurbished, clearance, amazon, ebay, temu, walmart, aliexpress, shein.</p>
@@ -328,7 +329,7 @@ details p b{color:var(--text)}
 
   <div class="card">
     <h2>Cele 10 probleme comune</h2>
-    <p class="lead">Parcurgi lista în ordine, până găsești cauza. Fiecare problemă are o cauză și un fix. Nu există „Google nu merge".</p>
+    <p class="lead">Parcurgi lista în ordine, până găsești cauza. Fiecare problemă are o cauză și un fix. Nu există „Google nu merge”.</p>
     <div id="auditList"></div>
   </div>
 
@@ -348,7 +349,7 @@ details p b{color:var(--text)}
     <details open>
       <summary>Cum faci exportul (2 minute)</summary>
       <ul class="l">
-        <li>Google Ads → Tools → Keyword Planner → „Discover new keywords". Introdu produsele sau site-ul tău.</li>
+        <li>Google Ads → Tools → Keyword Planner → „Discover new keywords”. Introdu produsele sau site-ul tău.</li>
         <li>Descarcă rezultatele (CSV). Fișierul de la Google poate fi în format UTF-16, iar aici se citește corect.</li>
         <li>Pentru idei suplimentare: AnswerThePublic sau Ubersuggest, apoi copiezi lista de cuvinte în caseta de mai jos (câte unul pe rând).</li>
       </ul>
@@ -382,7 +383,7 @@ details p b{color:var(--text)}
 <section id="cal">
   <div class="card">
     <h2>Calendar de conținut</h2>
-    <p class="lead">Planifici postările pe piloni, ca să nu postezi doar „ce-ți vine". Pilonii sunt aceiași pe care îi folosești în metoda Genesyum.</p>
+    <p class="lead">Planifici postările pe piloni, ca să nu postezi doar „ce-ți vine”. Pilonii sunt aceiași pe care îi folosești în metoda Genesyum.</p>
     <div class="grid">
       <div class="field"><label>Data</label><input type="date" id="p_date"></div>
       <div class="field"><label>Platformă</label><select id="p_plat"></select></div>
@@ -398,7 +399,7 @@ details p b{color:var(--text)}
         <div class="field"><label>Produsul / categoria ta</label><input type="text" id="g_prod" placeholder="ex: covorașe de yoga"></div>
         <div class="field"><label>Platforma principală</label><select id="g_plat"></select></div>
       </div>
-      <div class="row"><button class="btn ghost" id="g_go">Generează 7 idei</button><span class="muted">Se adaugă ca „Idee". Le poți edita sau șterge după.</span></div>
+      <div class="row"><button class="btn ghost" id="g_go">Generează 7 idei</button><span class="muted">Se adaugă ca „Idee”. Le poți edita sau șterge după.</span></div>
     </details>
   </div>
 
@@ -415,7 +416,7 @@ details p b{color:var(--text)}
   <div class="card">
     <h2>Template-uri de conținut</h2>
     <p class="lead">Structuri gata de completat. Completezi parantezele cu situația ta reală.</p>
-    <div class="verdict mid" style="margin-bottom:10px">Fără urgență falsă, fără „ultimele bucăți" dacă nu e adevărat, fără promisiuni de rezultate. Persuasiunea vine din claritate și din fapte.</div>
+    <div class="verdict mid" style="margin-bottom:10px">Fără urgență falsă, fără „ultimele bucăți” dacă nu e adevărat, fără promisiuni de rezultate. Persuasiunea vine din claritate și din fapte.</div>
     <div id="tpl"></div>
   </div>
 </section>
@@ -427,7 +428,7 @@ details p b{color:var(--text)}
     <p class="lead">Shopify își poate arăta produsele în ChatGPT, Microsoft Copilot și Google Gemini / AI Mode. Clientul cumpără, de obicei, prin checkout-ul magazinului tău. Comenzile rămân în Shopify.</p>
     <ul class="l">
       <li><b>Nu îl pornești tu.</b> Pentru magazinele eligibile, Shopify îl activează automat. Poți doar să vezi starea și să gestionezi canalele.</li>
-      <li><b>Unde vezi starea:</b> în Shopify Admin, caută „Agentic" (Sales channels). La „Sources → Shopify Catalog" apare numărul de produse incluse sau avertismentul <b>Ineligible</b>, pe care dai click ca să vezi motivul.</li>
+      <li><b>Unde vezi starea:</b> în Shopify Admin, caută „Agentic” (Sales channels). La „Sources → Shopify Catalog” apare numărul de produse incluse sau avertismentul <b>Ineligible</b>, pe care dai click ca să vezi motivul.</li>
       <li><b>Nu e garantat.</b> Disponibilitatea diferă după canal, țară și magazin. Din acest motiv, la unii studenți merge și la alții nu.</li>
       <li><b>Nu înlocuiește reclamele.</b> Nu știm câte vânzări aduce. Îl tratezi ca pe un canal în plus, gratuit, nu ca pe o soluție.</li>
     </ul>
@@ -437,13 +438,13 @@ details p b{color:var(--text)}
     <h2>Verifică dacă ești eligibil</h2>
     <p class="lead">Bifează ce ai verificat. Dacă ceva nu e îndeplinit, acela e motivul pentru care nu apare.</p>
     <div id="aiList"></div>
-    <div class="verdict mid" style="margin-top:12px"><b>Ghidurile se contrazic în câteva puncte</b> (țări, plan, GTIN). Ce e mai jos vine din pagina oficială Shopify, unde am putut verifica. Ce n-am putut verifica e marcat „de verificat în admin". Condițiile se schimbă, deci contează ce vezi în contul tău.</div>
+    <div class="verdict mid" style="margin-top:12px"><b>Ghidurile se contrazic în câteva puncte</b> (țări, plan, GTIN). Ce e mai jos vine din pagina oficială Shopify, unde am putut verifica. Ce n-am putut verifica e marcat „de verificat în admin”. Condițiile se schimbă, deci contează ce vezi în contul tău.</div>
   </div>
 
   <div class="card">
-    <h2>Dacă apare „Ineligible"</h2>
+    <h2>Dacă apare „Ineligible”</h2>
     <ol class="l" style="list-style:decimal">
-      <li>În Admin, la „Agentic", dai click pe avertismentul <b>Ineligible</b> și citești motivul scris acolo.</li>
+      <li>În Admin, la „Agentic”, dai click pe avertismentul <b>Ineligible</b> și citești motivul scris acolo.</li>
       <li>Rezolvi motivul din lista de mai sus (politici, parolă, categorie, imagini).</li>
       <li>Aștepți să se actualizeze starea, apoi verifici din nou. Nu schimbi altceva în același timp.</li>
       <li>Notezi în Jurnal ce ai schimbat și când.</li>
@@ -457,7 +458,7 @@ details p b{color:var(--text)}
     <ul class="l">
       <li><b>Titluri clare:</b> ce e produsul, materialul, mărimea, pentru ce se folosește. Cum caută oamenii, nu cum scrie furnizorul.</li>
       <li><b>Descrieri reale:</b> doar fapte pe care le poți dovedi. Fără promisiuni, fără urgență falsă.</li>
-      <li><b>Categorie setată corect</b> la fiecare produs. „Uncategorized" îl poate exclude.</li>
+      <li><b>Categorie setată corect</b> la fiecare produs. „Uncategorized” îl poate exclude.</li>
       <li><b>Imagini clare,</b> prima pe fundal alb, produsul vizibil.</li>
       <li><b>Preț și disponibilitate corecte,</b> identice cu cele de pe pagina de produs.</li>
       <li><b>Knowledge base:</b> în setările canalului poți adăuga informații despre magazin (termene de livrare, cum se face un retur, valorile brandului), ca AI-ul să răspundă clienților. Scrii <b>exact ce scrie în politicile magazinului</b>. Orice schimbare de livrare sau retur se face în aceeași zi și pe site, și în Knowledge base, și în Merchant Center.</li>
@@ -470,7 +471,7 @@ details p b{color:var(--text)}
     <div class="verdict good" style="margin-bottom:10px"><b>Veste bună, de verificat în admin:</b> ChatGPT și Copilot citesc produsele prin Shopify Catalog, deci nu depind de Merchant Center. Gemini și Google AI Mode depind: cer cont Merchant Center valid și produse sincronizate prin canalul Google &amp; YouTube.</div>
     <p class="lead">Alternative de reclame cât timp Merchant Center e blocat. Nu sunt acoperite de pluginurile Genesyum și n-am găsit politici oficiale 2026 despre dropshipping pentru niciuna, deci verifică regulile fiecărei platforme înainte să muți bani.</p>
     <details><summary>Microsoft Advertising (Bing Shopping)</summary><p>Reclame de produse pe Bing, cu alt cont de comerciant. Un studiu de caz din comunitatea Shopify menționează trecerea la el după o suspendare Google. Ofertele de credit gratuit nu sunt confirmate. Verifică termenii actuali.</p></details>
-    <details><summary>Meta: Facebook și Instagram (reclame cu catalog)</summary><p>Se leagă de magazin prin canalul „Facebook &amp; Instagram" din Shopify. Merg pe alt tip de cerere: oamenii nu caută produsul, îl descoperă în feed. Sunt raportate suspendări de conturi la nerespectarea regulilor.</p></details>
+    <details><summary>Meta: Facebook și Instagram (reclame cu catalog)</summary><p>Se leagă de magazin prin canalul „Facebook &amp; Instagram” din Shopify. Merg pe alt tip de cerere: oamenii nu caută produsul, îl descoperă în feed. Sunt raportate suspendări de conturi la nerespectarea regulilor.</p></details>
     <details><summary>TikTok</summary><p>Reclame pe TikTok. Regulile pentru vânzători din TikTok Shop sunt mai stricte decât cele pentru reclame. Citește politica înainte.</p></details>
     <details><summary>Pinterest</summary><p>Catalog de produse și reclame pe Pinterest. Public care caută inspirație, util pentru nișe vizuale.</p></details>
     <div class="verdict mid" style="margin-top:12px"><b>Înainte să muți bugetul:</b> verifică tracking-ul pe noul canal și rezolvă motivul suspendării din Merchant Center (<button class="cmd" data-copy="/scan-gmc">/scan-gmc</button>), pentru că Gemini și AI Mode tot de acolo depind.</div>
@@ -523,7 +524,7 @@ details p b{color:var(--text)}
       <div class="field"><label>Ai un produs câștigător?</label>
         <select id="pl_winner"><option value="no">Nu</option><option value="yes">Da: ROAS 2x+, stabil 14+ zile</option></select></div>
       <div class="field"><label>Tracking-ul e verificat?</label>
-        <select id="pl_track"><option value="no">Nu sau nu știu</option><option value="yes">Da: Purchase în „Recording"</option></select></div>
+        <select id="pl_track"><option value="no">Nu sau nu știu</option><option value="yes">Da: Purchase în „Recording”</option></select></div>
       <div class="field"><label>Ai bani de rezervă pentru scalare?</label>
         <select id="pl_cash"><option value="no">Nu</option><option value="yes">Da</option></select></div>
     </div>
@@ -564,6 +565,7 @@ const store = {
   get(k, d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
+const rr=(n,d=2)=>Number(n).toFixed(d).replace('.',',');
 const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ---------- Tabs ---------- */
@@ -590,13 +592,13 @@ function calc(){
   const poas = isFinite(cpa)&&cpa>0 ? margin/cpa : 0;
   $('#c_out').innerHTML =
     st('Profit înainte de reclame', money(margin), margin>0?'good':'bad')
-   +st('ROAS breakeven', isFinite(be)?be.toFixed(2):'—', '')
+   +st('ROAS breakeven', isFinite(be)?rr(be,2):'—', '')
    +st('CPA maxim (breakeven)', margin>0?money(margin):'—', '')
    +st('Profit net / comandă la ROAS '+roas, isFinite(profit)?money(profit):'—', profit>0?'good':'bad')
-   +st('POAS la ROAS '+roas, poas.toFixed(2), poas>1?'good':'bad');
+   +st('POAS la ROAS '+roas, rr(poas,2), poas>1?'good':'bad');
   let v='';
   if(margin<=0) v='<div class="verdict bad"><b>Produsul nu poate fi profitabil cu aceste costuri.</b> Chiar fără reclame pierzi bani pe fiecare comandă. Crește prețul sau scade costurile.</div>';
-  else if(roas<be) v='<div class="verdict bad"><b>Pierzi bani.</b> ROAS-ul tău ('+roas.toFixed(2)+') e sub breakeven ('+be.toFixed(2)+'). Pierzi aproximativ '+money(-profit)+' pe comandă.</div>';
+  else if(roas<be) v='<div class="verdict bad"><b>Pierzi bani.</b> ROAS-ul tău ('+rr(roas,2)+') e sub breakeven ('+rr(be,2)+'). Pierzi aproximativ '+money(-profit)+' pe comandă.</div>';
   else if(roas<be*1.3) v='<div class="verdict mid"><b>Ești aproape de zero.</b> Ai profit, dar mic. O mică scădere a ROAS-ului te duce pe minus.</div>';
   else v='<div class="verdict good"><b>E profitabil.</b> Rămân aproximativ '+money(profit)+' pe comandă după reclame. POAS peste 1 înseamnă profit.</div>';
   $('#c_verdict').innerHTML = v;
@@ -665,7 +667,7 @@ function analyze(){
   const freq={}; waste.forEach(r=>{ toks(r.term).forEach(w=>{ if(!good.has(w)&&!prodWords.has(w)) freq[w]=(freq[w]||0)+1; }); });
   const words=Object.entries(freq).filter(([,n])=>n>=2).sort((a,b)=>b[1]-a[1]).slice(0,20);
   let html='';
-  if(!lastReport.hasConv) html+='<div class="verdict mid">Nu am găsit coloana de conversii, deci „de verificat" folosește doar cost și clickuri.</div>';
+  if(!lastReport.hasConv) html+='<div class="verdict mid">Nu am găsit coloana de conversii, deci „de verificat” folosește doar cost și clickuri.</div>';
   html+='<div class="stats">'
     +'<div class="stat"><b>'+rows.length+'</b><span>termeni în raport</span></div>'
     +'<div class="stat bad"><b>'+baseRows.length+'</b><span>cu cuvinte de bază pentru negative</span></div>'
@@ -673,11 +675,11 @@ function analyze(){
     +'<div class="stat bad"><b>'+money(baseCost+wasted)+'</b><span>cheltuiți pe ei'+(total?' ('+Math.round((baseCost+wasted)/total*100)+'% din total)':'')+'</span></div></div>';
   if(totalConv<5) html+='<div class="verdict mid" style="margin-top:12px"><b>Ai doar '+totalConv+' conversii în raport.</b> Cu date puține, aproape toți termenii au zero vânzări. Folosește doar negativele de bază și mărcile concurente, restul așteaptă mai multe date.</div>';
   if(baseRows.length){
-    html+='<h3 style="margin-top:1.2rem">Negative de bază găsite</h3><p class="muted">Căutări fără intenție de cumpărare. Le propui ca negative, cu „da" de la tine.</p><div class="tbl"><table><tr><th>Termen</th><th>Cuvânt de bază</th><th>Clickuri</th><th>Cost</th></tr>'
+    html+='<h3 style="margin-top:1.2rem">Negative de bază găsite</h3><p class="muted">Căutări fără intenție de cumpărare. Le propui ca negative, cu „da” de la tine.</p><div class="tbl"><table><tr><th>Termen</th><th>Cuvânt de bază</th><th>Clickuri</th><th>Cost</th></tr>'
       +baseRows.slice(0,60).map(x=>'<tr><td>'+esc(x.r.term)+'</td><td>'+esc(x.hits.join(', '))+'</td><td>'+x.r.clicks+'</td><td>'+money(x.r.cost)+'</td></tr>').join('')+'</table></div>';
   }
   if(waste.length){
-    html+='<h3 style="margin-top:1.2rem">De verificat: fără vânzări până acum</h3><p class="muted"><b>Nu tăia căutările principale doar pentru că n-au adus încă o vânzare.</b> Nu pui ca negativ niciun cuvânt care descrie chiar produsul tău. Am exclus cuvintele din termenii cu vânzări și pe cele din „Cuvinte despre produsele tale" (tab-ul Cuvinte-cheie).</p><div class="chips">'
+    html+='<h3 style="margin-top:1.2rem">De verificat: fără vânzări până acum</h3><p class="muted"><b>Nu tăia căutările principale doar pentru că n-au adus încă o vânzare.</b> Nu pui ca negativ niciun cuvânt care descrie chiar produsul tău. Am exclus cuvintele din termenii cu vânzări și pe cele din „Cuvinte despre produsele tale” (tab-ul Cuvinte-cheie).</p><div class="chips">'
       +(words.length?words.map(([w,n])=>'<span class="chip">'+esc(w)+' ×'+n+'</span>').join(''):'<span class="muted">Niciun cuvânt nu apare de cel puțin 2 ori.</span>')+'</div>'
       +'<div class="tbl"><table><tr><th>Termen</th><th>Clickuri</th><th>Cost</th><th>Conv.</th></tr>'
       +waste.slice(0,100).map(r=>'<tr><td>'+esc(r.term)+'</td><td>'+r.clicks+'</td><td>'+money(r.cost)+'</td><td>'+r.conv+'</td></tr>').join('')+'</table></div>'
@@ -685,7 +687,7 @@ function analyze(){
   }
   if(!baseRows.length && !waste.length){ html+='<div class="verdict good" style="margin-top:12px">Nu am găsit termeni de semnalat cu pragurile alese.</div>'; $('#t_out').innerHTML=html; return; }
   html+='<div class="row"><button class="btn" id="copyBase">Copiază negativele de bază găsite</button><button class="btn ghost" id="copyTerms">Copiază termenii de verificat</button><button class="cmd" data-copy="/genesyum-campanie-auto:campanie-auto">campanie-auto</button></div>'
-    +'<p class="muted" style="margin-top:8px">Adaugi 3-5 negative pe zi. Lipește lista în conversația cu <b>campanie-auto</b>: propune negativele și le adaugă doar după ce îi scrii „da".</p>';
+    +'<p class="muted" style="margin-top:8px">Adaugi 3-5 negative pe zi. Lipește lista în conversația cu <b>campanie-auto</b>: propune negativele și le adaugă doar după ce îi scrii „da”.</p>';
   $('#t_out').innerHTML=html;
   const cb=$('#copyBase'); if(cb) cb.onclick=()=>copy(baseRows.map(x=>x.r.term).join('\n'));
   const ct=$('#copyTerms'); if(ct) ct.onclick=()=>copy(waste.map(r=>r.term).join('\n'));
@@ -694,7 +696,7 @@ function loadFile(f){
   if(!f) return;
   readFileText(f, txt=>{
     const p=parseReport(txt);
-    if(!p||!p.rows.length){ $('#t_out').innerHTML='<div class="verdict bad" style="margin-top:12px">Nu am putut citi fișierul. Descarcă raportul „Search terms" din Google Ads ca CSV, cu coloanele Search term, Clicks și Cost.</div>'; lastReport=null; return; }
+    if(!p||!p.rows.length){ $('#t_out').innerHTML='<div class="verdict bad" style="margin-top:12px">Nu am putut citi fișierul. Descarcă raportul „Search terms” din Google Ads ca CSV, cu coloanele Search term, Clicks și Cost.</div>'; lastReport=null; return; }
     lastReport=p; analyze();
   });
 }
@@ -709,18 +711,18 @@ $('#t_cost').addEventListener('input',analyze); $('#t_clicks').addEventListener(
 /* ---------- Audit ---------- */
 const ul = a => '<ul class="l">'+a.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
 const KSH = [
- ['Kill, imediat', ['30+ clickuri, 0 adăugări în coș, de 7+ zile.','Sau: ROAS sub breakeven, 30+ clickuri și 14+ zile.','Sau: produs fără stoc (nu îl reaprovizionezi).','Sau: respins în Merchant Center și după a doua încercare de reparare.']],
+ ['Kill', ['30+ clickuri, 0 adăugări în coș, de 7+ zile, dar nu înainte de 14 zile de date pe produs.','Sau: ROAS sub breakeven, 30+ clickuri și 14+ zile.','Sau: produs fără stoc (nu îl reaprovizionezi).','Sau: respins în Merchant Center și după a doua încercare de reparare.']],
  ['Scale, după 7-14 zile', ['15+ clickuri și 2+ adăugări în coș (sau măcar 1 vânzare), iar ROAS-ul e peste breakeven.','Crești CPC cu 20-30% și monitorizezi 7 zile.','Dacă ROAS-ul scade cu peste 15%, te întorci la valoarea veche.']],
  ['Hold, nu atingi nimic', ['7-30 clickuri, prea puține date de conversie.','Lași algoritmul să se calibreze.']],
- ['Nu face niciodată', ['Kill sub 10 clickuri: eșantionul e prea mic.','Schimbarea strategiei de ofertare în primele 3 zile ale unei campanii.','50+ negative keywords adăugate odată.','Diagnostic din datele unei singure zile. Aștepți 7 zile.']]
+ ['Nu face niciodată', ['Kill sub 10 clickuri sau sub 14 zile de date pe produs: eșantionul e prea mic.','Schimbarea strategiei de ofertare în primele 3 zile ale unei campanii.','50+ negative keywords adăugate odată.','Diagnostic din datele unei singure zile. Aștepți 7 zile.']]
 ];
 const AUDIT = [
  {t:'1. Bugetul nu se cheltuiește',
   s:'Costul de ieri e sub 70% din bugetul zilnic.',
   v:['Merchant Center → Products: peste 15% respinse? Atunci problema nu e în Google Ads.','Google Ads → Products: peste 20% din produse fără afișări înseamnă problemă de feed.','Segments → Network: Display sau YouTube într-un Standard Shopping înseamnă o altă campanie activă.','Auction Insights → Impression Share: sub 5% = CPC prea mic; 20-40% = buget insuficient; peste 80% = nișă saturată.'],
-  a:['Peste 15% respinse → /scan-gmc.','Produse fără afișări → verifici CPC-ul din grupul de produse (o valoare lăsată la 0,10 ține anunțurile în afara licitației). Dacă e corect, CPC +30%, făcut de tine.','Impression Share sub 5% → CPC +30%.','Buget insuficient → +20$ pe zi.','Impression Share peste 80% → revalidezi nișa.']},
+  a:['Peste 15% respinse → /scan-gmc.','Produse fără afișări → verifici CPC-ul din grupul de produse (o valoare lăsată la 0,10 ține anunțurile în afara licitației). Dacă e corect, CPC +30%, făcut de tine.','Impression Share sub 5% → CPC +30%.','Buget insuficient → crești cu cel mult 20% odată (regula 20%).','Impression Share peste 80% → revalidezi nișa.']},
  {t:'2. Clickuri, dar zero adăugări în coș',
-  s:'CTR peste 0,5%, dar rata de adăugare în coș sub 1%, după 200$+ cheltuiți.',
+  s:'CTR peste 0,5%, dar rata de adăugare în coș sub 1%, după 30+ clickuri pe produs.',
   v:['Search Terms: peste 50% termeni irelevanți (reviews, cheap, price, replica) înseamnă problemă de targeting.','Pagina de produs: bounce peste 80% sau scroll sub 20% înseamnă produs, preț sau imagini slabe.','PageSpeed pe mobil: sub 50 înseamnă că viteza e cauza.','Prețul față de concurenții din Google Shopping: peste 25% mai scump înseamnă NO-GO.','Microsoft Clarity: vezi unde se opresc oamenii.'],
   a:['Peste 50% irelevanți → negative keywords, 3-5 pe zi.','Bounce peste 80% → oprești reclamele și repari întâi site-ul.','PageSpeed sub 50 → comprimi imaginile, amâni JavaScript, cache.','Peste 25% mai scump → ajustezi prețul sau oprești produsul.','Clarity arată fricțiune → repari exact acolo.']},
  {t:'3. Adaugă în coș, dar nu cumpără',
@@ -729,7 +731,7 @@ const AUDIT = [
   a:['Lipsește o metodă de plată de bază → o activezi din Shopify Payments.','Transport surpriză → afișezi transportul estimat înainte de checkout.','Lipsesc semnalele de încredere → politică de retur vizibilă, recenzii, contact.','Pasul de informații frustrează → checkout pe o singură pagină (nativ în Shopify).']},
  {t:'4. ROAS sub breakeven, dar ai vânzări',
   s:'ROAS-ul e sub breakeven-ul calculat.',
-  v:['Recalculezi breakeven-ul: AOV ÷ (AOV − COGS − transport). Exemplu: 120 ÷ (120 − 45 − 8) = 1,79x. Dacă raportezi 1,5x, pierzi bani. Îl calculezi în tab-ul Calculator.','Sortezi produsele după ROAS (Google Ads → Products).','Identifici produsele sub breakeven.','Dacă ești în Faza B sau mai departe, calculezi POAS pe produs.'],
+  v:['Recalculezi breakeven-ul: AOV ÷ (AOV − COGS − transport). Exemplu: 120 ÷ (120 − 45 − 8) = 1,79x. Dacă raportezi 1,5x, pierzi bani. Îl calculezi în tab-ul Calculator.','Sortezi produsele după ROAS (Google Ads → Products).','Identifici produsele sub breakeven.','Dacă ai costurile pe produs, calculezi și POAS (vezi „După ziua 30”).'],
   a:['Produs sub breakeven după 30+ clickuri → oprești.','POAS sub 0,5 → oprești, chiar dacă ROAS-ul pare bun.','Muți bugetul pe produsele care sunt peste breakeven.']},
  {t:'5. CPC mult mai mare decât ai calculat',
   s:'CPC-ul real e peste 150% din cel estimat la validarea nișei.',
@@ -737,7 +739,7 @@ const AUDIT = [
   a:['Competitorii plătesc 0,50$, iar tu 1,20$ → revalidezi nișa, piața e prea competitivă.','CPC setat greșit → îl corectezi la CPC-ul de start luat din Keyword Planner.','Feed slab → rescrii titlurile: cuvinte-cheie la început, specifice, nu generice.']},
  {t:'6. Display într-un Standard Shopping',
   s:'Network breakdown arată Display peste 10%.',
-  v:['All campaigns: ai PMax sau un Smart Shopping vechi activ pe aceeași piață?','Setări campanie: „Include Search Partners" e activat?','Standard Shopping nu produce Display singur. Dacă apare, o altă campanie îl activează.'],
+  v:['All campaigns: ai PMax sau un Smart Shopping vechi activ pe aceeași piață?','Setări campanie: „Include Search Partners” e activat?','Standard Shopping nu produce Display singur. Dacă apare, o altă campanie îl activează.'],
   a:['PMax activ pe aceeași piață → îl oprești, e conflict.','Dezactivezi Search Partners dacă Display scade sub 5%.','O piață = o singură campanie.']},
  {t:'7. Produse cu zero afișări',
   s:'Produs în feed, fără nicio afișare de 7+ zile.',
@@ -749,7 +751,7 @@ const AUDIT = [
   a:['Imagine slabă → fundal alb, produs clar, unghi bun.','Preț prea mare → scazi cu 10-15%.','Zero recenzii → activezi Judge.me și sincronizezi feed-ul.']},
  {t:'9. Scădere bruscă (peste 30% în 24-48 de ore)',
   s:'ROAS-ul sau conversiile scad peste 30% de pe o zi pe alta.',
-  v:['Merchant Center → Notifications: ceva respins peste noapte? Suspendare?','Change History în Google Ads, plus Jurnalul tău de aici: ce ai modificat în ultimele 7 zile?','Conversion tracking: statusul e „Recording"? Pixelii se declanșează?','Auction Insights: competitori noi cu buget mare?','Shopify: un produs a rămas fără stoc?','Din experiență: cam 40% schimbare făcută de tine, 30% competitor, 20% produse respinse, 10% tracking.'],
+  v:['Merchant Center → Notifications: ceva respins peste noapte? Suspendare?','Change History în Google Ads, plus Jurnalul tău de aici: ce ai modificat în ultimele 7 zile?','Conversion tracking: statusul e „Recording”? Pixelii se declanșează?','Auction Insights: competitori noi cu buget mare?','Shopify: un produs a rămas fără stoc?','Din experiență: cam 40% schimbare făcută de tine, 30% competitor, 20% produse respinse, 10% tracking.'],
   a:['Ai făcut o schimbare recent → o anulezi imediat.','Suspendare Merchant Center → oprești reclamele și rulezi /scan-gmc.','Tracking stricat → verifici Enhanced Conversions și pixelul din Shopify.','Competitor → optimizezi CPC și monitorizezi, nu panichezi.']},
  {t:'10. PMax cheltuie pe Display și YouTube',
   s:'Display sau YouTube peste 30% în PMax.',
@@ -759,13 +761,13 @@ const AUDIT = [
 const ADV_GATE = [
  ['Conversii','10-15, în funcție de clickuri, afișări și faza de optimizare a magazinului'],
  ['Enhanced Conversions','active și verificate (potrivire peste 70%)'],
- ['Tracking pe Purchase','în starea „Recording"'],
+ ['Tracking pe Purchase','în starea „Recording”'],
  ['Magazinul','optimizat: pagină de produs, checkout și recenzii reale'],
  ['ROAS pe Standard Shopping','peste breakeven, constant']
 ];
 const SCRIPTS = [
  {t:'POAS (Profit on Ad Spend)', p:['POAS = (Venit − COGS variabil) ÷ Cheltuiala pe reclame. ROAS-ul îți ascunde marjele diferite dintre produse.','Peste 2,0 → scalezi agresiv. Între 1,5 și 2,0 → menții și optimizezi. Între 1,0 și 1,5 → zonă de breakeven. Sub 1,0 → oprești.','Nu scalezi niciodată pe un POAS sub 1,0.']},
- {t:'CwCD (Conversion with Cart Data)', p:['Google vede costul real pe produs și optimizează pe profit brut, nu pe venit.','Nu îl activezi dacă Enhanced Conversions nu e verificat (potrivire peste 70%).','În Google Ads: Goals → Conversions → Purchase → Cart data. Vrei peste 80% „Cart data received".']},
+ {t:'CwCD (Conversion with Cart Data)', p:['Google vede costul real pe produs și optimizează pe profit brut, nu pe venit.','Nu îl activezi dacă Enhanced Conversions nu e verificat (potrivire peste 70%).','În Google Ads: Goals → Conversions → Purchase → Cart data. Vrei peste 80% „Cart data received”.']},
  {t:'PMax Feed-Only', p:['Se ia în calcul de la 10-15 conversii, doar dacă toate condițiile din tabelul de mai sus sunt îndeplinite.','Alegi feed-ul din Merchant Center, fără asset-uri: zero imagini, zero titluri, zero video. Ofertare: Maximize conversion value. Buget de start: 70% din cel de la Standard Shopping, lansat la ~30%.','Rulezi scriptul Mike Rhodes pentru breakdown-ul bugetului. Praguri sănătoase: Shopping 60-85%, Search 10-25%, Display sub 10% (ideal sub 5%), Video sub 5%.','Migrezi treptat (50/50, apoi 65/35). Standard Shopping Heroes (top 3-5 produse) rămâne ca plasă de siguranță.','Dacă PMax are ROAS sub 1,5x după 2 săptămâni, îl pui pe pauză și revii pe Standard Shopping.']},
  {t:'Nu face niciodată', p:['CwCD fără Enhanced Conversions verificat.','Scalare pe un POAS sub 1,0.','Asset-uri încărcate într-un PMax pe care îl vrei Feed-Only.','Schimbarea strategiei de ofertare în primele 7 zile ale unui test.']}
 ];
@@ -846,7 +848,7 @@ function renderCheck(){
     return;
   }
   items = sortedJournal().filter(e=>norm([e.type,e.elem,e.from,e.to,e.why,LEVEL_LABEL[e.level]].join(' ')).includes(q));
-  if(!items.length){ $('#j_check').innerHTML='<div class="verdict good">Nu ai nicio modificare notată pentru „'+esc($('#j_q').value)+'". Poți merge mai departe.</div>'; return; }
+  if(!items.length){ $('#j_check').innerHTML='<div class="verdict good">Nu ai nicio modificare notată pentru „'+esc($('#j_q').value)+'”. Poți merge mai departe.</div>'; return; }
   const blocked = items.filter(e=>lockInfo(e).blocked).length;
   $('#j_check').innerHTML = '<div class="verdict '+(blocked?'bad':'mid')+'" style="margin-bottom:10px">'
     +(blocked?'<b>Ai modificat deja asta și e încă în perioada de așteptare.</b> Mai bine așteaptă.':'<b>Ai mai modificat asta.</b> Uită-te mai jos ce ai făcut și când.')+'</div>'
@@ -888,7 +890,7 @@ $('#j_add').addEventListener('click', ()=>{
     elem:$('#j_elem').value.trim(), from:$('#j_from').value.trim(), to:$('#j_to').value.trim(),
     why:$('#j_why').value.trim(), lock:Math.max(0,parseInt($('#j_lock').value,10)||0), reset:$('#j_reset').checked
   };
-  if(!e.elem && !e.from && !e.to){ toast('Completează măcar „La ce anume" sau „Din / În"'); return; }
+  if(!e.elem && !e.from && !e.to){ toast('Completează măcar „La ce anume” sau „Din / În”'); return; }
   if(e.level==='reclama'){
     const other={'Buget':'CPC','CPC':'Buget'}[e.type];
     if(other && D.journal.some(x=>x.level==='reclama' && x.date===e.date && (x.type===other || (other==='CPC' && x.type==='Ofertă / ROAS țintă'))) &&
@@ -899,7 +901,7 @@ $('#j_add').addEventListener('click', ()=>{
   const clash = D.journal.filter(x=>x.level===e.level && e.elem && norm(x.elem)===norm(e.elem) && lockInfo(x).blocked);
   if(clash.length){
     const c=clash[0], li=lockInfo(c);
-    if(!confirm('Ai modificat deja „'+c.elem+'" pe '+c.date+' ('+c.type+': '+(c.from||'?')+' → '+(c.to||'?')+'). Mai are '+li.left+' zile de așteptare.\n\nEști sigură că vrei să mai schimbi ceva acum?')) return;
+    if(!confirm('Ai modificat deja „'+c.elem+'” pe '+c.date+' ('+c.type+': '+(c.from||'?')+' → '+(c.to||'?')+'). Mai are '+li.left+' zile de așteptare.\n\nEști sigură că vrei să mai schimbi ceva acum?')) return;
   }
   D.journal.push(e); persist();
   ['j_elem','j_from','j_to','j_why'].forEach(id=>$('#'+id).value='');
@@ -959,7 +961,7 @@ function readSettings(){
 function showBE(){
   const s=D.settings, cm = 1 - (s.cogs+s.fee+s.ret)/100;
   $('#s_be').innerHTML = (D.settingsSet?'':'<b>Valorile de mai sus sunt doar exemple.</b> Completează-le cu cifrele tale, altfel profitul calculat nu e real.<br>')+(cm>0
-    ? 'ROAS breakeven estimat: <b>'+(1/cm).toFixed(2)+'</b> (înainte de costurile fixe). Sub această valoare pierzi bani pe fiecare vânzare.'
+    ? 'ROAS breakeven estimat: <b>'+rr((1/cm),2)+'</b> (înainte de costurile fixe). Sub această valoare pierzi bani pe fiecare vânzare.'
     : '<b>Costurile din setări depășesc 100% din vânzări.</b> Verifică procentele.');
 }
 SET.forEach(([id])=>$('#'+id).addEventListener('input', readSettings));
@@ -1001,22 +1003,22 @@ function renderMonth(){
   const T={rev:0,cogs:0,fees:0,rets:0,gads:0,oads:0,oth:0,fixed:0,margin:0,profit:0,ads:0};
   const calc=dates.map(k=>{ const c=dayCalc(k,D.days[k]); Object.keys(T).forEach(f=>T[f]+=c[f]); return [k,c]; });
   const roas=T.gads>0?T.rev/T.gads:null, be=T.margin>0?T.rev/T.margin:null, poas=T.ads>0?T.margin/T.ads:null;
-  const pct=x=>T.rev>0?(x/T.rev*100).toFixed(1)+'%':'';
+  const pct=x=>T.rev>0?rr((x/T.rev*100),1)+'%':'';
   const line=(l,v,cls)=>'<tr class="'+(cls||'')+'"><td>'+l+'</td><td>'+mny(v)+'</td><td class="muted">'+pct(v)+'</td></tr>';
   $('#m_pl').innerHTML =
     '<div class="stats">'
     +'<div class="stat '+(T.profit>=0?'good':'bad')+'"><b>'+mny(T.profit)+'</b><span>profit net ('+dates.length+' zile)</span></div>'
-    +'<div class="stat"><b>'+(roas?roas.toFixed(2):'—')+'</b><span>ROAS Google</span></div>'
-    +'<div class="stat"><b>'+(be?be.toFixed(2):'—')+'</b><span>ROAS breakeven</span></div>'
-    +'<div class="stat '+(poas&&poas>1?'good':'bad')+'"><b>'+(poas?poas.toFixed(2):'—')+'</b><span>POAS</span></div></div>'
-    +(roas&&be?'<div class="verdict '+(roas>=be?'good':'bad')+'">'+(roas>=be?'ROAS-ul ('+roas.toFixed(2)+') e peste breakeven ('+be.toFixed(2)+').':'<b>ROAS-ul ('+roas.toFixed(2)+') e sub breakeven ('+be.toFixed(2)+').</b> Pierzi bani pe vânzările din reclame.')+'</div>':'')
+    +'<div class="stat"><b>'+(roas?rr(roas,2):'—')+'</b><span>ROAS Google</span></div>'
+    +'<div class="stat"><b>'+(be?rr(be,2):'—')+'</b><span>ROAS breakeven</span></div>'
+    +'<div class="stat '+(poas&&poas>1?'good':'bad')+'"><b>'+(poas?rr(poas,2):'—')+'</b><span>POAS</span></div></div>'
+    +(roas&&be?'<div class="verdict '+(roas>=be?'good':'bad')+'">'+(roas>=be?'ROAS-ul ('+rr(roas,2)+') e peste breakeven ('+rr(be,2)+').':'<b>ROAS-ul ('+rr(roas,2)+') e sub breakeven ('+rr(be,2)+').</b> Pierzi bani pe vânzările din reclame.')+'</div>':'')
     +'<div class="tbl"><table class="pl">'
     +line('Vânzări',T.rev,'b')+line('− Cost produse (COGS)',-T.cogs)+line('− Comisioane plată',-T.fees)+line('− Retururi estimate',-T.rets)
     +line('= Marjă înainte de reclame',T.margin,'b')+line('− Google Ads',-T.gads)+line('− Alte reclame',-T.oads)+line('− Alte costuri',-T.oth)+line('− Costuri fixe (împărțite pe zile)',-T.fixed)
     +line('= Profit net',T.profit,'b')+'</table></div>';
   const jc={}; D.journal.forEach(e=>{ jc[e.date]=(jc[e.date]||0)+1; });
   $('#m_days').innerHTML='<table><tr><th>Data</th><th>Vânzări</th><th>Google Ads</th><th>ROAS</th><th>Breakeven</th><th>Profit</th><th>Zi</th><th>Modificări</th></tr>'
-    +calc.slice().reverse().map(([k,c])=>'<tr><td>'+k+'</td><td>'+mny(c.rev)+'</td><td>'+mny(c.gads)+'</td><td>'+(c.roas?c.roas.toFixed(2):'—')+'</td><td>'+(c.be?c.be.toFixed(2):'—')+'</td>'
+    +calc.slice().reverse().map(([k,c])=>'<tr><td>'+k+'</td><td>'+mny(c.rev)+'</td><td>'+mny(c.gads)+'</td><td>'+(c.roas?rr(c.roas,2):'—')+'</td><td>'+(c.be?rr(c.be,2):'—')+'</td>'
       +'<td style="color:var(--'+(c.profit>=0?'green':'red')+')"><b>'+mny(c.profit)+'</b></td><td>'+((c.rev||c.ads)?(c.rev-c.ads>0?'<span class="badge green">verde</span>':'<span class="badge amber" style="background:var(--red-light);color:var(--red)">roșie</span>'):'—')+'</td><td>'+(jc[k]?'✎ '+jc[k]:'')+'</td></tr>').join('')+'</table>'
     +'<p class="muted" style="margin-top:8px">✎ înseamnă că ai notat modificări în ziua respectivă. Zi verde = venit minus reclame peste zero, zi roșie = sub zero. E o informație, nu o decizie: nu schimbi nimic în campanie din cauza unei zile roșii.</p>';
 }
@@ -1153,9 +1155,9 @@ function kwAnalyze(){
   if(!pass.length) html+='<div class="verdict bad" style="margin-top:12px"><b>Niciun cuvânt nu trece filtrele.</b> Slăbește pragurile de volum sau de CPC. Dacă nici așa nu apare nimic cu intenție de cumpărare, e un semnal să revalidezi direcția produselor (<button class="cmd" data-copy="/validare-produs">/validare-produs</button>).</div>';
   else if(!bestBuy) html+='<div class="verdict mid" style="margin-top:12px">Toate cuvintele rămase sunt informative. Pentru reclame ai nevoie de termeni de cumpărare sau de produs. Caută alte variante.</div>';
   const topBuy=pass.find(r=>r.intent!=='info' && r.cpc!==null);
-  if(topBuy) html+='<div class="verdict good" style="margin-top:12px"><b>CPC de start pentru campanie:</b> '+(Math.ceil(topBuy.cpc*100)/100).toFixed(2)+' (cuvântul „'+esc(topBuy.kw)+'”). Regula: capătul de jos al intervalului „Top of page bid”, rotunjit în sus, pentru cuvântul principal de cumpărare. Cuvântul principal îl alegi tu. Dacă e altul, ia CPC-ul lui din coloana „jos”.</div>';
+  if(topBuy) html+='<div class="verdict good" style="margin-top:12px"><b>CPC de start pentru campanie:</b> '+rr(Math.ceil(topBuy.cpc*100)/100)+' (cuvântul „'+esc(topBuy.kw)+'”). Regula: capătul de jos al intervalului „Top of page bid”, rotunjit în sus, pentru cuvântul principal de cumpărare. Cuvântul principal îl alegi tu. Dacă e altul, ia CPC-ul lui din coloana „jos”.</div>';
   html+='<div class="tbl"><table><tr><th>Cuvânt-cheie</th><th>Intenție</th><th>Căutări/lună</th><th>CPC jos – sus</th><th>Trend</th><th>Scor</th></tr>'
-    +pass.slice(0,60).map(r=>{ const b=INTENT_BADGE[r.intent]; return '<tr><td>'+esc(r.kw)+'</td><td><span class="badge '+b[0]+'">'+b[1]+'</span></td><td>'+(r.vol===null?'—':Math.round(r.vol).toLocaleString('ro-RO'))+'</td><td>'+(r.cpc===null?'—':(r.cpcLow!==null?r.cpcLow.toFixed(2):'?')+' – '+(r.cpcHigh!==null?r.cpcHigh.toFixed(2):'?'))+'</td><td>'+(r.tr===null?'—':(r.tr>0?'+':'')+Math.round(r.tr)+'%')+'</td><td><b>'+r.score+'</b></td></tr>'; }).join('')+'</table></div>'
+    +pass.slice(0,60).map(r=>{ const b=INTENT_BADGE[r.intent]; return '<tr><td>'+esc(r.kw)+'</td><td><span class="badge '+b[0]+'">'+b[1]+'</span></td><td>'+(r.vol===null?'—':Math.round(r.vol).toLocaleString('ro-RO'))+'</td><td>'+(r.cpc===null?'—':(r.cpcLow!==null?rr(r.cpcLow,2):'?')+' – '+(r.cpcHigh!==null?rr(r.cpcHigh,2):'?'))+'</td><td>'+(r.tr===null?'—':(r.tr>0?'+':'')+Math.round(r.tr)+'%')+'</td><td><b>'+r.score+'</b></td></tr>'; }).join('')+'</table></div>'
     +(pass.length>60?'<p class="muted">Se afișează primele 60 după scor.</p>':'')
     +'<p class="muted" style="margin-top:8px">Scorul (0-100) adună: intenție (până la 40), relevanța față de produsele tale (10), volum (20), CPC mic, pe capătul de jos (20) și trend (10). E un ghid de prioritizare, nu un verdict. Alegerea finală o faci tu.</p>';
   $('#k_out').innerHTML=html;
@@ -1343,7 +1345,7 @@ const SEG={
  s0:{n:'Fără vânzări încă', why:'Nicio comandă înseamnă, de regulă, o problemă de site, tracking sau produs, nu de campanie. Înainte să mai pui bani, verifici tracking-ul, Merchant Center și site-ul.',
   pri:['Verifici tracking-ul: fără el nu știi dacă vânzările se văd. [[/verifica-tracking]]','Repari site-ul înainte să mai cheltuiești: preț, imagini, pagina de produs pe telefon, checkout.','Parcurgi cele 10 probleme din tab-ul Audit, în ordine.'],
   b:[{t:'Zilele 1-30: diagnostic și reparații', goal:'Găsești cauza, nu repari la întâmplare.', w:[
-    ['Dacă ai multe clickuri și nicio conversie, faci pauză și verifici întâi tracking-ul, Merchant Center și site-ul.','Tracking: Enhanced Conversions active și Purchase în „Recording". [[/verifica-tracking]]','Merchant Center: produse respinse? [[/scan-gmc]]'],
+    ['Dacă ai multe clickuri și nicio conversie, faci pauză și verifici întâi tracking-ul, Merchant Center și site-ul.','Tracking: Enhanced Conversions active și Purchase în „Recording”. [[/verifica-tracking]]','Merchant Center: produse respinse? [[/scan-gmc]]'],
     ['Compari prețul cu primii 5 din Google Shopping. Peste 25% mai scump înseamnă NO-GO pentru produs.','Imaginea principală pe fundal alb, produs clar. Recenzii reale și politica de retur vizibile.','PageSpeed pe mobil: sub 3 secunde.'],
     ['Testezi checkout-ul pe iPhone, cu o comandă de test: metode de plată, costuri surpriză.','Parcurgi cele 10 probleme din tab-ul Audit.','Notezi fiecare reparație în Jurnal, cu data.'],
     ['Relansezi cu CPC-ul de start luat din Keyword Planner (capătul de jos al intervalului, rotunjit în sus).','În prima săptămână după relansare schimbi doar negative keywords.']],
@@ -1375,9 +1377,9 @@ const SEG={
     ['Checkout: costul livrării vizibil din pagina de produs. Comandă de test pe telefon.']],
    gate:'Ziua 60: rata de adăugare în coș (țintă ~2% din clickuri) și vânzările, față de luna 1.'},
   {t:'Zilele 61-90: pregătire pentru pasul următor', goal:'Mergi mai departe doar dacă îndeplinești condițiile.', w:[
-    ['Condiții: 10-15 conversii (în funcție de clickuri, afișări și faza de optimizare a magazinului), Enhanced Conversions verificat, Purchase în „Recording".'],
+    ['Condiții: 10-15 conversii (în funcție de clickuri, afișări și faza de optimizare a magazinului), Enhanced Conversions verificat, Purchase în „Recording”.'],
     ['Calculezi POAS pe produs și îl compari cu ROAS-ul (tab-ul Calculator).'],
-    ['Dacă ai un produs cu ROAS 2x+ stabil 14+ zile → scalare verticală, cu regula 20% (planul „câștigător de scalat").','Dacă nu → încă 30 de zile de date.'],
+    ['Dacă ai un produs cu ROAS 2x+ stabil 14+ zile → scalare verticală, cu regula 20% (planul „câștigător de scalat”).','Dacă nu → încă 30 de zile de date.'],
     ['Recapitulezi din Jurnal: ce a funcționat, ce ai oprit.']],
    gate:'Ziua 90: condițiile îndeplinite? Da → regenerezi planul cu situația nouă. Nu → încă 30 de zile de date.'}]},
  s2:{n:'Ai vânzări, dar niciun câștigător clar', why:'Ai suficiente date ca să decizi, dar niciun produs nu trece clar de breakeven. Nu crești bugetul acum: pui ordine în cifre și crești conversia.',
@@ -1397,7 +1399,7 @@ const SEG={
   {t:'Zilele 61-90: cauți câștigătorul', goal:'Găsești produsul care duce magazinul.', w:[
     ['Maxim 2 produse noi pe săptămână, CPC conservator, 7-14 zile. [[/import-produse]]'],
     ['Verdict: câștigător = ROAS 2,0x+ și 3+ conversii. Zombie = hold 7 zile și optimizare. Kill = ROAS sub 1,5x după 14 zile.'],
-    ['Dacă ai câștigător: pregătești scalarea (planul „câștigător de scalat").'],
+    ['Dacă ai câștigător: pregătești scalarea (planul „câștigător de scalat”).'],
     ['Dacă nu ai: revalidezi nișa sau direcția produselor. [[/validare-produs]]']],
    gate:'Ziua 90: câștigător stabil (ROAS 2x+, 14+ zile)? Da → regenerezi planul. Nu → revalidezi nișa.'}]},
  s3:{n:'Ai un câștigător: scalezi cu disciplină', why:'Ai un produs care merge. Acum contează sistemul: creșteri mici, matematică și cashflow. Scalarea fără disciplină pierde bani.',
@@ -1419,7 +1421,7 @@ const SEG={
     ['Calculezi POAS pe fiecare produs și muți bugetul pe produsele cu POAS peste 2,0.'],
     ['PMax se ia în calcul de la 10-15 conversii, în funcție de clickuri, afișări și faza de optimizare a magazinului. Verifici condițiile din tab-ul Audit.'],
     ['Raport săptămânal: buget, ROAS, POAS, profit net, produse noi.']],
-   gate:'Ziua 90: condițiile pentru PMax îndeplinite și tracking fără probleme → planul „Scalare avansată". Altfel mai rămâi 1-2 luni pe Standard Shopping.'}]},
+   gate:'Ziua 90: condițiile pentru PMax îndeplinite și tracking fără probleme → planul „Scalare avansată”. Altfel mai rămâi 1-2 luni pe Standard Shopping.'}]},
  s4:{n:'Scalare avansată: PMax Feed-Only', why:'Ai peste 50 de comenzi și un câștigător. Urmează tranziția treptată la PMax Feed-Only, cu plasă de siguranță, și optimizarea pe profit.',
   pri:['Tranziția la PMax se face treptat, cu Standard Shopping Heroes ca plasă de siguranță.','Optimizezi pe profit: POAS și CwCD.','70% din profit în reclame, 30% rezervă.'],
   b:[{t:'Zilele 1-30: pregătești PMax Feed-Only', goal:'Intri în PMax cu toate condițiile îndeplinite.', w:[
@@ -1457,7 +1459,7 @@ const SEG={
   {t:'Zilele 61-90: retest', goal:'Un test curat, pe ce a rămas.', w:[
     ['Test de 14 zile, doar pe produsele rămase, cu schimbările notate în Jurnal.'],
     ['N-gram și negative keywords, ca să nu cheltuiești pe termeni toxici.'],
-    ['Dacă profitul net e pozitiv 14+ zile: reiei scalarea (planul „câștigător de scalat").'],
+    ['Dacă profitul net e pozitiv 14+ zile: reiei scalarea (planul „câștigător de scalat”).'],
     ['Dacă nu: revalidezi produsul sau nișa. [[/validare-produs]]']],
    gate:'Ziua 90: profit net pozitiv și stabil? Da → scalezi. Nu → schimbi produsul sau nișa.'}]}
 };
@@ -1565,7 +1567,7 @@ function importAds(lines, d, h){
   const iDay=h.findIndex(x=>/^(day|date|ziua|data)$/.test(x)), iCost=h.findIndex(x=>x==='cost'||(/^(cost|cheltuieli)/.test(x)&&!/[\/]|conv|per/.test(x)));
   const days={}; let n=0;
   for(let r=1;r<lines.length;r++){
-    const c=splitLine(lines[r],d); const date=normDate(c[iDay]); if(!date) continue;   // sare peste rândul „Total"
+    const c=splitLine(lines[r],d); const date=normDate(c[iDay]); if(!date) continue;   // sare peste rândul „Total”
     days[date]={gads:(days[date]?days[date].gads:0)+parseNum(c[iCost])}; n++;
   }
   return {src:'Google Ads (cheltuială pe zile)', days, note:n+' zile'};
@@ -1653,7 +1655,7 @@ const AI_ITEMS=[
   ['tit','Fiecare produs are titlu și cel puțin o imagine','Products'],
   ['price','Prețul e mai mare decât 0','Products'],
   ['pub','Produsele sunt publicate pe Online Store','Products → Sales channels'],
-  ['cat','Fiecare produs are o categorie setată (nu „Uncategorized")','Products → Category'],
+  ['cat','Fiecare produs are o categorie setată (nu „Uncategorized”)','Products → Category'],
   ['excl','Produsul nu e în categorii excluse: alcool, tutun, vaping, CBD, produse medicale, arme, produse pentru adulți, servicii, bilete, animale vii','listă din ghiduri terțe, de verificat'],
   ['bund','Produsul nu e pachet, produs personalizabil sau abonament (nesuportate)','din ghiduri terțe, de verificat']]}
 ];
