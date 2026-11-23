@@ -125,6 +125,41 @@ details p{margin-top:10px;color:var(--brown-m);font-size:15.5px}
 .final p{color:#F3E3D0;margin:0 auto 28px;max-width:560px}
 footer{background:var(--wine-d);color:#CDB59B;font-size:13px;padding:28px 0;text-align:center}
 footer p{max-width:780px;margin:0 auto 8px}
+
+/* v2 */
+.bars2 .row{display:grid;grid-template-columns:78px 1fr 92px;gap:10px;align-items:center;margin:9px 0;font-size:14px}
+.bars2 .track{background:var(--sand);border-radius:8px;height:20px;overflow:hidden}
+.bars2 .fill{height:100%;border-radius:8px;transition:width .25s}
+.bars2 b{text-align:right;color:var(--wine);font-size:14px}
+.be{font-size:13px;margin-top:6px;padding:8px 12px;border-radius:10px;background:var(--cream);border:1px solid var(--line)}
+.be.ok{border-color:#9DBF8A}.be.bad{border-color:var(--orange);background:#FFF1E6}
+.sub2{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:900px){.sub2{grid-template-columns:1fr}}
+.card h3{font-size:20px;margin-bottom:10px}
+.card p.s{font-size:15px;color:var(--brown-m);margin-bottom:10px}
+.goal-out{background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:14px;font-size:15px}
+.goal-out b{color:var(--wine)}
+.ex td,.ex th{padding:7px 8px;font-size:14px;border-bottom:1px solid var(--line);text-align:left}
+.ex th{color:var(--gold-d);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.ex{width:100%;border-collapse:collapse;margin:8px 0 12px}
+.def{background:var(--cream);border-left:4px solid var(--gold);padding:14px 18px;border-radius:0 12px 12px 0;margin-top:24px;max-width:760px;color:var(--brown)}
+.crit{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+@media(max-width:860px){.crit{grid-template-columns:1fr}}
+.crit .card{padding:20px}.crit h3{font-size:18px;margin-bottom:6px}.crit p{font-size:15px;color:var(--brown-m)}
+.crit .k{font-family:Georgia,serif;color:var(--gold-d);font-weight:700;font-size:13px;letter-spacing:.1em}
+.dlbtn{margin-top:26px}
+@media(max-width:600px){
+  section{padding:50px 0}
+  .hero{padding:52px 0 60px}
+  .hero p{font-size:17px}
+  .hero .cta .btn{width:100%;text-align:center}
+  .hero .facts{gap:20px;margin-top:34px}
+  .fact b{font-size:22px}
+  .card{padding:20px}
+  .out-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi b{font-size:20px}.kpi.big b{font-size:30px}
+  .bars2 .row{grid-template-columns:64px 1fr 80px}
+}
 </style>
 </head>
 <body>
@@ -142,9 +177,9 @@ footer p{max-width:780px;margin:0 auto 8px}
 </div></nav>
 
 <header class="hero" id="top"><div class="wrap">
-  <span class="eyebrow" style="color:var(--gold)">Metoda Genesyum · Google + AI</span>
+  <span class="eyebrow" style="color:var(--gold)">Metoda Genesyum · Google + AI · Dropshipping în SUA și UK</span>
   <h1>Nu mai ghici. <em>Calculează</em> înainte să investești.</h1>
-  <p>Vinzi produse fizice în toată lumea, începând cu SUA și UK, cu Google Ads și AI. Vezi mai jos cât ai putea investi, ce comenzi ai putea primi și unde ajungi la profit. Apoi construiești pas cu pas, pe date.</p>
+  <p>Creează o nouă sursă de venit cu AI dropshipping, din confortul casei, fără să fii o persoană tehnică. Vezi mai jos cât ai putea investi, ce comenzi ai putea primi și la ce profit poți ajunge. Apoi îți construiești magazinul pas cu pas.</p>
   <div class="cta">
     <a class="btn" href="#simulator">Încearcă simulatorul</a>
     <a class="btn ghost" data-cta href="#">Programează un apel</a>
@@ -155,57 +190,91 @@ footer p{max-width:780px;margin:0 auto 8px}
 <section id="simulator"><div class="wrap">
   <span class="eyebrow">Simulator ROAS &amp; profit</span>
   <h2>Cât poți câștiga? Joacă-te cu cifrele.</h2>
-  <p class="lead">Alege bugetul zilnic, numărul de produse, valoarea medie a comenzii și ROAS-ul. Vezi pe 30 de zile cheltuiala, comenzile și profitul brut.</p>
+  <p class="lead">Alegi bugetul pe zi, câte produse promovezi, cât costă în medie un produs și cât profit rămâne din fiecare vânzare. Restul îl calculează simulatorul. Dacă un cuvânt nu îți e clar, vezi <a href="#glosar" style="color:var(--wine);font-weight:700">glosarul</a>.</p>
 
   <div class="sim">
     <div class="card">
-      <div class="cur" id="cur"><button data-c="€" class="on">€ EUR</button><button data-c="$">$ USD</button></div>
+      <div class="cur" id="cur"><button data-c="€" class="on">€ Euro</button><button data-c="lei">Lei</button></div>
 
-      <div class="ctl"><label>Buget de reclame pe zi <span id="vBud"></span></label>
-        <div class="chips" data-for="bud"><button class="chip" data-v="20">20</button><button class="chip on" data-v="50">50</button><button class="chip" data-v="100">100</button></div>
-        <input type="number" id="bud" min="5" max="2000" value="50"></div>
+      <div class="ctl"><label>1. Buget de reclame pe zi <span id="vBud"></span></label>
+        <div class="chips" data-for="bud"></div>
+        <input type="number" id="bud" min="5" max="5000" value="50">
+        <p class="hint">Cât cheltui pe reclame în fiecare zi. Poți alege oricare dintre variante sau scrie tu suma.</p></div>
 
-      <div class="ctl"><label>Număr de produse promovate <span id="vProd"></span></label>
-        <div class="chips" data-for="prod"><button class="chip" data-v="1">1</button><button class="chip" data-v="5">5</button><button class="chip on" data-v="10">10</button></div>
-        <input type="number" id="prod" min="1" max="100" value="10">
-        <p class="hint">Bugetul de mai sus e total, împărțit pe produse.</p></div>
+      <div class="ctl"><label>2. Câte produse promovezi <span id="vProd"></span></label>
+        <div class="chips" data-for="prod"><button class="chip on" data-v="5">5</button><button class="chip" data-v="10">10</button></div>
+        <input type="number" id="prod" min="5" max="100" value="5">
+        <p class="hint">Ideal începi cu minimum 5 produse. Bugetul de mai sus se împarte între ele.</p></div>
 
-      <div class="ctl"><label>AOV: valoarea medie a unei comenzi <span id="vAov"></span></label>
-        <div class="chips" data-for="aov"><button class="chip on" data-v="49">49</button><button class="chip" data-v="89">89</button></div>
-        <input type="number" id="aov" min="10" max="1000" value="49">
-        <p class="hint">AOV = Average Order Value, adică cât cheltuie în medie un client la o comandă.</p></div>
+      <div class="ctl"><label>3. AOV: cât costă, în medie, o comandă <span id="vAov"></span></label>
+        <div class="chips" data-for="aov"></div>
+        <input type="number" id="aov" min="10" max="2000" value="49">
+        <p class="hint" id="aovHint"></p></div>
 
-      <div class="ctl"><label>ROAS <span id="vRoas"></span></label>
-        <input type="range" id="roas" min="1" max="6" step="0.1" value="3.5">
-        <p class="hint">ROAS = venit ÷ cheltuiala pe reclame. ROAS 3,5 înseamnă 3,5 din fiecare 1 cheltuit.</p></div>
+      <div class="ctl"><label>4. Marja brută pe produs <span id="vMar"></span></label>
+        <input type="range" id="mar" min="30" max="80" step="1" value="50">
+        <p class="hint">Cât rămâne dintr-un preț după costul produsului, transport și comisioane. <b>Ideal: peste 60%.</b> Vezi „marjă” în <a href="#glosar" style="color:var(--wine)">glosar</a>.</p></div>
 
-      <div class="ctl"><label>Marja brută pe produs <span id="vMar"></span></label>
-        <input type="range" id="mar" min="15" max="70" step="1" value="40">
-        <p class="hint">Ce rămâne din preț după costul produsului, transport și comisioane de plată.</p></div>
-
-      <div class="ctl"><label>Zile de învățare la început <span id="vLearn"></span></label>
-        <input type="range" id="learn" min="0" max="14" step="1" value="7">
-        <p class="hint">În primele zile campania învață, iar ROAS-ul e la jumătate. Comenzile vin constant după ziua 5-7.</p></div>
+      <div class="ctl"><label>5. ROAS: cât aduc reclamele <span id="vRoas"></span></label>
+        <div class="chips" data-for="roas"><button class="chip" data-v="2">2 · prudent</button><button class="chip on" data-v="3">3 · mediu</button><button class="chip" data-v="4">4 · foarte bun</button></div>
+        <input type="range" id="roas" min="1" max="4" step="0.5" value="3" style="margin-top:10px">
+        <p class="hint">ROAS = câți bani încasezi la fiecare 1 cheltuit pe reclame. De obicei e între 2 și 3. Peste 4 e rar, nu te baza pe el.</p>
+        <div class="be" id="beLine"></div></div>
     </div>
 
     <div class="card">
       <div class="out-grid" id="out"></div>
-      <h3 style="font-size:17px">Profit brut cumulat pe 30 de zile</h3>
-      <svg class="chart" id="chart" viewBox="0 0 600 150" preserveAspectRatio="none"></svg>
+      <h3 style="font-size:17px">Pe 30 de zile</h3>
+      <div class="bars2" id="bars"></div>
       <div class="note" id="note"></div>
     </div>
   </div>
-  <p class="disc"><b>Important:</b> simulatorul e ilustrativ, nu o promisiune de rezultat. Rezultatele reale depind de produs, preț, magazin, piață și execuție. Profitul afișat e brut: nu include abonamente, aplicații, retururi sau taxe.</p>
+
+  <div class="sub2">
+    <div class="card">
+      <h3>Vreau să câștig lunar…</h3>
+      <p class="s">Mulți își doresc 2.000–5.000 pe lună. Alege suma și vezi ce înseamnă, cu cifrele de mai sus.</p>
+      <div class="chips" data-for="goal"></div>
+      <input type="number" id="goal" min="100" value="3000">
+      <div class="goal-out" id="goalOut"></div>
+    </div>
+    <div class="card">
+      <h3>Exemplu, cu cifre concrete</h3>
+      <table class="ex"><tr><th>Ce alegi</th><th>Valoare</th></tr>
+        <tr><td>Buget</td><td>50 € pe zi</td></tr>
+        <tr><td>Produse</td><td>5</td></tr>
+        <tr><td>AOV</td><td>49 €</td></tr>
+        <tr><td>Marjă</td><td>60%</td></tr>
+        <tr><td>ROAS</td><td>3</td></tr></table>
+      <p class="s">Pe 30 de zile: reclame 1.500 €, vânzări 4.500 €, aproape 92 de comenzi (3 pe zi). Profit brut: 4.500 × 60% − 1.500 = <b>1.200 €</b>.</p>
+      <p class="s"><b>ROAS de break-even</b> = 1 ÷ marjă. La marjă 60% e 1,7: sub el pierzi, peste el câștigi.</p>
+    </div>
+  </div>
+
+  <div class="def"><b>Cum citești ROAS-ul.</b> De obicei e în jur de 3, între 2 și 3. Nu există un ROAS „corect” pentru toți: depinde de marja ta. Cu marjă mai mică ai nevoie de ROAS mai mare ca să nu pierzi. ROAS-ul se schimbă de la un produs la altul și de la o zi la alta, deci îl urmărești pe produs, nu doar în total.</div>
+  <p class="disc"><b>Important:</b> simulatorul e ilustrativ, nu o promisiune de rezultat. Rezultatele reale depind de produs, preț, magazin, piață și execuție. Profitul afișat e brut: nu include abonamente, aplicații, retururi sau taxe. Cursul euro-lei e orientativ (1 € ≈ 5 lei).</p>
 </div></section>
 
 <section id="metoda"><div class="wrap">
   <span class="eyebrow">Metoda</span>
   <h2>Metoda Genesyum: Google + AI.</h2>
   <p class="lead">Nu îți dau o idee de produs „magic”. Îți arăt concret cum construiești pe o nișă, cu mai multe produse, și cum decizi pe date. Vinzi produse fizice în toată lumea, începând cu SUA și UK.</p>
+  <div class="def"><b>Ce e o nișă?</b> Un grup de produse care se potrivesc între ele și se adresează aceluiași tip de client. Nu vinzi un singur produs, ci o gamă. Termenul e și în <a href="#glosar" style="color:var(--wine)">glosar</a>.</div>
   <div class="grid3">
     <div class="card step"><div class="n">1</div><h3>Alegi și validezi</h3><p>Analizezi nișa. Dacă primești GO, validezi prin reclamă, nu doar prin analiză.</p></div>
     <div class="card step"><div class="n">2</div><h3>Construiești magazinul</h3><p>Magazin Shopify, construit cu AI, și conform cu regulile Google: pagini, politici, pagini de produs care convertesc.</p></div>
     <div class="card step"><div class="n">3</div><h3>Pornești și optimizezi</h3><p>Google Shopping pe SUA și UK, cu buget calculat. Apoi regulile clare: ce oprești, ce menții, ce scalezi.</p></div>
+  </div>
+
+  <h2 style="margin-top:56px;font-size:30px">Cum alegi ce să vinzi</h2>
+  <p class="lead">Aici se blochează cei mai mulți. Șase criterii pe care le verifici înainte să investești un leu în reclame.</p>
+  <div class="crit">
+    <div class="card"><div class="k">1</div><h3>Cerere veche</h3><p>A existat cerere pentru acest tip de produs și acum 10 ani? Ce a existat atunci are șanse mari să existe și peste 10.</p></div>
+    <div class="card"><div class="k">2</div><h3>Produs fizic, căutat pe Google</h3><p>Oamenii îl caută cu un nume clar. Nu trebuie să-i convingi că au nevoie de el.</p></div>
+    <div class="card"><div class="k">3</div><h3>Preț între 49 și 89 €</h3><p>Un preț care lasă loc pentru reclamă și pentru profit.</p></div>
+    <div class="card"><div class="k">4</div><h3>Marjă peste 60%</h3><p>Din fiecare vânzare rămâne destul după costul produsului, transport și comisioane. Verifici în simulator.</p></div>
+    <div class="card"><div class="k">5</div><h3>O nișă, nu un produs</h3><p>Minimum 5 produse legate între ele, ca să nu mizezi totul pe unul singur.</p></div>
+    <div class="card"><div class="k">6</div><h3>Verifici înainte să investești</h3><p>Faci analiza nișei. Dacă primești GO, validezi prin reclamă, cu un buget calculat.</p></div>
   </div>
 </div></section>
 
@@ -242,14 +311,30 @@ footer p{max-width:780px;margin:0 auto 8px}
 <section id="glosar"><div class="wrap">
   <span class="eyebrow">Glosar</span>
   <h2>Termenii, pe limba noastră.</h2>
+  <p class="lead">Dacă un cuvânt din pagină nu îți e clar, îl găsești aici.</p>
   <dl class="gl">
+    <div><dt>Nișă</dt><dd>Un grup de produse care se potrivesc între ele și se adresează aceluiași tip de client.</dd></div>
+    <div><dt>Big Five</dt><dd>Cele cinci piețe mari de limbă engleză: SUA, UK, Canada, Australia și Noua Zeelandă.</dd></div>
     <div><dt>AOV (Average Order Value)</dt><dd>Valoarea medie a unei comenzi. Dacă 10 clienți cheltuie în total 490, AOV-ul e 49.</dd></div>
     <div><dt>ROAS</dt><dd>Venitul adus de reclame împărțit la cât ai cheltuit pe ele. ROAS 3 = la 1 cheltuit, 3 în vânzări.</dd></div>
-    <div><dt>ROAS de break-even</dt><dd>ROAS-ul de la care nu pierzi bani. Se calculează din marjă: 1 ÷ marjă. La 40% marjă e 2,5.</dd></div>
-    <div><dt>POAS</dt><dd>Profitul adus pe fiecare unitate cheltuită pe reclame. Spune cât câștigi, nu doar cât vinzi.</dd></div>
-    <div><dt>Marja brută</dt><dd>Ce rămâne dintr-o vânzare după costul produsului, transport și comisioane de plată.</dd></div>
-    <div><dt>CPC</dt><dd>Cost per click: cât plătești când cineva dă click pe reclamă.</dd></div>
+    <div><dt>ROAS de break-even</dt><dd>ROAS-ul de la care nu pierzi bani. Se calculează din marjă: 1 ÷ marjă. La marjă 40% e 2,5.</dd></div>
+    <div><dt>POAS</dt><dd>Profit pe cheltuiala de reclame: profitul brut împărțit la cât ai cheltuit pe reclame. Spune cât câștigi, nu doar cât vinzi.</dd></div>
+    <div><dt>Marja brută</dt><dd>Ce rămâne dintr-o vânzare după costul produsului, transport și comisioane de plată. Se exprimă în procente.</dd></div>
+    <div><dt>COGS</dt><dd>Costul direct al produsului vândut: cât te costă produsul de la furnizor, plus costurile legate de comandă.</dd></div>
+    <div><dt>CPA</dt><dd>Cost per achiziție: cât cheltuiești pe reclame, în medie, ca să obții o comandă.</dd></div>
+    <div><dt>LTV</dt><dd>Valoarea unui client pe termen lung: cât cheltuiește în total la tine, nu doar la prima comandă.</dd></div>
+    <div><dt>CPC</dt><dd>Cost per click: cât plătești când cineva dă click pe reclama ta.</dd></div>
+    <div><dt>CTR</dt><dd>Din 100 de oameni care văd reclama, câți dau click. CTR = clickuri ÷ afișări.</dd></div>
+    <div><dt>Impresii</dt><dd>De câte ori a fost afișată reclama ta.</dd></div>
+    <div><dt>Conversie</dt><dd>O acțiune dorită: de obicei o comandă. Rata de conversie arată câți vizitatori din 100 cumpără.</dd></div>
+    <div><dt>Google Standard Shopping</dt><dd>Tip de campanie Google Ads în care produsele tale apar cu poză și preț. Tu controlezi cât plătești pe click.</dd></div>
+    <div><dt>Search Terms</dt><dd>Căutările reale ale oamenilor, pe care s-a afișat reclama ta. Te ajută să vezi ce nu vrei să plătești.</dd></div>
+    <div><dt>Buget zilnic</dt><dd>Suma maximă pe care alegi să o cheltui pe reclame într-o zi.</dd></div>
+    <div><dt>Feed de produse</dt><dd>Fișierul cu produsele tale (titlu, preț, poză, stoc) trimis către Google, ca să le poată afișa.</dd></div>
+    <div><dt>GMC (Google Merchant Center)</dt><dd>Contul în care Google verifică și aprobă produsele tale înainte să poată apărea în reclame.</dd></div>
+    <div><dt>SKU</dt><dd>Codul unic al fiecărui produs sau al fiecărei variante (mărime, culoare), ca să le poți ține evidența.</dd></div>
   </dl>
+  <div class="dlbtn" id="glossaryBtn" style="display:none"><a class="btn" id="glossaryLink" href="#" target="_blank" rel="noopener">Descarcă glosarul complet</a></div>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -278,6 +363,7 @@ footer p{max-width:780px;margin:0 auto 8px}
 /* ===== DE COMPLETAT DE ANCA ===== */
 var CONFIG = {
   ctaUrl: "https://calendly.com/evaluaregenesyum/",   // pune linkul către calendarul de apel (ex. calendar GHL)
+  glossaryUrl: "",        // link către glosarul complet (PDF/HTML). Gol = butonul nu apare
   photo: "",              // URL poză (ex. https://.../anca.jpg)
   facts: [],              // ex. [{v:"10+",l:"ani în ecommerce"}]
   stats: [],              // ex. [{v:"1.200+",l:"studenți"}]  -> rezultatele tale REALE
@@ -285,6 +371,7 @@ var CONFIG = {
 };
 /* ================================== */
 (function(){
+  if(CONFIG.glossaryUrl){document.getElementById("glossaryLink").href=CONFIG.glossaryUrl;document.getElementById("glossaryBtn").style.display="block";}
   document.querySelectorAll("[data-cta]").forEach(function(a){a.href=CONFIG.ctaUrl;});
   var f=CONFIG.facts.length?CONFIG.facts:[{v:"10+",l:"ani experiență în ecommerce"},{v:"4+ mil. $",l:"vânzări pe magazinele mele"},{v:"zeci de mii $",l:"vânzări ale studenților Genesyum"}];
   document.getElementById("heroFacts").innerHTML=f.map(function(x){return '<div class="fact"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
@@ -295,55 +382,66 @@ var CONFIG = {
   document.getElementById("reviews").innerHTML=rv.map(function(x){return '<div class="card rev">'+(x.ph?'<span class="tag-ph">de înlocuit</span>':'')+'<q>'+x.q+'</q><cite>'+x.n+'</cite><small>'+x.s+'</small></div>'}).join("");
 
   // simulator
-  var sym="€",$=function(i){return document.getElementById(i)};
+  var sym="€",RATE=5,$=function(i){return document.getElementById(i)};
+  var BASE={bud:[20,50,100],aov:[49,89],goal:[2000,3000,5000]};
   var fmt=function(n){return Math.round(n).toLocaleString("ro-RO")};
   var fmt1=function(n){return n.toLocaleString("ro-RO",{minimumFractionDigits:1,maximumFractionDigits:1})};
+  var money=function(n){return fmt(n)+" "+(sym==="€"?"€":"lei")};
+  function setChips(id){
+    var g=document.querySelector('.chips[data-for="'+id+'"]');
+    var k=sym==="€"?1:RATE;
+    g.innerHTML=BASE[id].map(function(v){var x=Math.round(v*k);return '<button class="chip" data-v="'+x+'">'+fmt(x)+'</button>'}).join("");
+    syncChips(id);
+  }
+  function syncChips(id){
+    var g=document.querySelector('.chips[data-for="'+id+'"]');
+    if(g)g.querySelectorAll(".chip").forEach(function(c){c.classList.toggle("on",c.dataset.v===String($(id).value))});
+  }
   function calc(){
     var bud=Math.max(0,+$("bud").value||0),prod=Math.max(1,+$("prod").value||1),aov=Math.max(1,+$("aov").value||1),
-        roas=+$("roas").value,mar=+$("mar").value/100,learn=+$("learn").value,days=30,
-        spend=0,rev=0,cum=[],cp=0;
-    for(var d=1;d<=days;d++){
-      var r=d<=learn?roas*0.5:roas, rv=bud*r;
-      spend+=bud;rev+=rv;cp+=rv*mar-bud;cum.push(cp);
-    }
-    var orders=rev/aov, profit=rev*mar-spend, be=1/mar, poas=spend?(rev*mar)/spend:0;
-    var steady=bud*roas/aov;
-    $("vBud").textContent=bud+" "+sym+" / zi";
-    $("vProd").textContent=prod+" ("+fmt1(bud/prod)+" "+sym+"/produs)";
-    $("vAov").textContent=aov+" "+sym;
-    $("vRoas").textContent=fmt1(roas).replace(",",",")+"x";
+        roas=+$("roas").value,mar=+$("mar").value/100,days=30;
+    var spend=bud*days,rev=spend*roas,orders=rev/aov,profit=rev*mar-spend,be=1/mar;
+    var steady=bud*roas/aov, poas=spend?(rev*mar)/spend:0;
+    var u=sym==="€"?"€":"lei", k=sym==="€"?1:RATE;
+    $("vBud").textContent=fmt(bud)+" "+u+" / zi";
+    $("vProd").textContent=prod+" produse";
+    $("vAov").textContent=fmt(aov)+" "+u;
     $("vMar").textContent=Math.round(mar*100)+"%";
-    $("vLearn").textContent=learn+" zile";
+    $("vRoas").textContent=fmt1(roas)+"x";
+    $("aovHint").innerHTML='Produsele tale costă, în medie, între <b>'+fmt(49*k)+'</b> și <b>'+fmt(89*k)+' '+u+'</b>. AOV = valoarea medie a unei comenzi. Vezi detalii în <a href="#glosar" style="color:var(--wine)">glosar</a>.';
+    var above=roas>=be;
+    $("beLine").className="be "+(above?"ok":"bad");
+    $("beLine").innerHTML='ROAS de break-even pentru marja ta: <b>'+fmt1(be)+'</b>. Tu ești la <b>'+fmt1(roas)+'</b>: '+(above?'ești peste, deci rămâne profit.':'ești sub, deci pierzi bani.');
     $("out").innerHTML=
-      '<div class="kpi big'+(profit<0?' neg':'')+'"><small>Profit brut estimat pe 30 de zile</small><b>'+(profit<0?"−":"")+fmt(Math.abs(profit))+' '+sym+'</b></div>'+
-      '<div class="kpi"><small>Cheltuială reclame</small><b>'+fmt(spend)+' '+sym+'</b></div>'+
-      '<div class="kpi"><small>Vânzări (venit)</small><b>'+fmt(rev)+' '+sym+'</b></div>'+
+      '<div class="kpi big'+(profit<0?' neg':'')+'"><small>Profit brut estimat pe 30 de zile</small><b>'+(profit<0?"−":"")+money(Math.abs(profit))+'</b></div>'+
+      '<div class="kpi"><small>Cheltuială reclame</small><b>'+money(spend)+'</b></div>'+
+      '<div class="kpi"><small>Vânzări (venit)</small><b>'+money(rev)+'</b></div>'+
       '<div class="kpi"><small>Comenzi pe lună</small><b>'+fmt(orders)+'</b></div>'+
-      '<div class="kpi"><small>Comenzi pe zi (regim stabil)</small><b>'+fmt1(steady)+'</b></div>'+
+      '<div class="kpi"><small>Comenzi pe zi</small><b>'+fmt1(steady)+'</b></div>'+
       '<div class="kpi"><small>Pe produs, pe zi</small><b>'+fmt1(steady/prod)+'</b></div>'+
-      '<div class="kpi"><small>POAS (profit / reclame)</small><b>'+fmt1(poas)+'</b></div>';
-    // chart
-    var min=Math.min(0,Math.min.apply(null,cum)),max=Math.max(0,Math.max.apply(null,cum)),rng=(max-min)||1;
-    var x=function(i){return 8+i*(584/(days-1))},y=function(v){return 140-((v-min)/rng)*130};
-    var pts=cum.map(function(v,i){return x(i).toFixed(1)+","+y(v).toFixed(1)}).join(" ");
-    var zero=y(0).toFixed(1), be_day=cum.findIndex(function(v){return v>=0});
-    $("chart").innerHTML='<line x1="0" x2="600" y1="'+zero+'" y2="'+zero+'" stroke="#C9A24B" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>'+
-      '<polyline fill="none" stroke="#E8772E" stroke-width="3" vector-effect="non-scaling-stroke" points="'+pts+'"/>';
-    var msg;
-    if(roas<be){msg='Cu marja de '+Math.round(mar*100)+'% ai nevoie de minim <b>ROAS '+fmt1(be)+'</b> ca să nu pierzi. Aici ești sub el, deci pierzi bani.';}
-    else if(be_day>=0 && profit>=0){msg='ROAS de break-even: <b>'+fmt1(be)+'</b>. În simularea aceasta treci pe profit cumulat în jurul zilei <b>'+(be_day+1)+'</b>.';}
-    else{msg='ROAS de break-even: <b>'+fmt1(be)+'</b>. Ești peste el, dar zilele de învățare îți mănâncă profitul pe 30 de zile.';}
-    $("note").innerHTML=msg;
+      '<div class="kpi"><small>POAS</small><b>'+fmt1(poas)+'</b></div>';
+    var mx=Math.max(rev,spend,1),pp=Math.max(profit,0);
+    var row=function(l,v,c){return '<div class="row"><span>'+l+'</span><div class="track"><div class="fill" style="width:'+Math.max(2,v/mx*100)+'%;background:'+c+'"></div></div><b>'+money(v)+'</b></div>'};
+    $("bars").innerHTML=row("Reclame",spend,"#C9A24B")+row("Vânzări",rev,"#6B1E2E")+row("Profit",pp,"#E8772E");
+    $("note").innerHTML='POAS '+fmt1(poas)+' înseamnă că la fiecare 1 '+u+' cheltuit pe reclame '+(poas>=1?'rămân <b>'+fmt1(poas-1)+' '+u+'</b> profit brut.':'pierzi <b>'+fmt1(1-poas)+' '+u+'</b>.');
+    // obiectiv lunar
+    var goal=Math.max(0,+$("goal").value||0),per=roas*mar-1;
+    if(per<=0){$("goalOut").innerHTML='Cu ROAS '+fmt1(roas)+' și marjă '+Math.round(mar*100)+'% <b>nu rămâne profit</b>, oricât ai cheltui. Mai întâi ridică marja sau alege alt produs.';}
+    else{
+      var dd=goal/per/days, od=dd*roas/aov;
+      $("goalOut").innerHTML='Pentru <b>'+money(goal)+'</b> profit brut pe lună ai nevoie, cu cifrele de mai sus, de aproximativ <b>'+money(dd)+'</b> pe zi pe reclame și <b>~'+fmt(od)+' comenzi pe zi</b> (~'+fmt1(od/prod)+' pe produs).<br><span style="font-size:13px;color:var(--brown-m)">Nu începi cu bugetul acesta din prima. Crești treptat, maximum 20% odată, doar cu rezultate stabile.</span>';
+    }
   }
-  ["bud","prod","aov","roas","mar","learn"].forEach(function(id){$(id).addEventListener("input",function(){
-    var g=document.querySelector('.chips[data-for="'+id+'"]');
-    if(g)g.querySelectorAll(".chip").forEach(function(c){c.classList.toggle("on",c.dataset.v===$(id).value)});
-    calc();});});
+  function goBase(){setChips("bud");setChips("aov");setChips("goal");}
+  ["bud","prod","aov","roas","mar","goal"].forEach(function(id){$(id).addEventListener("input",function(){syncChips(id);calc();});});
   document.querySelectorAll(".chips").forEach(function(g){g.addEventListener("click",function(e){
-    var c=e.target.closest(".chip");if(!c)return;$(g.dataset.for).value=c.dataset.v;$(g.dataset.for).dispatchEvent(new Event("input"));});});
-  $("cur").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
-    sym=b.dataset.c;this.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b)});calc();});
-  calc();
+    var c=e.target.closest(".chip");if(!c)return;var id=g.dataset.for;$(id).value=c.dataset.v;syncChips(id);calc();});});
+  $("cur").addEventListener("click",function(e){
+    var b=e.target.closest("button");if(!b)return;var n=b.dataset.c;if(n===sym)return;
+    var f=n==="lei"?RATE:1/RATE;
+    $("bud").value=Math.round(+$("bud").value*f);$("aov").value=Math.round(+$("aov").value*f);$("goal").value=Math.round(+$("goal").value*f/100)*100;
+    sym=n;this.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b)});goBase();calc();});
+  goBase();calc();
 })();
 </script>
 </body>
