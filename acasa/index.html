@@ -9,7 +9,7 @@
 :root{
   --white:#FFFFFF; --cream:#FBF6EE; --sand:#F2E7D4;
   --gold:#C9A24B; --gold-d:#A9822F;
-  --orange:#E8772E; --orange-d:#C95F1C;
+  --orange:#E5B83F; --orange-d:#946A0C;
   --brown:#4A2C1D; --brown-m:#7A5A44;
   --wine:#6B1E2E; --wine-d:#4A1320; --deep:#14060A; --deep2:#26090F; --deep3:#3A1018;
   --line:#E6D8C0;
@@ -25,7 +25,7 @@ section{padding:72px 0}
 .eyebrow{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-d);font-weight:700;margin-bottom:12px}
 h2{font-size:clamp(28px,4.4vw,40px);margin-bottom:14px}
 .lead{font-size:18px;color:var(--brown-m);max-width:680px}
-.btn{display:inline-block;background:var(--orange);color:#fff;font-weight:700;text-decoration:none;padding:15px 28px;border-radius:999px;border:0;cursor:pointer;font-size:16px;box-shadow:0 8px 20px -8px rgba(232,119,46,.7);transition:.15s}
+.btn{display:inline-block;background:var(--orange);color:#fff;font-weight:700;text-decoration:none;padding:15px 28px;border-radius:999px;border:0;cursor:pointer;font-size:16px;box-shadow:0 8px 20px -8px rgba(229,184,63,.7);transition:.15s}
 .btn:hover{background:var(--orange-d);transform:translateY(-1px)}
 .btn.ghost{background:transparent;color:var(--gold);border:1.5px solid var(--gold);box-shadow:none}
 .btn.ghost:hover{background:rgba(201,162,75,.12)}
@@ -43,7 +43,7 @@ nav .btn{padding:9px 18px;font-size:14px;box-shadow:none;color:#fff}
 @media(max-width:760px){.nav-links{display:none}}
 
 /* hero */
-.hero{background:radial-gradient(900px 420px at 88% -8%,rgba(201,162,75,.20),transparent 62%),radial-gradient(600px 320px at 0% 110%,rgba(232,119,46,.10),transparent 60%),linear-gradient(165deg,var(--deep),var(--deep2) 60%,var(--deep3));color:#fff;padding:76px 0 86px;border-bottom:3px solid var(--gold);position:relative}
+.hero{background:radial-gradient(900px 420px at 88% -8%,rgba(201,162,75,.20),transparent 62%),radial-gradient(600px 320px at 0% 110%,rgba(229,184,63,.10),transparent 60%),linear-gradient(165deg,var(--deep),var(--deep2) 60%,var(--deep3));color:#fff;padding:76px 0 86px;border-bottom:3px solid var(--gold);position:relative}
 .hero .wrap.has-photo{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
 .hero-ph{aspect-ratio:4/5;border-radius:200px 200px 18px 18px;overflow:hidden;border:2px solid var(--gold);box-shadow:0 24px 60px -24px rgba(0,0,0,.7)}
 .hero-ph img{width:100%;height:100%;object-fit:cover;display:block}
@@ -80,7 +80,7 @@ input[type=range]{width:100%;accent-color:var(--orange)}
 .kpi b{font-family:Georgia,serif;font-size:23px;color:var(--wine)}
 .kpi.big{grid-column:1/-1;background:linear-gradient(135deg,var(--wine),var(--wine-d));border:0}
 .kpi.big small{color:#E7D2BA}.kpi.big b{color:var(--gold);font-size:34px}
-.kpi.neg.big b{color:#FFB38A}
+.kpi.neg.big b{color:#F3CB5F}
 .chart{width:100%;height:150px;display:block;margin-top:6px}
 .note{font-size:13.5px;border-left:3px solid var(--gold);background:var(--cream);padding:10px 14px;border-radius:0 10px 10px 0;margin-top:14px;color:var(--brown)}
 .disc{font-size:12.5px;color:var(--brown-m);margin-top:18px;max-width:820px}
@@ -241,24 +241,29 @@ nav{background:rgba(7,4,5,.92);border-bottom:1px solid rgba(255,255,255,.08)}
 }
 @media(max-width:600px){.hero{padding:44px 0 60px}.hero h1{font-size:34px}}
 
+/* sus: doar simulatorul */
+.hero-vis{justify-content:center}
+.hero-card{width:min(360px,100%);padding:22px}
+.hc-big b{font-size:40px}
+.hc-row{font-size:13px;grid-template-columns:64px 1fr 68px}
 /* ===== v5: vișiniu închis înapoi, portocaliu aprins pe butoane, auriu ca accent ===== */
-:root{--orange:#FF5A12;--orange-d:#CC3F00;--gold2:#E5BC58;--deep:#1A070D;--deep2:#2C0C16;--deep3:#431520}
-.btn{color:#1A0A0E;font-weight:800;box-shadow:0 12px 28px -10px rgba(255,90,18,.65)}
-.btn:hover{background:#FF7433;color:#1A0A0E}
-.btn.gold,.final .btn{background:var(--orange);color:#1A0A0E;box-shadow:0 12px 28px -10px rgba(255,90,18,.65)}
-.btn.gold:hover,.final .btn:hover{background:#FF7433}
+:root{--orange:#E5B83F;--orange-d:#946A0C;--gold2:#E5BC58;--deep:#1A070D;--deep2:#2C0C16;--deep3:#431520}
+.btn{color:#1A0A0E;font-weight:800;box-shadow:0 12px 28px -10px rgba(229,184,63,.65)}
+.btn:hover{background:#F3CB5F;color:#1A0A0E}
+.btn.gold,.final .btn{background:var(--orange);color:#1A0A0E;box-shadow:0 12px 28px -10px rgba(229,184,63,.65)}
+.btn.gold:hover,.final .btn:hover{background:#F3CB5F}
 .btn.ghost{color:var(--gold);box-shadow:none}
 .hero .btn.ghost{color:#F4EDE0;border-color:rgba(255,255,255,.35)}
 nav{background:rgba(26,7,13,.94);border-bottom:1px solid rgba(229,188,88,.30)}
 .pill.gold{background:var(--orange);border-color:var(--orange);color:#1A0A0E;font-weight:800}
-.pill.gold:hover{background:#FF7433;border-color:#FF7433;color:#1A0A0E}
-.hero{background:radial-gradient(640px 420px at 6% 42%,rgba(255,90,18,.20),transparent 66%),radial-gradient(520px 340px at 92% -6%,rgba(229,188,88,.16),transparent 62%),radial-gradient(circle at 1px 1px,rgba(255,255,255,.045) 1px,transparent 0) 0 0/26px 26px,linear-gradient(165deg,var(--deep),var(--deep2) 58%,var(--deep3));border-bottom:3px solid var(--gold)}
+.pill.gold:hover{background:#F3CB5F;border-color:#F3CB5F;color:#1A0A0E}
+.hero{background:radial-gradient(640px 420px at 6% 42%,rgba(229,184,63,.20),transparent 66%),radial-gradient(520px 340px at 92% -6%,rgba(229,188,88,.16),transparent 62%),radial-gradient(circle at 1px 1px,rgba(255,255,255,.045) 1px,transparent 0) 0 0/26px 26px,linear-gradient(165deg,var(--deep),var(--deep2) 58%,var(--deep3));border-bottom:3px solid var(--gold)}
 .hero h1 .acc,.fact b,.hero .eyebrow{color:var(--gold2)}
 .hero-card{background:rgba(26,7,13,.92);border-color:rgba(229,188,88,.28)}
 .hc-top,.hc-big b{color:var(--gold2)}
 .hc-top .dot{background:var(--orange)}
 .hc-row i::after{background:var(--orange)}
-.final{background:radial-gradient(700px 300px at 50% 0%,rgba(255,90,18,.14),transparent 65%),linear-gradient(165deg,var(--deep),var(--deep3))}
+.final{background:radial-gradient(700px 300px at 50% 0%,rgba(229,184,63,.14),transparent 65%),linear-gradient(165deg,var(--deep),var(--deep3))}
 footer{background:#12050A}
 .sticky-cta{display:none}
 @media(max-width:760px){
@@ -298,7 +303,6 @@ footer{background:#12050A}
     <div class="facts" id="heroFacts"></div>
   </div>
   <div class="hero-vis" id="heroVis">
-    <div class="hero-ph" id="heroPh" style="display:none"></div>
     <a class="hero-card" href="#simulator" aria-label="Deschide simulatorul">
       <div class="hc-top"><span class="dot"></span>Simulator · exemplu</div>
       <div class="hc-meta">50 € pe zi · 5 produse · AOV 49 € · marjă 60% · ROAS 3</div>
@@ -524,7 +528,6 @@ var CONFIG = {
   document.querySelectorAll("[data-cta]").forEach(function(a){a.href=CONFIG.ctaUrl;});
   var f=CONFIG.facts.length?CONFIG.facts:[{v:"10+",l:"ani experiență în ecommerce"},{v:"4+ mil. $",l:"vânzări pe magazinele mele"},{v:"zeci de mii $",l:"vânzări ale studenților Genesyum"}];
   document.getElementById("heroFacts").innerHTML=f.map(function(x){return '<div class="fact"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
-  if(CONFIG.photo){var hp=document.getElementById("heroPh");hp.innerHTML='<img alt="Anca" src="'+CONFIG.photo+'">';hp.style.display="block";var hv=document.getElementById("heroVis");hv.classList.add("has-photo");hp.querySelector("img").addEventListener("error",function(){hp.style.display="none";hv.classList.remove("has-photo");});}
   if(CONFIG.photo){document.getElementById("photo").innerHTML='<img alt="Anca" src="'+CONFIG.photo+'">';}
   var ph=!CONFIG.stats.length, st=CONFIG.stats.length?CONFIG.stats:[{v:"10+ ani",l:"experiență în ecommerce"},{v:"4+ milioane $",l:"vânzări pe magazinele mele"},{v:"zeci de mii $",l:"vânzări ale studenților Genesyum"}];
   document.getElementById("stats").innerHTML=st.map(function(x){return '<div class="card stat"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
@@ -598,7 +601,7 @@ var CONFIG = {
       '<div class="kpi"><small>POAS</small><b>'+fmt1(poas)+'</b></div>';
     var mx=Math.max(rev,spend,1),pp=Math.max(profit,0);
     var row=function(l,v,c){return '<div class="row"><span>'+l+'</span><div class="track"><div class="fill" style="width:'+Math.max(2,v/mx*100)+'%;background:'+c+'"></div></div><b>'+money(v)+'</b></div>'};
-    $("bars").innerHTML=row("Reclame",spend,"#C9A24B")+row("Vânzări",rev,"#6B1E2E")+row("Profit",pp,"#E8772E");
+    $("bars").innerHTML=row("Reclame",spend,"#A88B6A")+row("Vânzări",rev,"#6B1E2E")+row("Profit",pp,"#D4A62F");
     $("note").innerHTML='POAS '+fmt1(poas)+' înseamnă că la fiecare 1 '+u+' cheltuit pe reclame '+(poas>=1?'rămân <b>'+fmt1(poas-1)+' '+u+'</b> profit brut.':'pierzi <b>'+fmt1(1-poas)+' '+u+'</b>.');
     // obiectiv lunar
     var goal=Math.max(0,+$("goal").value||0),per=roas*mar-1;
