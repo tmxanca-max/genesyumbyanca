@@ -345,7 +345,6 @@ footer p{max-width:780px;margin:0 auto 8px}
     <details><summary>GMC (Google Merchant Center)</summary><p>Contul în care Google verifică și aprobă produsele tale înainte să poată apărea în reclame.</p></details>
     <details><summary>SKU</summary><p>Codul unic al fiecărui produs sau al fiecărei variante (mărime, culoare), ca să le poți ține evidența.</p></details>
   </div>
-  <div class="dlbtn" id="glossaryBtn" style="display:none"><a class="btn" id="glossaryLink" href="#" target="_blank" rel="noopener">Descarcă glosarul complet</a></div>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -374,7 +373,6 @@ footer p{max-width:780px;margin:0 auto 8px}
 /* ===== DE COMPLETAT DE ANCA ===== */
 var CONFIG = {
   ctaUrl: "https://calendly.com/evaluaregenesyum/",   // pune linkul către calendarul de apel (ex. calendar GHL)
-  glossaryUrl: "",        // link către glosarul complet (PDF/HTML). Gol = butonul nu apare
   photo: "",              // URL poză (ex. https://.../anca.jpg)
   facts: [],              // ex. [{v:"10+",l:"ani în ecommerce"}]
   stats: [],              // ex. [{v:"1.200+",l:"studenți"}]  -> rezultatele tale REALE
@@ -386,7 +384,6 @@ var CONFIG = {
 };
 /* ================================== */
 (function(){
-  if(CONFIG.glossaryUrl){document.getElementById("glossaryLink").href=CONFIG.glossaryUrl;document.getElementById("glossaryBtn").style.display="block";}
   document.querySelectorAll("[data-cta]").forEach(function(a){a.href=CONFIG.ctaUrl;});
   var f=CONFIG.facts.length?CONFIG.facts:[{v:"10+",l:"ani experiență în ecommerce"},{v:"4+ mil. $",l:"vânzări pe magazinele mele"},{v:"zeci de mii $",l:"vânzări ale studenților Genesyum"}];
   document.getElementById("heroFacts").innerHTML=f.map(function(x){return '<div class="fact"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
