@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Genesyum — dropshipping făcut cu cap | Anca</title>
-<meta name="description" content="Învață să vindeți online cu Google Ads, pas cu pas. Simulează singur: buget, ROAS, comenzi și profit.">
+<meta name="description" content="Vinde produse fizice în SUA și UK cu Google Ads și AI, pas cu pas. Simulează singur: buget, ROAS, comenzi și profit.">
 <style>
 :root{
   --white:#FFFFFF; --cream:#FBF6EE; --sand:#F2E7D4;
   --gold:#C9A24B; --gold-d:#A9822F;
   --orange:#E8772E; --orange-d:#C95F1C;
   --brown:#4A2C1D; --brown-m:#7A5A44;
-  --wine:#6B1E2E; --wine-d:#4A1320;
+  --wine:#6B1E2E; --wine-d:#4A1320; --deep:#14060A; --deep2:#26090F; --deep3:#3A1018;
   --line:#E6D8C0;
   --r:16px;
 }
@@ -31,18 +31,23 @@ h2{font-size:clamp(28px,4.4vw,40px);margin-bottom:14px}
 .btn.ghost:hover{background:rgba(201,162,75,.12)}
 
 /* nav */
-nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav{position:sticky;top:0;z-index:50;background:rgba(20,6,10,.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,162,75,.35)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
-.logo{font-family:Georgia,serif;font-weight:700;font-size:22px;color:var(--wine);text-decoration:none;letter-spacing:.02em}
+.logo{font-family:Georgia,serif;font-weight:700;font-size:22px;color:#fff;text-decoration:none;letter-spacing:.02em}
 .logo b{color:var(--gold)}
 nav ul{display:flex;gap:22px;list-style:none;align-items:center}
-nav ul a{text-decoration:none;font-size:14px;color:var(--brown-m)}
-nav ul a:hover{color:var(--wine)}
-nav .btn{padding:9px 18px;font-size:14px;box-shadow:none}
+nav ul a{text-decoration:none;font-size:14px;color:#E7D2BA}
+nav ul a:hover{color:var(--gold)}
+nav .btn{padding:9px 18px;font-size:14px;box-shadow:none;color:#fff}
+@media(max-width:600px){nav .btn{padding:8px 14px;font-size:13px}.logo{font-size:19px}}
 @media(max-width:760px){nav ul li:not(:last-child){display:none}}
 
 /* hero */
-.hero{background:radial-gradient(1100px 500px at 85% -10%,rgba(232,119,46,.35),transparent 60%),linear-gradient(160deg,var(--wine-d),var(--wine) 55%,#8A3A2A);color:#fff;padding:84px 0 92px}
+.hero{background:radial-gradient(900px 420px at 88% -8%,rgba(201,162,75,.20),transparent 62%),radial-gradient(600px 320px at 0% 110%,rgba(232,119,46,.10),transparent 60%),linear-gradient(165deg,var(--deep),var(--deep2) 60%,var(--deep3));color:#fff;padding:76px 0 86px;border-bottom:3px solid var(--gold);position:relative}
+.hero .wrap.has-photo{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
+.hero-ph{aspect-ratio:4/5;border-radius:200px 200px 18px 18px;overflow:hidden;border:2px solid var(--gold);box-shadow:0 24px 60px -24px rgba(0,0,0,.7)}
+.hero-ph img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:860px){.hero .wrap.has-photo{grid-template-columns:1fr}.hero-ph{max-width:260px;margin:0 auto;order:-1}}
 .hero h1{color:#fff;font-size:clamp(34px,6vw,60px);max-width:820px;margin-bottom:20px}
 .hero h1 em{font-style:normal;color:var(--gold)}
 .hero p{font-size:19px;color:#F3E3D0;max-width:640px;margin-bottom:30px}
@@ -119,11 +124,16 @@ summary::after{content:"+";color:var(--gold-d);font-size:22px;line-height:1}
 details[open] summary::after{content:"–"}
 details p{margin-top:10px;color:var(--brown-m);font-size:15.5px}
 
+.glx{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:30px;align-items:start}
+@media(max-width:760px){.glx{grid-template-columns:1fr}}
+.glx details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 18px}
+.glx summary{padding:15px 0}
+.glx details p{margin:0;padding:0 0 16px}
 /* final */
-.final{background:linear-gradient(160deg,var(--wine-d),var(--wine));text-align:center;color:#fff}
+.final{background:radial-gradient(700px 300px at 50% 0%,rgba(201,162,75,.16),transparent 65%),linear-gradient(165deg,var(--deep),var(--deep3));text-align:center;color:#fff;border-top:3px solid var(--gold)}
 .final h2{color:#fff}
 .final p{color:#F3E3D0;margin:0 auto 28px;max-width:560px}
-footer{background:var(--wine-d);color:#CDB59B;font-size:13px;padding:28px 0;text-align:center}
+footer{background:#0C0305;color:#BCA68C;font-size:13px;padding:28px 0;text-align:center}
 footer p{max-width:780px;margin:0 auto 8px}
 
 /* v2 */
@@ -176,7 +186,7 @@ footer p{max-width:780px;margin:0 auto 8px}
   </ul>
 </div></nav>
 
-<header class="hero" id="top"><div class="wrap">
+<header class="hero" id="top"><div class="wrap" id="heroWrap"><div class="hero-txt">
   <span class="eyebrow" style="color:var(--gold)">Metoda Genesyum · Google + AI · Dropshipping în SUA și UK</span>
   <h1>Nu mai ghici. <em>Calculează</em> înainte să investești.</h1>
   <p>Creează o nouă sursă de venit cu AI dropshipping, din confortul casei, fără să fii o persoană tehnică. Vezi mai jos cât ai putea investi, ce comenzi ai putea primi și la ce profit poți ajunge. Apoi îți construiești magazinul pas cu pas.</p>
@@ -185,7 +195,7 @@ footer p{max-width:780px;margin:0 auto 8px}
     <a class="btn ghost" data-cta href="#">Programează un apel</a>
   </div>
   <div class="facts" id="heroFacts"></div>
-</div></header>
+</div></div></header>
 
 <section id="simulator"><div class="wrap">
   <span class="eyebrow">Simulator ROAS &amp; profit</span>
@@ -269,9 +279,9 @@ footer p{max-width:780px;margin:0 auto 8px}
   <h2 style="margin-top:56px;font-size:30px">Cum alegi ce să vinzi</h2>
   <p class="lead">Aici se blochează cei mai mulți. Șase criterii pe care le verifici înainte să investești un leu în reclame.</p>
   <div class="crit">
-    <div class="card"><div class="k">1</div><h3>Cerere veche</h3><p>A existat cerere pentru acest tip de produs și acum 10 ani? Ce a existat atunci are șanse mari să existe și peste 10.</p></div>
+    <div class="card"><div class="k">1</div><h3>Tendință pe 5 ani</h3><p>Verifică tendința căutărilor pe ultimii 5 ani, de exemplu în Google Trends. Cauți cerere stabilă sau în creștere, nu un val de câteva luni.</p></div>
     <div class="card"><div class="k">2</div><h3>Produs fizic, căutat pe Google</h3><p>Oamenii îl caută cu un nume clar. Nu trebuie să-i convingi că au nevoie de el.</p></div>
-    <div class="card"><div class="k">3</div><h3>Preț între 49 și 89 €</h3><p>Un preț care lasă loc pentru reclamă și pentru profit.</p></div>
+    <div class="card"><div class="k">3</div><h3>Preț potrivit bugetului</h3><p>Nu există un preț fix, poți vinde și produse mai scumpe. Dar pentru un buget de reclame de 20–50 € pe zi, ideal alegi produse între 49 și 89 €.</p></div>
     <div class="card"><div class="k">4</div><h3>Marjă peste 60%</h3><p>Din fiecare vânzare rămâne destul după costul produsului, transport și comisioane. Verifici în simulator.</p></div>
     <div class="card"><div class="k">5</div><h3>O nișă, nu un produs</h3><p>Minimum 5 produse legate între ele, ca să nu mizezi totul pe unul singur.</p></div>
     <div class="card"><div class="k">6</div><h3>Verifici înainte să investești</h3><p>Faci analiza nișei. Dacă primești GO, validezi prin reclamă, cu un buget calculat.</p></div>
@@ -294,8 +304,9 @@ footer p{max-width:780px;margin:0 auto 8px}
   <div>
     <span class="eyebrow">Despre Anca</span>
     <h2>Ecommerce făcut, nu doar predat.</h2>
-    <p>Sunt Anca, antreprenoare în ecommerce și dropshipping, cu peste 10 ani de experiență reală. Am construit Genesyum din ce a funcționat în magazinele mele și ale studenților mei.</p>
-    <p>Vreau să vinzi o nișă cu mai multe produse, nu să mizezi totul pe unul. Să iei decizii din date, nu din speranță.</p>
+    <p>Sunt Anca, antreprenoare în dropshipping, cu peste 10 ani de experiență reală. Am construit Genesyum din ce a funcționat deja în magazinele mele și ale studenților mei.</p>
+    <p>Vreau să te ajut să vezi dincolo de aparențe și să înțelegi că acest business e construit pe date, nu pe speranță. Folosind Google și AI, acest business poate fi chiar și pentru tine.</p>
+    <p>Te invit să programezi un apel dacă te simți pregătit să începi.</p>
     <a class="btn" data-cta href="#">Programează un apel</a>
   </div>
 </div></section>
@@ -311,29 +322,29 @@ footer p{max-width:780px;margin:0 auto 8px}
 <section id="glosar"><div class="wrap">
   <span class="eyebrow">Glosar</span>
   <h2>Termenii, pe limba noastră.</h2>
-  <p class="lead">Dacă un cuvânt din pagină nu îți e clar, îl găsești aici.</p>
-  <dl class="gl">
-    <div><dt>Nișă</dt><dd>Un grup de produse care se potrivesc între ele și se adresează aceluiași tip de client.</dd></div>
-    <div><dt>Big Five</dt><dd>Cele cinci piețe mari de limbă engleză: SUA, UK, Canada, Australia și Noua Zeelandă.</dd></div>
-    <div><dt>AOV (Average Order Value)</dt><dd>Valoarea medie a unei comenzi. Dacă 10 clienți cheltuie în total 490, AOV-ul e 49.</dd></div>
-    <div><dt>ROAS</dt><dd>Venitul adus de reclame împărțit la cât ai cheltuit pe ele. ROAS 3 = la 1 cheltuit, 3 în vânzări.</dd></div>
-    <div><dt>ROAS de break-even</dt><dd>ROAS-ul de la care nu pierzi bani. Se calculează din marjă: 1 ÷ marjă. La marjă 40% e 2,5.</dd></div>
-    <div><dt>POAS</dt><dd>Profit pe cheltuiala de reclame: profitul brut împărțit la cât ai cheltuit pe reclame. Spune cât câștigi, nu doar cât vinzi.</dd></div>
-    <div><dt>Marja brută</dt><dd>Ce rămâne dintr-o vânzare după costul produsului, transport și comisioane de plată. Se exprimă în procente.</dd></div>
-    <div><dt>COGS</dt><dd>Costul direct al produsului vândut: cât te costă produsul de la furnizor, plus costurile legate de comandă.</dd></div>
-    <div><dt>CPA</dt><dd>Cost per achiziție: cât cheltuiești pe reclame, în medie, ca să obții o comandă.</dd></div>
-    <div><dt>LTV</dt><dd>Valoarea unui client pe termen lung: cât cheltuiește în total la tine, nu doar la prima comandă.</dd></div>
-    <div><dt>CPC</dt><dd>Cost per click: cât plătești când cineva dă click pe reclama ta.</dd></div>
-    <div><dt>CTR</dt><dd>Din 100 de oameni care văd reclama, câți dau click. CTR = clickuri ÷ afișări.</dd></div>
-    <div><dt>Impresii</dt><dd>De câte ori a fost afișată reclama ta.</dd></div>
-    <div><dt>Conversie</dt><dd>O acțiune dorită: de obicei o comandă. Rata de conversie arată câți vizitatori din 100 cumpără.</dd></div>
-    <div><dt>Google Standard Shopping</dt><dd>Tip de campanie Google Ads în care produsele tale apar cu poză și preț. Tu controlezi cât plătești pe click.</dd></div>
-    <div><dt>Search Terms</dt><dd>Căutările reale ale oamenilor, pe care s-a afișat reclama ta. Te ajută să vezi ce nu vrei să plătești.</dd></div>
-    <div><dt>Buget zilnic</dt><dd>Suma maximă pe care alegi să o cheltui pe reclame într-o zi.</dd></div>
-    <div><dt>Feed de produse</dt><dd>Fișierul cu produsele tale (titlu, preț, poză, stoc) trimis către Google, ca să le poată afișa.</dd></div>
-    <div><dt>GMC (Google Merchant Center)</dt><dd>Contul în care Google verifică și aprobă produsele tale înainte să poată apărea în reclame.</dd></div>
-    <div><dt>SKU</dt><dd>Codul unic al fiecărui produs sau al fiecărei variante (mărime, culoare), ca să le poți ține evidența.</dd></div>
-  </dl>
+  <p class="lead">Dacă un cuvânt din pagină nu îți e clar, apasă pe el și vezi explicația.</p>
+  <div class="glx">
+    <details><summary>Nișă</summary><p>Un grup de produse care se potrivesc între ele și se adresează aceluiași tip de client.</p></details>
+    <details><summary>Big Five</summary><p>Cele cinci piețe mari de limbă engleză: SUA, UK, Canada, Australia și Noua Zeelandă.</p></details>
+    <details><summary>AOV (Average Order Value)</summary><p>Valoarea medie a unei comenzi. Dacă 10 clienți cheltuie în total 490, AOV-ul e 49.</p></details>
+    <details><summary>ROAS</summary><p>Venitul adus de reclame împărțit la cât ai cheltuit pe ele. ROAS 3 = la 1 cheltuit, 3 în vânzări.</p></details>
+    <details><summary>ROAS de break-even</summary><p>ROAS-ul de la care nu pierzi bani. Se calculează din marjă: 1 ÷ marjă. La marjă 40% e 2,5.</p></details>
+    <details><summary>POAS</summary><p>Profit pe cheltuiala de reclame: profitul brut împărțit la cât ai cheltuit pe reclame. Spune cât câștigi, nu doar cât vinzi.</p></details>
+    <details><summary>Marja brută</summary><p>Ce rămâne dintr-o vânzare după costul produsului, transport și comisioane de plată. Se exprimă în procente.</p></details>
+    <details><summary>COGS</summary><p>Costul direct al produsului vândut: cât te costă produsul de la furnizor, plus costurile legate de comandă.</p></details>
+    <details><summary>CPA</summary><p>Cost per achiziție: cât cheltuiești pe reclame, în medie, ca să obții o comandă.</p></details>
+    <details><summary>LTV</summary><p>Valoarea unui client pe termen lung: cât cheltuiește în total la tine, nu doar la prima comandă.</p></details>
+    <details><summary>CPC</summary><p>Cost per click: cât plătești când cineva dă click pe reclama ta.</p></details>
+    <details><summary>CTR</summary><p>Din 100 de oameni care văd reclama, câți dau click. CTR = clickuri ÷ afișări.</p></details>
+    <details><summary>Impresii</summary><p>De câte ori a fost afișată reclama ta.</p></details>
+    <details><summary>Conversie</summary><p>O acțiune dorită: de obicei o comandă. Rata de conversie arată câți vizitatori din 100 cumpără.</p></details>
+    <details><summary>Google Standard Shopping</summary><p>Tip de campanie Google Ads în care produsele tale apar cu poză și preț. Tu controlezi cât plătești pe click.</p></details>
+    <details><summary>Search Terms</summary><p>Căutările reale ale oamenilor, pe care s-a afișat reclama ta. Te ajută să vezi ce nu vrei să plătești.</p></details>
+    <details><summary>Buget zilnic</summary><p>Suma maximă pe care alegi să o cheltui pe reclame într-o zi.</p></details>
+    <details><summary>Feed de produse</summary><p>Fișierul cu produsele tale (titlu, preț, poză, stoc) trimis către Google, ca să le poată afișa.</p></details>
+    <details><summary>GMC (Google Merchant Center)</summary><p>Contul în care Google verifică și aprobă produsele tale înainte să poată apărea în reclame.</p></details>
+    <details><summary>SKU</summary><p>Codul unic al fiecărui produs sau al fiecărei variante (mărime, culoare), ca să le poți ține evidența.</p></details>
+  </div>
   <div class="dlbtn" id="glossaryBtn" style="display:none"><a class="btn" id="glossaryLink" href="#" target="_blank" rel="noopener">Descarcă glosarul complet</a></div>
 </div></section>
 
@@ -343,7 +354,7 @@ footer p{max-width:780px;margin:0 auto 8px}
   <div style="margin-top:20px;max-width:820px">
     <details><summary>Garantezi că voi face profit?</summary><p>Nu. Nimeni nu poate garanta asta onest. Îți dăm metoda, calculele și regulile de decizie. Rezultatul depinde de produs, piață și execuție.</p></details>
     <details><summary>De ce buget am nevoie?</summary><p>Depinde de marja produselor tale. Îți calculezi bugetul zilnic din cifre, cu formulele din metodă, nu din intuiție, și nu cheltui bani pe care nu-ți permiți să-i pierzi.</p></details>
-    <details><summary>Cât durează până vin comenzile?</summary><p>De obicei campania are nevoie de câteva zile de învățare. Concluziile se trag pe date, nu pe ziua 1.</p></details>
+    <details><summary>Cât durează până vin comenzile?</summary><p>De obicei, campania are nevoie de 7–14 zile de învățare, iar concluziile se trag după aceea, pe date.</p></details>
     <details><summary>Am nevoie de experiență tehnică?</summary><p>Nu. Pluginurile și toolkit-ul te ghidează, iar tu aprobi fiecare pas.</p></details>
   </div>
 </div></section>
@@ -367,7 +378,11 @@ var CONFIG = {
   photo: "",              // URL poză (ex. https://.../anca.jpg)
   facts: [],              // ex. [{v:"10+",l:"ani în ecommerce"}]
   stats: [],              // ex. [{v:"1.200+",l:"studenți"}]  -> rezultatele tale REALE
-  reviews: []             // ex. [{q:"text",n:"Nume",s:"Magazin / rezultat"}]
+  reviews: [
+    {q:"Bună Anca, seara am urcat puțin bugetul campaniei. 4 comenzi de ieri până azi, 900 $ vânzări.",n:"M.",s:"Nișă premium · peste 6.000 $ vânzări în 2 luni jumate"},
+    {q:"Neața Anca, am trimis rezultatele de până acum. Mulțumesc enorm pentru susținere și răbdare cu mine.",n:"Alina",s:"Peste 20.000 $ într-o singură lună, după 6 luni de mentorat"},
+    {q:"Cursul acesta mi se pare super avansat și foarte ușor de practicat. Anca, se vede că ai abilități de antreprenor și știi cum să comunici.",n:"A.",s:"Micronișă · magazin creat, în curs de activare reclame"}
+  ]
 };
 /* ================================== */
 (function(){
@@ -375,6 +390,7 @@ var CONFIG = {
   document.querySelectorAll("[data-cta]").forEach(function(a){a.href=CONFIG.ctaUrl;});
   var f=CONFIG.facts.length?CONFIG.facts:[{v:"10+",l:"ani experiență în ecommerce"},{v:"4+ mil. $",l:"vânzări pe magazinele mele"},{v:"zeci de mii $",l:"vânzări ale studenților Genesyum"}];
   document.getElementById("heroFacts").innerHTML=f.map(function(x){return '<div class="fact"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
+  if(CONFIG.photo){var hw=document.getElementById("heroWrap");hw.classList.add("has-photo");var hp=document.createElement("div");hp.className="hero-ph";hp.innerHTML='<img alt="Anca" src="'+CONFIG.photo+'">';hw.appendChild(hp);}
   if(CONFIG.photo){document.getElementById("photo").innerHTML='<img alt="Anca" src="'+CONFIG.photo+'">';}
   var ph=!CONFIG.stats.length, st=CONFIG.stats.length?CONFIG.stats:[{v:"10+ ani",l:"experiență în ecommerce"},{v:"4+ milioane $",l:"vânzări pe magazinele mele"},{v:"zeci de mii $",l:"vânzări ale studenților Genesyum"}];
   document.getElementById("stats").innerHTML=st.map(function(x){return '<div class="card stat"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
@@ -408,7 +424,7 @@ var CONFIG = {
     $("vAov").textContent=fmt(aov)+" "+u;
     $("vMar").textContent=Math.round(mar*100)+"%";
     $("vRoas").textContent=fmt1(roas)+"x";
-    $("aovHint").innerHTML='Produsele tale costă, în medie, între <b>'+fmt(49*k)+'</b> și <b>'+fmt(89*k)+' '+u+'</b>. AOV = valoarea medie a unei comenzi. Vezi detalii în <a href="#glosar" style="color:var(--wine)">glosar</a>.';
+    $("aovHint").innerHTML='Pentru un buget de '+fmt(20*k)+'–'+fmt(50*k)+' '+u+' pe zi, ideal produsele costă între <b>'+fmt(49*k)+'</b> și <b>'+fmt(89*k)+' '+u+'</b>. Poți alege și mai mult. AOV = valoarea medie a unei comenzi. Vezi <a href="#glosar" style="color:var(--wine)">glosar</a>.';
     var above=roas>=be;
     $("beLine").className="be "+(above?"ok":"bad");
     $("beLine").innerHTML='ROAS de break-even pentru marja ta: <b>'+fmt1(be)+'</b>. Tu ești la <b>'+fmt1(roas)+'</b>: '+(above?'ești peste, deci rămâne profit.':'ești sub, deci pierzi bani.');
