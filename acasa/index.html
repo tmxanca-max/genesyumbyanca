@@ -129,6 +129,25 @@ details p{margin-top:10px;color:var(--brown-m);font-size:15.5px}
 .glx details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 18px}
 .glx summary{padding:15px 0}
 .glx details p{margin:0;padding:0 0 16px}
+
+/* carusel recenzii */
+.car{margin-top:56px}
+.car h3{font-size:24px;margin-bottom:6px}
+.car p.s{color:var(--brown-m);font-size:15px;margin-bottom:18px}
+.car-vp{position:relative}
+.car-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:6px 2px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.car-track::-webkit-scrollbar{display:none}
+.car-it{flex:0 0 auto;width:min(78%,300px);scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 12px 30px -22px rgba(74,44,29,.5);cursor:zoom-in;display:flex;align-items:center;justify-content:center;height:420px}
+.car-it img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;display:block}
+.car-b{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:42px;border-radius:50%;border:0;background:var(--deep);color:var(--gold);font-size:24px;line-height:1;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.car-b.prev{left:-12px}.car-b.next{right:-12px}
+@media(max-width:600px){.car-b{display:none}.car-it{height:380px}}
+.car-dots{display:flex;gap:7px;justify-content:center;margin-top:6px;flex-wrap:wrap}
+.car-dots i{width:8px;height:8px;border-radius:50%;background:var(--line);display:block;transition:.2s}
+.car-dots i.on{background:var(--orange);width:22px;border-radius:99px}
+.lb{position:fixed;inset:0;background:rgba(10,3,5,.92);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;cursor:zoom-out}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:100%;border-radius:10px}
 /* final */
 .final{background:radial-gradient(700px 300px at 50% 0%,rgba(201,162,75,.16),transparent 65%),linear-gradient(165deg,var(--deep),var(--deep3));text-align:center;color:#fff;border-top:3px solid var(--gold)}
 .final h2{color:#fff}
@@ -317,6 +336,14 @@ footer p{max-width:780px;margin:0 auto 8px}
   <div class="grid3" id="stats"></div>
   <h2 style="margin-top:56px;font-size:30px">Ce spun studenții</h2>
   <div class="grid3" id="reviews"></div>
+  <div class="car" id="carWrap" style="display:none">
+    <h3>Mesaje și rezultate reale</h3>
+    <p class="s">Glisează sau apasă pe o poză ca să o vezi mai mare.</p>
+    <div class="car-vp"><button class="car-b prev" id="carPrev" aria-label="Înapoi">&#8249;</button>
+      <div class="car-track" id="carTrack"></div>
+      <button class="car-b next" id="carNext" aria-label="Înainte">&#8250;</button></div>
+    <div class="car-dots" id="carDots"></div>
+  </div>
 </div></section>
 
 <section id="glosar"><div class="wrap">
@@ -369,13 +396,24 @@ footer p{max-width:780px;margin:0 auto 8px}
   <p>Cifrele din simulator sunt exemple ilustrative și nu reprezintă o garanție de venit. Rezultatele variază de la o persoană la alta.</p>
 </div></footer>
 
+<div class="lb" id="lb"><img id="lbImg" alt=""></div>
 <script>
 /* ===== DE COMPLETAT DE ANCA ===== */
 var CONFIG = {
   ctaUrl: "https://calendly.com/evaluaregenesyum/",   // pune linkul către calendarul de apel (ex. calendar GHL)
-  photo: "",              // URL poză (ex. https://.../anca.jpg)
+  photo: "https://files.leadconnectorhq.com/file/6acc836f195f9172ed617ff0/image-2026-10-07-10-09-32.png",              // URL poză (ex. https://.../anca.jpg)
   facts: [],              // ex. [{v:"10+",l:"ani în ecommerce"}]
   stats: [],              // ex. [{v:"1.200+",l:"studenți"}]  -> rezultatele tale REALE
+  reviewImages: [        // poze cu recenzii / rezultate (carusel). Adaugă sau șterge linkuri aici
+    "https://files.leadconnectorhq.com/file/6acc835a4770fb500b048664/image-2026-05-12-19-40-33.png",
+    "https://files.leadconnectorhq.com/file/6b06892ed40dd206170fbf93/captura-de-ecran-2026-11-25-090714.png",
+    "https://files.leadconnectorhq.com/file/6acc836fbd6bb710ca5e609d/photo-1-2026-09-08-10-48-10.jpg",
+    "https://files.leadconnectorhq.com/file/68d5530071c31e31cd80bf54/untitled-design-34.png",
+    "https://files.leadconnectorhq.com/file/68c587f9657c0d310a657bab/genesyum1.png",
+    "https://files.leadconnectorhq.com/file/69ef0d4b9fe87a999451b610/screenshot-145.png",
+    "https://files.leadconnectorhq.com/file/6b0689fbd50d9db796ea5382/photo-2026-11-25-09-06-27-2.jpg",
+    "https://files.leadconnectorhq.com/file/6acc836f4770fb500b048796/feed-ad-tip-sabri.jpg"
+  ],
   reviews: [
     {q:"Bună Anca, seara am urcat puțin bugetul campaniei. 4 comenzi de ieri până azi, 900 $ vânzări.",n:"M.",s:"Nișă premium · peste 6.000 $ vânzări în 2 luni jumate"},
     {q:"Neața Anca, am trimis rezultatele de până acum. Mulțumesc enorm pentru susținere și răbdare cu mine.",n:"Alina",s:"Peste 20.000 $ într-o singură lună, după 6 luni de mentorat"},
@@ -393,6 +431,27 @@ var CONFIG = {
   document.getElementById("stats").innerHTML=st.map(function(x){return '<div class="card stat"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
   var rv=CONFIG.reviews.length?CONFIG.reviews:[1,2,3].map(function(i){return {q:"Aici apare recenzia reală a unui student, cu rezultatul lui.",n:"Nume student",s:"Magazin / rezultat",ph:1}});
   document.getElementById("reviews").innerHTML=rv.map(function(x){return '<div class="card rev">'+(x.ph?'<span class="tag-ph">de înlocuit</span>':'')+'<q>'+x.q+'</q><cite>'+x.n+'</cite><small>'+x.s+'</small></div>'}).join("");
+
+
+  // carusel recenzii
+  (function(){
+    var imgs=CONFIG.reviewImages||[];if(!imgs.length)return;
+    var wrap=document.getElementById("carWrap"),tr=document.getElementById("carTrack"),dots=document.getElementById("carDots"),lb=document.getElementById("lb"),lbi=document.getElementById("lbImg");
+    wrap.style.display="block";
+    tr.innerHTML=imgs.map(function(u,i){return '<div class="car-it" data-i="'+i+'"><img loading="lazy" alt="Mesaj sau rezultat de la un student Genesyum" src="'+u+'"></div>'}).join("");
+    tr.querySelectorAll("img").forEach(function(im){im.addEventListener("error",function(){im.parentNode.remove();build();});});
+    function items(){return tr.querySelectorAll(".car-it")}
+    function build(){dots.innerHTML=Array.prototype.map.call(items(),function(){return "<i></i>"}).join("");mark();}
+    function step(){var it=items()[0];return it?it.offsetWidth+16:300}
+    function mark(){var i=Math.round(tr.scrollLeft/step());dots.querySelectorAll("i").forEach(function(d,k){d.classList.toggle("on",k===i)});}
+    tr.addEventListener("scroll",mark);
+    document.getElementById("carPrev").addEventListener("click",function(){tr.scrollBy({left:-step()*1.5})});
+    document.getElementById("carNext").addEventListener("click",function(){tr.scrollBy({left:step()*1.5})});
+    tr.addEventListener("click",function(e){var im=e.target.closest("img");if(!im)return;lbi.src=im.src;lb.classList.add("on");});
+    lb.addEventListener("click",function(){lb.classList.remove("on")});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")lb.classList.remove("on")});
+    build();
+  })();
 
   // simulator
   var sym="€",RATE=5,$=function(i){return document.getElementById(i)};
