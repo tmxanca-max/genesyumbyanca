@@ -40,7 +40,7 @@ nav ul a{text-decoration:none;font-size:14px;color:#E7D2BA}
 nav ul a:hover{color:var(--gold)}
 nav .btn{padding:9px 18px;font-size:14px;box-shadow:none;color:#fff}
 @media(max-width:600px){nav .btn{padding:8px 14px;font-size:13px}.logo{font-size:19px}}
-@media(max-width:760px){nav ul li:not(:last-child){display:none}}
+@media(max-width:760px){.nav-links{display:none}}
 
 /* hero */
 .hero{background:radial-gradient(900px 420px at 88% -8%,rgba(201,162,75,.20),transparent 62%),radial-gradient(600px 320px at 0% 110%,rgba(232,119,46,.10),transparent 60%),linear-gradient(165deg,var(--deep),var(--deep2) 60%,var(--deep3));color:#fff;padding:76px 0 86px;border-bottom:3px solid var(--gold);position:relative}
@@ -189,32 +189,99 @@ footer p{max-width:780px;margin:0 auto 8px}
   .kpi b{font-size:20px}.kpi.big b{font-size:30px}
   .bars2 .row{grid-template-columns:64px 1fr 80px}
 }
+
+/* ===== v4: zona de sus, intunecata, o singura culoare accent ===== */
+:root{--gold2:#E0B955;--ink:#070405;--cream-t:#F4EDE0}
+nav{background:rgba(7,4,5,.92);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-r{display:flex;align-items:center;gap:10px}
+.nav-links{gap:20px}
+.pill{display:inline-flex;align-items:center;padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.25);color:var(--cream-t);font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap;transition:.15s}
+.pill:hover{border-color:var(--gold2);color:var(--gold2)}
+.pill.gold{background:var(--gold2);border-color:var(--gold2);color:#1a1205}
+.pill.gold:hover{background:#F0CB6A;color:#1a1205}
+.pill .sm{display:none}
+@media(max-width:600px){.pill{padding:8px 12px;font-size:12.5px}.nav-r{gap:7px}}
+@media(max-width:380px){.pill .lg{display:none}.pill .sm{display:inline}}
+.btn.gold{background:var(--gold2);color:#1a1205;box-shadow:0 10px 28px -10px rgba(224,185,85,.55)}
+.btn.gold:hover{background:#F0CB6A}
+.final .btn{background:var(--gold2);color:#1a1205;box-shadow:0 10px 28px -10px rgba(224,185,85,.55)}
+.final .btn:hover{background:#F0CB6A}
+.hero{background:radial-gradient(620px 420px at 6% 40%,rgba(224,185,85,.20),transparent 66%),radial-gradient(circle at 1px 1px,rgba(255,255,255,.055) 1px,transparent 0) 0 0/26px 26px,var(--ink);border-bottom:1px solid rgba(255,255,255,.08);padding:78px 0 96px}
+.hero .eyebrow{color:var(--gold2)}
+.hero h1{color:var(--cream-t);font-size:clamp(36px,5.6vw,62px);max-width:none;line-height:1.08}
+.hero h1 .acc{color:var(--gold2)}
+.hero p{color:#B9AE9C}
+.hero .btn.ghost{color:var(--cream-t);border-color:rgba(255,255,255,.3)}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.06)}
+.hero .facts{border-top:1px solid rgba(255,255,255,.12)}
+.fact b{color:var(--gold2)}
+.fact span{color:#A89E8E}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero-vis{position:relative;display:flex;justify-content:flex-end}
+.hero-ph{width:78%;aspect-ratio:4/5;border-radius:200px 200px 18px 18px;overflow:hidden;border:1px solid rgba(224,185,85,.6);box-shadow:0 30px 70px -30px #000;margin-left:auto}
+.hero-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-card{display:block;text-decoration:none;color:var(--cream-t);background:#110A0C;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px;width:min(310px,100%);box-shadow:0 30px 60px -28px #000;transition:.2s}
+.hero-card:hover{border-color:rgba(224,185,85,.55);transform:translateY(-2px)}
+.hero-vis.has-photo .hero-card{position:absolute;left:-4%;bottom:-30px}
+.hc-top{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);font-weight:700}
+.hc-top .dot{width:8px;height:8px;border-radius:50%;background:var(--gold2)}
+.hc-meta{font-size:12px;color:#A89E8E;margin:8px 0 12px}
+.hc-big small{display:block;font-size:12px;color:#A89E8E}
+.hc-big b{font-family:Georgia,serif;font-size:34px;color:var(--gold2);line-height:1.1}
+.hc-row{display:grid;grid-template-columns:58px 1fr 62px;gap:8px;align-items:center;font-size:12px;color:#B9AE9C;margin:8px 0}
+.hc-row i{height:8px;border-radius:6px;background:rgba(255,255,255,.09);position:relative;overflow:hidden}
+.hc-row i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--gold2);border-radius:6px}
+.hc-row em{font-style:normal;color:var(--cream-t);text-align:right;font-weight:700}
+.hc-foot{font-size:12px;color:#8F8576;margin-top:12px}
+@media(max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:34px}
+  .hero-vis{justify-content:center;flex-direction:column;align-items:center}
+  .hero-ph{width:230px;margin:0 auto}
+  .hero-vis.has-photo .hero-card{position:relative;left:auto;bottom:auto;margin-top:-34px}
+}
+@media(max-width:600px){.hero{padding:44px 0 60px}.hero h1{font-size:34px}}
 </style>
 </head>
 <body>
 
 <nav><div class="wrap">
   <a class="logo" href="#top">Genesyum<b>.</b></a>
-  <ul>
-    <li><a href="#simulator">Simulator</a></li>
-    <li><a href="#metoda">Metoda</a></li>
-    <li><a href="#anca">Despre Anca</a></li>
-    <li><a href="#rezultate">Rezultate</a></li>
-    <li><a href="#glosar">Glosar</a></li>
-    <li><a class="btn" data-cta href="#">Programează un apel</a></li>
-  </ul>
+  <div class="nav-r">
+    <ul class="nav-links">
+      <li><a href="#metoda">Metoda</a></li>
+      <li><a href="#anca">Despre Anca</a></li>
+      <li><a href="#rezultate">Rezultate</a></li>
+      <li><a href="#glosar">Glosar</a></li>
+    </ul>
+    <a class="pill" href="#simulator">Simulator</a>
+    <a class="pill gold" data-cta href="#"><span class="lg">Programează un apel</span><span class="sm">Apel</span></a>
+  </div>
 </div></nav>
 
-<header class="hero" id="top"><div class="wrap" id="heroWrap"><div class="hero-txt">
-  <span class="eyebrow" style="color:var(--gold)">Metoda Genesyum · Google + AI · Dropshipping în SUA și UK</span>
-  <h1>Nu mai ghici. <em>Calculează</em> înainte să investești.</h1>
-  <p>Creează o nouă sursă de venit cu AI dropshipping, din confortul casei, fără să fii o persoană tehnică. Vezi mai jos cât ai putea investi, ce comenzi ai putea primi și la ce profit poți ajunge. Apoi îți construiești magazinul pas cu pas.</p>
-  <div class="cta">
-    <a class="btn" href="#simulator">Încearcă simulatorul</a>
-    <a class="btn ghost" data-cta href="#">Programează un apel</a>
+<header class="hero" id="top"><div class="wrap hero-grid" id="heroWrap">
+  <div class="hero-txt">
+    <span class="eyebrow">Metoda Genesyum · Google + AI · Dropshipping în SUA și UK</span>
+    <h1>Nu mai ghici.<br><span class="acc">Calculează înainte să investești.</span></h1>
+    <p>Creează o nouă sursă de venit cu AI dropshipping, din confortul casei, fără să fii o persoană tehnică. Vezi mai jos cât ai putea investi, ce comenzi ai putea primi și la ce profit poți ajunge. Apoi îți construiești magazinul pas cu pas.</p>
+    <div class="cta">
+      <a class="btn gold" href="#simulator">Încearcă simulatorul</a>
+      <a class="btn ghost" data-cta href="#">Programează un apel</a>
+    </div>
+    <div class="facts" id="heroFacts"></div>
   </div>
-  <div class="facts" id="heroFacts"></div>
-</div></div></header>
+  <div class="hero-vis" id="heroVis">
+    <div class="hero-ph" id="heroPh" style="display:none"></div>
+    <a class="hero-card" href="#simulator" aria-label="Deschide simulatorul">
+      <div class="hc-top"><span class="dot"></span>Simulator · exemplu</div>
+      <div class="hc-meta">50 € pe zi · 5 produse · AOV 49 € · marjă 60% · ROAS 3</div>
+      <div class="hc-big"><small>Profit brut pe 30 de zile</small><b>1.200 €</b></div>
+      <div class="hc-row"><span>Reclame</span><i style="--w:33%"></i><em>1.500 €</em></div>
+      <div class="hc-row"><span>Vânzări</span><i style="--w:100%"></i><em>4.500 €</em></div>
+      <div class="hc-row"><span>Profit</span><i style="--w:27%"></i><em>1.200 €</em></div>
+      <div class="hc-foot">Exemplu ilustrativ. Încearcă cu cifrele tale →</div>
+    </a>
+  </div>
+</div></header>
 
 <section id="simulator"><div class="wrap">
   <span class="eyebrow">Simulator ROAS &amp; profit</span>
@@ -428,7 +495,7 @@ var CONFIG = {
   document.querySelectorAll("[data-cta]").forEach(function(a){a.href=CONFIG.ctaUrl;});
   var f=CONFIG.facts.length?CONFIG.facts:[{v:"10+",l:"ani experiență în ecommerce"},{v:"4+ mil. $",l:"vânzări pe magazinele mele"},{v:"zeci de mii $",l:"vânzări ale studenților Genesyum"}];
   document.getElementById("heroFacts").innerHTML=f.map(function(x){return '<div class="fact"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
-  if(CONFIG.photo){var hw=document.getElementById("heroWrap");hw.classList.add("has-photo");var hp=document.createElement("div");hp.className="hero-ph";hp.innerHTML='<img alt="Anca" src="'+CONFIG.photo+'">';hw.appendChild(hp);}
+  if(CONFIG.photo){var hp=document.getElementById("heroPh");hp.innerHTML='<img alt="Anca" src="'+CONFIG.photo+'">';hp.style.display="block";var hv=document.getElementById("heroVis");hv.classList.add("has-photo");hp.querySelector("img").addEventListener("error",function(){hp.style.display="none";hv.classList.remove("has-photo");});}
   if(CONFIG.photo){document.getElementById("photo").innerHTML='<img alt="Anca" src="'+CONFIG.photo+'">';}
   var ph=!CONFIG.stats.length, st=CONFIG.stats.length?CONFIG.stats:[{v:"10+ ani",l:"experiență în ecommerce"},{v:"4+ milioane $",l:"vânzări pe magazinele mele"},{v:"zeci de mii $",l:"vânzări ale studenților Genesyum"}];
   document.getElementById("stats").innerHTML=st.map(function(x){return '<div class="card stat"><b>'+x.v+'</b><span>'+x.l+'</span></div>'}).join("");
