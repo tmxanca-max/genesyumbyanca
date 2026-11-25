@@ -240,6 +240,34 @@ nav{background:rgba(7,4,5,.92);border-bottom:1px solid rgba(255,255,255,.08)}
   .hero-vis.has-photo .hero-card{position:relative;left:auto;bottom:auto;margin-top:-34px}
 }
 @media(max-width:600px){.hero{padding:44px 0 60px}.hero h1{font-size:34px}}
+
+/* ===== v5: vișiniu închis înapoi, portocaliu aprins pe butoane, auriu ca accent ===== */
+:root{--orange:#FF5A12;--orange-d:#CC3F00;--gold2:#E5BC58;--deep:#1A070D;--deep2:#2C0C16;--deep3:#431520}
+.btn{color:#1A0A0E;font-weight:800;box-shadow:0 12px 28px -10px rgba(255,90,18,.65)}
+.btn:hover{background:#FF7433;color:#1A0A0E}
+.btn.gold,.final .btn{background:var(--orange);color:#1A0A0E;box-shadow:0 12px 28px -10px rgba(255,90,18,.65)}
+.btn.gold:hover,.final .btn:hover{background:#FF7433}
+.btn.ghost{color:var(--gold);box-shadow:none}
+.hero .btn.ghost{color:#F4EDE0;border-color:rgba(255,255,255,.35)}
+nav{background:rgba(26,7,13,.94);border-bottom:1px solid rgba(229,188,88,.30)}
+.pill.gold{background:var(--orange);border-color:var(--orange);color:#1A0A0E;font-weight:800}
+.pill.gold:hover{background:#FF7433;border-color:#FF7433;color:#1A0A0E}
+.hero{background:radial-gradient(640px 420px at 6% 42%,rgba(255,90,18,.20),transparent 66%),radial-gradient(520px 340px at 92% -6%,rgba(229,188,88,.16),transparent 62%),radial-gradient(circle at 1px 1px,rgba(255,255,255,.045) 1px,transparent 0) 0 0/26px 26px,linear-gradient(165deg,var(--deep),var(--deep2) 58%,var(--deep3));border-bottom:3px solid var(--gold)}
+.hero h1 .acc,.fact b,.hero .eyebrow{color:var(--gold2)}
+.hero-card{background:rgba(26,7,13,.92);border-color:rgba(229,188,88,.28)}
+.hc-top,.hc-big b{color:var(--gold2)}
+.hc-top .dot{background:var(--orange)}
+.hc-row i::after{background:var(--orange)}
+.final{background:radial-gradient(700px 300px at 50% 0%,rgba(255,90,18,.14),transparent 65%),linear-gradient(165deg,var(--deep),var(--deep3))}
+footer{background:#12050A}
+.sticky-cta{display:none}
+@media(max-width:760px){
+  .sticky-cta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(0deg,rgba(26,7,13,.96),rgba(26,7,13,.0));transform:translateY(120%);transition:transform .25s;pointer-events:none}
+  .sticky-cta.on{transform:none;pointer-events:auto}
+  .sticky-cta .btn{display:block;text-align:center;width:100%;padding:14px}
+  body{padding-bottom:0}
+  footer{padding-bottom:78px}
+}
 </style>
 </head>
 <body>
@@ -463,6 +491,7 @@ nav{background:rgba(7,4,5,.92);border-bottom:1px solid rgba(255,255,255,.08)}
   <p>Cifrele din simulator sunt exemple ilustrative și nu reprezintă o garanție de venit. Rezultatele variază de la o persoană la alta.</p>
 </div></footer>
 
+<div class="sticky-cta" id="stickyCta"><a class="btn" data-cta href="#">Programează un apel</a></div>
 <div class="lb" id="lb"><img id="lbImg" alt=""></div>
 <script>
 /* ===== DE COMPLETAT DE ANCA ===== */
@@ -502,6 +531,11 @@ var CONFIG = {
   var rv=CONFIG.reviews.length?CONFIG.reviews:[1,2,3].map(function(i){return {q:"Aici apare recenzia reală a unui student, cu rezultatul lui.",n:"Nume student",s:"Magazin / rezultat",ph:1}});
   document.getElementById("reviews").innerHTML=rv.map(function(x){return '<div class="card rev">'+(x.ph?'<span class="tag-ph">de înlocuit</span>':'')+'<q>'+x.q+'</q><cite>'+x.n+'</cite><small>'+x.s+'</small></div>'}).join("");
 
+
+  // buton fix jos pe telefon, după ce derulezi
+  (function(){var sc=document.getElementById("stickyCta");if(!sc)return;
+    function f(){var hero=document.getElementById("top");var lim=hero?hero.offsetHeight*0.8:500;sc.classList.toggle("on",window.scrollY>lim);}
+    window.addEventListener("scroll",f,{passive:true});f();})();
 
   // carusel recenzii
   (function(){
